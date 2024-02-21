@@ -55,6 +55,7 @@
 		068D9BC22B863DFF00D0F1D6 /* AccountPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BC12B863DFE00D0F1D6 /* AccountPageView.swift */; };
 		068D9BC42B86415900D0F1D6 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BC32B86415900D0F1D6 /* MapView.swift */; };
 		068D9BC62B86450300D0F1D6 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BC52B86450300D0F1D6 /* SearchBarView.swift */; };
+		068D9BC92B86541A00D0F1D6 /* ActivityCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BC82B86541A00D0F1D6 /* ActivityCard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,6 +81,7 @@
 		068D9BC12B863DFE00D0F1D6 /* AccountPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPageView.swift; sourceTree = "<group>"; };
 		068D9BC32B86415900D0F1D6 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		068D9BC52B86450300D0F1D6 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
+		068D9BC82B86541A00D0F1D6 /* ActivityCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +143,7 @@
 		06401F282B855B080016016A /* Frontend */ = {
 			isa = PBXGroup;
 			children = (
+				068D9BC72B86513800D0F1D6 /* ActivityPage */,
 				06401F942B85AE3C0016016A /* HomePage */,
 				06401F902B85A20C0016016A /* Frontend.entitlements */,
 				06401F7C2B8561530016016A /* GoogleService-Info.plist */,
@@ -176,6 +179,8 @@
 		06401F382B855B350016016A /* Pages */ = {
 			isa = PBXGroup;
 			children = (
+				068D9BBF2B863DC100D0F1D6 /* ActivityPageView.swift */,
+				068D9BC12B863DFE00D0F1D6 /* AccountPageView.swift */,
 				06401F7E2B8565250016016A /* LoginPageView.swift */,
 				06401F802B8567710016016A /* HomePageView.swift */,
 				06401F822B8597720016016A /* DestinationSelectionPageView.swift */,
@@ -190,12 +195,18 @@
 			isa = PBXGroup;
 			children = (
 				06401F952B85AE4C0016016A /* BottomNavigation.swift */,
-				068D9BBF2B863DC100D0F1D6 /* ActivityPageView.swift */,
-				068D9BC12B863DFE00D0F1D6 /* AccountPageView.swift */,
 				068D9BC32B86415900D0F1D6 /* MapView.swift */,
 				068D9BC52B86450300D0F1D6 /* SearchBarView.swift */,
 			);
 			path = HomePage;
+			sourceTree = "<group>";
+		};
+		068D9BC72B86513800D0F1D6 /* ActivityPage */ = {
+			isa = PBXGroup;
+			children = (
+				068D9BC82B86541A00D0F1D6 /* ActivityCard.swift */,
+			);
+			path = ActivityPage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -314,6 +325,7 @@
 				06401F832B8597720016016A /* DestinationSelectionPageView.swift in Sources */,
 				068D9BC42B86415900D0F1D6 /* MapView.swift in Sources */,
 				068D9BC02B863DC100D0F1D6 /* ActivityPageView.swift in Sources */,
+				068D9BC92B86541A00D0F1D6 /* ActivityCard.swift in Sources */,
 				06401F792B855F900016016A /* GoogleLoginView.swift in Sources */,
 				068D9BC22B863DFF00D0F1D6 /* AccountPageView.swift in Sources */,
 				06401F7F2B8565250016016A /* LoginPageView.swift in Sources */,
