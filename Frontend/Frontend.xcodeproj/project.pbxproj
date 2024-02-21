@@ -56,6 +56,8 @@
 		068D9BC42B86415900D0F1D6 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BC32B86415900D0F1D6 /* MapView.swift */; };
 		068D9BC62B86450300D0F1D6 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BC52B86450300D0F1D6 /* SearchBarView.swift */; };
 		068D9BC92B86541A00D0F1D6 /* ActivityCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BC82B86541A00D0F1D6 /* ActivityCard.swift */; };
+		068D9BCC2B86703000D0F1D6 /* LoadUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BCB2B86703000D0F1D6 /* LoadUserInfo.swift */; };
+		068D9BCE2B868DB600D0F1D6 /* SavedAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BCD2B868DB600D0F1D6 /* SavedAddressView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +84,8 @@
 		068D9BC32B86415900D0F1D6 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		068D9BC52B86450300D0F1D6 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 		068D9BC82B86541A00D0F1D6 /* ActivityCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityCard.swift; sourceTree = "<group>"; };
+		068D9BCB2B86703000D0F1D6 /* LoadUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadUserInfo.swift; sourceTree = "<group>"; };
+		068D9BCD2B868DB600D0F1D6 /* SavedAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedAddressView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +147,7 @@
 		06401F282B855B080016016A /* Frontend */ = {
 			isa = PBXGroup;
 			children = (
+				068D9BCA2B866E4F00D0F1D6 /* AccountPage */,
 				068D9BC72B86513800D0F1D6 /* ActivityPage */,
 				06401F942B85AE3C0016016A /* HomePage */,
 				06401F902B85A20C0016016A /* Frontend.entitlements */,
@@ -207,6 +212,15 @@
 				068D9BC82B86541A00D0F1D6 /* ActivityCard.swift */,
 			);
 			path = ActivityPage;
+			sourceTree = "<group>";
+		};
+		068D9BCA2B866E4F00D0F1D6 /* AccountPage */ = {
+			isa = PBXGroup;
+			children = (
+				068D9BCB2B86703000D0F1D6 /* LoadUserInfo.swift */,
+				068D9BCD2B868DB600D0F1D6 /* SavedAddressView.swift */,
+			);
+			path = AccountPage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -321,6 +335,7 @@
 				06401F8F2B85A1520016016A /* AppleLoginView.swift in Sources */,
 				068D9BC62B86450300D0F1D6 /* SearchBarView.swift in Sources */,
 				06401F892B8597EB0016016A /* OrderPageView.swift in Sources */,
+				068D9BCC2B86703000D0F1D6 /* LoadUserInfo.swift in Sources */,
 				06401F2A2B855B080016016A /* Promenade.swift in Sources */,
 				06401F832B8597720016016A /* DestinationSelectionPageView.swift in Sources */,
 				068D9BC42B86415900D0F1D6 /* MapView.swift in Sources */,
@@ -328,6 +343,7 @@
 				068D9BC92B86541A00D0F1D6 /* ActivityCard.swift in Sources */,
 				06401F792B855F900016016A /* GoogleLoginView.swift in Sources */,
 				068D9BC22B863DFF00D0F1D6 /* AccountPageView.swift in Sources */,
+				068D9BCE2B868DB600D0F1D6 /* SavedAddressView.swift in Sources */,
 				06401F7F2B8565250016016A /* LoginPageView.swift in Sources */,
 				06401F852B8597A40016016A /* OptionsPageView.swift in Sources */,
 				06401F872B8597D30016016A /* ConfirmPageView.swift in Sources */,

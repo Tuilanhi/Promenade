@@ -32,6 +32,7 @@ struct GoogleAuthentication {
             withPresenting: rootViewController
         )
         let user = result.user
+        
         guard let idToken = user.idToken?.tokenString else {
             fatalError("Unexpected error occurred, please retry")
         }

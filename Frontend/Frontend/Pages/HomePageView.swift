@@ -20,7 +20,6 @@ struct HomePageView: View {
             SearchBarView()
             
             MapView(region: $region)
-                .frame(height: .infinity) // Set the frame to whatever size you prefer
         }
     }
 }
