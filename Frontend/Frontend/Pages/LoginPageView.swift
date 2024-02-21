@@ -18,6 +18,10 @@ struct LoginPageView: View {
                 HomePageView()
             } else {
                 VStack{
+                    Image("AppLogo")
+                        .resizable()
+                        .frame(width: 100, height: 100, alignment: .center)
+                        .padding()
                     // Google Login
                     GoogleLoginView()
                     
