@@ -77,6 +77,7 @@ struct AccountPageView: View {
             .onAppear {
                 loadGoogleUserInfo()
             }
+            .navigationBarBackButtonHidden(true)
         }
     }
     
