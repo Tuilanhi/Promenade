@@ -18,20 +18,23 @@ struct BottomNavigation: View {
             HomePageView()
                 .tabItem {
                     Image("HomeIcon")
+                        .renderingMode(.template)
                     Text("Home")
                 }
-            HomePageView()
+            ActivityPageView()
                 .tabItem {
                     Image("ActivityIcon")
+                        .renderingMode(.template)
                     Text("Activity")
                 }
-            HomePageView()
+            AccountPageView()
                 .tabItem {
                     Image("AccountIcon")
+                        .renderingMode(.template)
                     Text("Account")
                 }
         }
-        .tint(.black)
+        .accentColor(.black)
     }
 }
 

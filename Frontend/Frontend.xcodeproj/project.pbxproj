@@ -51,6 +51,10 @@
 		06401F8D2B8599B90016016A /* GoogleAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F8C2B8599B90016016A /* GoogleAuthentication.swift */; };
 		06401F8F2B85A1520016016A /* AppleLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F8E2B85A1520016016A /* AppleLoginView.swift */; };
 		06401F962B85AE4C0016016A /* BottomNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F952B85AE4C0016016A /* BottomNavigation.swift */; };
+		068D9BC02B863DC100D0F1D6 /* ActivityPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BBF2B863DC100D0F1D6 /* ActivityPageView.swift */; };
+		068D9BC22B863DFF00D0F1D6 /* AccountPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BC12B863DFE00D0F1D6 /* AccountPageView.swift */; };
+		068D9BC42B86415900D0F1D6 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BC32B86415900D0F1D6 /* MapView.swift */; };
+		068D9BC62B86450300D0F1D6 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BC52B86450300D0F1D6 /* SearchBarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +76,10 @@
 		06401F8E2B85A1520016016A /* AppleLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginView.swift; sourceTree = "<group>"; };
 		06401F902B85A20C0016016A /* Frontend.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Frontend.entitlements; sourceTree = "<group>"; };
 		06401F952B85AE4C0016016A /* BottomNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomNavigation.swift; sourceTree = "<group>"; };
+		068D9BBF2B863DC100D0F1D6 /* ActivityPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityPageView.swift; sourceTree = "<group>"; };
+		068D9BC12B863DFE00D0F1D6 /* AccountPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPageView.swift; sourceTree = "<group>"; };
+		068D9BC32B86415900D0F1D6 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		068D9BC52B86450300D0F1D6 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +190,10 @@
 			isa = PBXGroup;
 			children = (
 				06401F952B85AE4C0016016A /* BottomNavigation.swift */,
+				068D9BBF2B863DC100D0F1D6 /* ActivityPageView.swift */,
+				068D9BC12B863DFE00D0F1D6 /* AccountPageView.swift */,
+				068D9BC32B86415900D0F1D6 /* MapView.swift */,
+				068D9BC52B86450300D0F1D6 /* SearchBarView.swift */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -296,10 +308,14 @@
 				06401F2C2B855B080016016A /* ContentView.swift in Sources */,
 				06401F962B85AE4C0016016A /* BottomNavigation.swift in Sources */,
 				06401F8F2B85A1520016016A /* AppleLoginView.swift in Sources */,
+				068D9BC62B86450300D0F1D6 /* SearchBarView.swift in Sources */,
 				06401F892B8597EB0016016A /* OrderPageView.swift in Sources */,
 				06401F2A2B855B080016016A /* Promenade.swift in Sources */,
 				06401F832B8597720016016A /* DestinationSelectionPageView.swift in Sources */,
+				068D9BC42B86415900D0F1D6 /* MapView.swift in Sources */,
+				068D9BC02B863DC100D0F1D6 /* ActivityPageView.swift in Sources */,
 				06401F792B855F900016016A /* GoogleLoginView.swift in Sources */,
+				068D9BC22B863DFF00D0F1D6 /* AccountPageView.swift in Sources */,
 				06401F7F2B8565250016016A /* LoginPageView.swift in Sources */,
 				06401F852B8597A40016016A /* OptionsPageView.swift in Sources */,
 				06401F872B8597D30016016A /* ConfirmPageView.swift in Sources */,

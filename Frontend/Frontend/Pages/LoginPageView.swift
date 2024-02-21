@@ -15,7 +15,7 @@ struct LoginPageView: View {
     var body: some View {
         VStack {
             if userLoggedIn{
-                HomePageView()
+                BottomNavigation()
             } else {
                 VStack{
                     Image("AppLogo")
