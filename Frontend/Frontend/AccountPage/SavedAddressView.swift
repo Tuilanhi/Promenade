@@ -64,7 +64,9 @@ struct SavedAddressView: View {
             }
             .listStyle(GroupedListStyle())
             .navigationTitle("Choose a Place")
+            .navigationBarItems(trailing: EditButton())
         }
+        
     }
 }
 
