@@ -44,6 +44,10 @@
 		06401F7D2B8561530016016A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06401F7C2B8561530016016A /* GoogleService-Info.plist */; };
 		06401F7F2B8565250016016A /* LoginPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F7E2B8565250016016A /* LoginPageView.swift */; };
 		06401F812B8567710016016A /* HomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F802B8567710016016A /* HomePageView.swift */; };
+		06401F832B8597720016016A /* DestinationSelectionPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F822B8597720016016A /* DestinationSelectionPageView.swift */; };
+		06401F852B8597A40016016A /* OptionsPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F842B8597A30016016A /* OptionsPageView.swift */; };
+		06401F872B8597D30016016A /* ConfirmPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F862B8597D30016016A /* ConfirmPageView.swift */; };
+		06401F892B8597EB0016016A /* OrderPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F882B8597EB0016016A /* OrderPageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +61,10 @@
 		06401F7C2B8561530016016A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		06401F7E2B8565250016016A /* LoginPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageView.swift; sourceTree = "<group>"; };
 		06401F802B8567710016016A /* HomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageView.swift; sourceTree = "<group>"; };
+		06401F822B8597720016016A /* DestinationSelectionPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationSelectionPageView.swift; sourceTree = "<group>"; };
+		06401F842B8597A30016016A /* OptionsPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsPageView.swift; sourceTree = "<group>"; };
+		06401F862B8597D30016016A /* ConfirmPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPageView.swift; sourceTree = "<group>"; };
+		06401F882B8597EB0016016A /* OrderPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderPageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +159,10 @@
 			children = (
 				06401F7E2B8565250016016A /* LoginPageView.swift */,
 				06401F802B8567710016016A /* HomePageView.swift */,
+				06401F822B8597720016016A /* DestinationSelectionPageView.swift */,
+				06401F842B8597A30016016A /* OptionsPageView.swift */,
+				06401F862B8597D30016016A /* ConfirmPageView.swift */,
+				06401F882B8597EB0016016A /* OrderPageView.swift */,
 			);
 			path = Pages;
 			sourceTree = "<group>";
@@ -262,9 +274,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				06401F2C2B855B080016016A /* ContentView.swift in Sources */,
+				06401F892B8597EB0016016A /* OrderPageView.swift in Sources */,
 				06401F2A2B855B080016016A /* Promenade.swift in Sources */,
+				06401F832B8597720016016A /* DestinationSelectionPageView.swift in Sources */,
 				06401F792B855F900016016A /* GoogleLoginView.swift in Sources */,
 				06401F7F2B8565250016016A /* LoginPageView.swift in Sources */,
+				06401F852B8597A40016016A /* OptionsPageView.swift in Sources */,
+				06401F872B8597D30016016A /* ConfirmPageView.swift in Sources */,
 				06401F812B8567710016016A /* HomePageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
