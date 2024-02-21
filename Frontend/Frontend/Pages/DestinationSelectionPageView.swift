@@ -8,8 +8,32 @@
 import SwiftUI
 
 struct DestinationSelectionPageView: View {
+    
+    @State private var start: String = ""
+    @State private var destination: String = ""
+    
+    
     var body: some View {
-        Text("Destination-Selection Page!")
+        
+        VStack {
+            TextField(
+                "Enter Start",
+                text: $start
+            )
+            .border(Color.black)
+            .multilineTextAlignment(.center)
+            .padding([.leading, .trailing], 25)
+            
+            TextField(
+                "Enter Destination",
+                text: $destination
+            )
+            .border(Color.black)
+            .multilineTextAlignment(.center)
+            .padding([.leading, .trailing], 25)
+        }
+        .padding([.top, .bottom], 50)
+        Spacer()
     }
 }
 
