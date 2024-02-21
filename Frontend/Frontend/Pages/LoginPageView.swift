@@ -6,16 +6,28 @@
 //
 
 import SwiftUI
+import Firebase
+import GoogleSignIn
 
 struct LoginPageView: View {
+    @State private var userLoggedIn = (Auth.auth().currentUser != nil)
+    
     var body: some View {
         VStack {
-            // Google Login
-            GoogleLoginView()
-            
-            Spacer()
-            
-            // Apple Login
+            if userLoggedIn{
+                HomePageView()
+            } else {
+                // Google Login
+                GoogleLoginView()
+            }
+        }.onAppear {
+            Auth.auth().addStateDidChangeListener { auth, user in
+                if (user != nil) {
+                    userLoggedIn = true
+                } else {
+                    userLoggedIn = false
+                }
+            }
         }
     }
 }

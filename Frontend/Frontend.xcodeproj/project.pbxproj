@@ -48,6 +48,7 @@
 		06401F852B8597A40016016A /* OptionsPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F842B8597A30016016A /* OptionsPageView.swift */; };
 		06401F872B8597D30016016A /* ConfirmPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F862B8597D30016016A /* ConfirmPageView.swift */; };
 		06401F892B8597EB0016016A /* OrderPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F882B8597EB0016016A /* OrderPageView.swift */; };
+		06401F8D2B8599B90016016A /* GoogleAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F8C2B8599B90016016A /* GoogleAuthentication.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,6 +66,7 @@
 		06401F842B8597A30016016A /* OptionsPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsPageView.swift; sourceTree = "<group>"; };
 		06401F862B8597D30016016A /* ConfirmPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPageView.swift; sourceTree = "<group>"; };
 		06401F882B8597EB0016016A /* OrderPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderPageView.swift; sourceTree = "<group>"; };
+		06401F8C2B8599B90016016A /* GoogleAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAuthentication.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				06401F782B855F900016016A /* GoogleLoginView.swift */,
+				06401F8C2B8599B90016016A /* GoogleAuthentication.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06401F8D2B8599B90016016A /* GoogleAuthentication.swift in Sources */,
 				06401F2C2B855B080016016A /* ContentView.swift in Sources */,
 				06401F892B8597EB0016016A /* OrderPageView.swift in Sources */,
 				06401F2A2B855B080016016A /* Promenade.swift in Sources */,

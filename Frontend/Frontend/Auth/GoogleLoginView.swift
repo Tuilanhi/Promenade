@@ -8,21 +8,36 @@
 import SwiftUI
 
 struct GoogleLoginView: View {
+    @State private var err: String = ""
+    
     var body: some View {
         VStack {
-            Button(action: {} ) {
-                Text("Sign in with Google")
-                  .padding(.vertical, 10)
-                  .frame(maxWidth: 300)
-                  .background(alignment: .leading) {
-                      Image("Google")
-                          .resizable()
-                          .frame(width: 50.0, height: 50.0)
-                  }
-              }
-              .foregroundColor(.black)
-              .buttonStyle(.bordered)
+            Button(action: {
+                Task {
+                    do {
+                        try await GoogleAuthentication().googleOauth()
+                        // Handle successful authentication
+                    } catch {
+                        print(error)
+                        err = error.localizedDescription
+                    }
+                }
+            }) {
+                HStack {
+                    Image("Google")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .padding(.trailing, 8)
+                    Text("Sign in with Google")
+                        .padding(.vertical, 10)
+                }
+                .frame(maxWidth: .infinity)
+            }
+            .foregroundColor(.black)
+            .buttonStyle(.bordered)
+            .padding()
         }
+        .padding()
     }
 }
 

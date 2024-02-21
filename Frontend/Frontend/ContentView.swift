@@ -6,16 +6,14 @@
 //
 
 import SwiftUI
+import Firebase
+import GoogleSignIn
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+        LoginPageView().onOpenURL(perform: { url in
+            GIDSignIn.sharedInstance.handle(url)
+        })
     }
 }
 
