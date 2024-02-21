@@ -47,6 +47,7 @@ struct ActivityCard: View {
                     HStack {
                         Image(systemName: "arrow.uturn.forward")
                         Text("Rebook")
+                            .font(.subheadline)
                     }
                     .foregroundColor(.black)
                 }

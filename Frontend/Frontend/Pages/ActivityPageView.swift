@@ -35,7 +35,8 @@ struct ActivityPageView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     Text("Past")
-                        .font(.headline)
+                        .font(.title2)
+                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         .padding(.leading)
                         .padding(.top)
                     
