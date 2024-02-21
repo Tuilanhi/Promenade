@@ -17,8 +17,12 @@ struct LoginPageView: View {
             if userLoggedIn{
                 HomePageView()
             } else {
-                // Google Login
-                GoogleLoginView()
+                VStack{
+                    // Google Login
+                    GoogleLoginView()
+                    
+                    AppleLoginView()
+                }.padding()
             }
         }.onAppear {
             Auth.auth().addStateDidChangeListener { auth, user in
