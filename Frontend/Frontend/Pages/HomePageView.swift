@@ -18,6 +18,8 @@ struct HomePageView: View {
     var body: some View {
         VStack {
             SearchBarView()
+            
+            MapView(region: $region)
         }
     }
 }
