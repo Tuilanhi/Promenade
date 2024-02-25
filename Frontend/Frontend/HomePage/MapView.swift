@@ -8,30 +8,33 @@
 import SwiftUI
 import MapKit
 
+
 // Add a simple MapView using MapKit
-struct MapView: UIViewRepresentable {
-    @Binding var region: MKCoordinateRegion
-
-    func makeUIView(context: Context) -> MKMapView {
-        let mapView = MKMapView()
-        mapView.setRegion(region, animated: true)
-        return mapView
-    }
-
-    func updateUIView(_ uiView: MKMapView, context: Context) {
-        uiView.setRegion(region, animated: true)
-    }
-}
-
-struct MapView_Previews: PreviewProvider {
-    static var previews: some View {
-        // Create a dummy region for preview purposes
-        let previewRegion = MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: 34.0522, longitude: -118.2437), // Example coordinates (e.g., Los Angeles)
-            span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-        )
+struct MapView: View {
+    @StateObject var manager = LocationManager()
+    
+    var body: some View {
+//        Map(position: $manager.region, interactionModes: [.pan, .zoom])
+//        {
+//            UserAnnotation()
+//            
+//        }
+//        .edgesIgnoringSafeArea(.all)
         
-        // Pass the dummy region to MapView
-        MapView(region: .constant(previewRegion))
+        Map {
+            UserAnnotation()
+        }
+    
     }
 }
+
+#Preview {
+    MapView()
+}
+
+extension CLLocationCoordinate2D {
+    static let weequahicPark = CLLocationCoordinate2D(latitude: 40.7063, longitude: -74.1973)
+    static let empireStateBuilding = CLLocationCoordinate2D(latitude: 40.7484, longitude: -73.9857)
+    static let columbiaUniversity = CLLocationCoordinate2D(latitude: 40.8075, longitude: -73.9626)
+}
+
