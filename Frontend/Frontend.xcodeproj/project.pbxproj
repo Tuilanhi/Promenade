@@ -50,6 +50,7 @@
 		06401F892B8597EB0016016A /* OrderPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F882B8597EB0016016A /* OrderPageView.swift */; };
 		06401F8D2B8599B90016016A /* GoogleAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F8C2B8599B90016016A /* GoogleAuthentication.swift */; };
 		06401F8F2B85A1520016016A /* AppleLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F8E2B85A1520016016A /* AppleLoginView.swift */; };
+		93FBA18C2B8C0C6400667E4F /* DestinationSelectionResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FBA18B2B8C0C6400667E4F /* DestinationSelectionResultCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +71,7 @@
 		06401F8C2B8599B90016016A /* GoogleAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAuthentication.swift; sourceTree = "<group>"; };
 		06401F8E2B85A1520016016A /* AppleLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginView.swift; sourceTree = "<group>"; };
 		06401F902B85A20C0016016A /* Frontend.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Frontend.entitlements; sourceTree = "<group>"; };
+		93FBA18B2B8C0C6400667E4F /* DestinationSelectionResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationSelectionResultCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +173,7 @@
 				06401F842B8597A30016016A /* OptionsPageView.swift */,
 				06401F862B8597D30016016A /* ConfirmPageView.swift */,
 				06401F882B8597EB0016016A /* OrderPageView.swift */,
+				93FBA18B2B8C0C6400667E4F /* DestinationSelectionResultCell.swift */,
 			);
 			path = Pages;
 			sourceTree = "<group>";
@@ -291,6 +294,7 @@
 				06401F7F2B8565250016016A /* LoginPageView.swift in Sources */,
 				06401F852B8597A40016016A /* OptionsPageView.swift in Sources */,
 				06401F872B8597D30016016A /* ConfirmPageView.swift in Sources */,
+				93FBA18C2B8C0C6400667E4F /* DestinationSelectionResultCell.swift in Sources */,
 				06401F812B8567710016016A /* HomePageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
