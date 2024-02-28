@@ -9,29 +9,18 @@ import SwiftUI
 import MapKit
 
 // Add a simple MapView using MapKit
-struct MapView: UIViewRepresentable {
-    @Binding var region: MKCoordinateRegion
-
-    func makeUIView(context: Context) -> MKMapView {
-        let mapView = MKMapView()
-        mapView.setRegion(region, animated: true)
-        return mapView
-    }
-
-    func updateUIView(_ uiView: MKMapView, context: Context) {
-        uiView.setRegion(region, animated: true)
-    }
-}
-
-struct MapView_Previews: PreviewProvider {
-    static var previews: some View {
-        // Create a dummy region for preview purposes
-        let previewRegion = MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: 34.0522, longitude: -118.2437), // Example coordinates (e.g., Los Angeles)
-            span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-        )
+struct MapView: View {
+    @StateObject var manager = LocationManager()
         
-        // Pass the dummy region to MapView
-        MapView(region: .constant(previewRegion))
+    var body: some View {
+        Map(coordinateRegion: $manager.region, showsUserLocation: true)
+            .overlay(
+                // This Circle will use the center of the current region as its center
+                Circle()
+                    .fill(Color.blue.opacity(0.5))
+                    .frame(width: 100, height: 100)
+                    .offset(x: 0, y: 0), alignment: .center
+            )
+        
     }
 }
