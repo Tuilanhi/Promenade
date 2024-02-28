@@ -33,16 +33,18 @@ struct DestinationSelectionPageView: View {
                         .frame(height: 32)
                         .background(Color(.systemGroupedBackground))
                         .padding(.trailing)
+                        .padding(.leading)
                     
                     TextField("Destination", text:$destinationLocation)
                         .frame(height: 32)
                         .background(Color(.systemGray4))
                         .padding(.trailing)
+                        .padding(.leading)
 
                 }
             }
             .padding(.horizontal)
-            .padding(.top, 32)
+            .padding(.top)
             
             Divider()
                 .padding(.vertical)
