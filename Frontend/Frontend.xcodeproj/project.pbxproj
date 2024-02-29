@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0607B8E92B8FED39000053CF /* AnnotationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0607B8E82B8FED39000053CF /* AnnotationItem.swift */; };
+		0607B8EB2B8FED50000053CF /* AddressResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0607B8EA2B8FED50000053CF /* AddressResult.swift */; };
+		0607B8ED2B8FEDF7000053CF /* ClearButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0607B8EC2B8FEDF7000053CF /* ClearButton.swift */; };
+		0607B8EF2B8FEE2C000053CF /* AddressRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0607B8EE2B8FEE2C000053CF /* AddressRow.swift */; };
+		0607B8F12B8FEE99000053CF /* AddressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0607B8F02B8FEE99000053CF /* AddressViewModel.swift */; };
 		06401F2A2B855B080016016A /* Promenade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F292B855B080016016A /* Promenade.swift */; };
 		06401F2C2B855B080016016A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F2B2B855B080016016A /* ContentView.swift */; };
 		06401F2E2B855B090016016A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06401F2D2B855B090016016A /* Assets.xcassets */; };
@@ -62,6 +67,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0607B8E82B8FED39000053CF /* AnnotationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationItem.swift; sourceTree = "<group>"; };
+		0607B8EA2B8FED50000053CF /* AddressResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressResult.swift; sourceTree = "<group>"; };
+		0607B8EC2B8FEDF7000053CF /* ClearButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearButton.swift; sourceTree = "<group>"; };
+		0607B8EE2B8FEE2C000053CF /* AddressRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressRow.swift; sourceTree = "<group>"; };
+		0607B8F02B8FEE99000053CF /* AddressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressViewModel.swift; sourceTree = "<group>"; };
 		06401F262B855B080016016A /* Frontend.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Frontend.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06401F292B855B080016016A /* Promenade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Promenade.swift; sourceTree = "<group>"; };
 		06401F2B2B855B080016016A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -130,6 +140,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0607B8E72B8FED23000053CF /* AutoaddressCompletion */ = {
+			isa = PBXGroup;
+			children = (
+				0607B8E82B8FED39000053CF /* AnnotationItem.swift */,
+				0607B8EA2B8FED50000053CF /* AddressResult.swift */,
+				0607B8EC2B8FEDF7000053CF /* ClearButton.swift */,
+				0607B8EE2B8FEE2C000053CF /* AddressRow.swift */,
+				0607B8F02B8FEE99000053CF /* AddressViewModel.swift */,
+			);
+			path = AutoaddressCompletion;
+			sourceTree = "<group>";
+		};
 		06401F1D2B855B080016016A = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +171,7 @@
 		06401F282B855B080016016A /* Frontend */ = {
 			isa = PBXGroup;
 			children = (
+				0607B8E72B8FED23000053CF /* AutoaddressCompletion */,
 				0683A1822B8F0B66001C2FEA /* Maps */,
 				068D9BCA2B866E4F00D0F1D6 /* AccountPage */,
 				068D9BC72B86513800D0F1D6 /* ActivityPage */,
@@ -351,15 +374,20 @@
 				068D9BC42B86415900D0F1D6 /* MapView.swift in Sources */,
 				068D9BC02B863DC100D0F1D6 /* ActivityPageView.swift in Sources */,
 				068D9BC92B86541A00D0F1D6 /* ActivityCard.swift in Sources */,
+				0607B8ED2B8FEDF7000053CF /* ClearButton.swift in Sources */,
+				0607B8EB2B8FED50000053CF /* AddressResult.swift in Sources */,
 				06401F792B855F900016016A /* GoogleLoginView.swift in Sources */,
 				068D9BC22B863DFF00D0F1D6 /* AccountPageView.swift in Sources */,
 				068D9BCE2B868DB600D0F1D6 /* SavedAddressView.swift in Sources */,
 				06401F7F2B8565250016016A /* LoginPageView.swift in Sources */,
+				0607B8EF2B8FEE2C000053CF /* AddressRow.swift in Sources */,
 				06401F852B8597A40016016A /* OptionsPageView.swift in Sources */,
 				0683A1842B8F0BCB001C2FEA /* LocationManager.swift in Sources */,
 				06401F872B8597D30016016A /* ConfirmPageView.swift in Sources */,
 				068D9BD02B86964700D0F1D6 /* AddSavedAddress.swift in Sources */,
 				06401F812B8567710016016A /* HomePageView.swift in Sources */,
+				0607B8F12B8FEE99000053CF /* AddressViewModel.swift in Sources */,
+				0607B8E92B8FED39000053CF /* AnnotationItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
