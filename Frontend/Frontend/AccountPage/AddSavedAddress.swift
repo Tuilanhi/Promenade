@@ -9,19 +9,6 @@ import SwiftUI
 
 
 struct AddSavedAddress: View {
-    let savedAddresses = [
-        // Your saved addresses
-        ("Home", "1234 Street Dr"),
-        ("Home", "1234 Street Dr"),
-        ("Home", "1234 Street Dr"),
-        ("Home", "1234 Street Dr"),
-        ("Home", "1234 Street Dr"),
-        ("Home", "1234 Street Dr"),
-        ("Home", "1234 Street Dr"),
-        ("Home", "1234 Street Dr"),
-        ("Home", "1234 Street Dr"),
-        ("Home", "1234 Street Dr"),
-    ]
     
     @StateObject var viewModel = AddressViewModel() // Initialize the view model for address search
     @FocusState private var isFocusedTextField: Bool // State to manage focus on the text field
@@ -53,16 +40,13 @@ struct AddSavedAddress: View {
                     .frame(height: 40)
                     .background(RoundedRectangle(cornerRadius: 0).fill(Color(.systemGray6)))
                     .padding()
-
-                // Assuming you want to keep the list of saved addresses
-                // and possibly integrate search results from viewModel
                 List(self.viewModel.results) { address in
-                    AddressRow(address: address)
+                    NavigationLink(destination: SavePlaceView(address: address.title)) {
+                        AddressRow(address: address)
+                    }
                 }
+                .listStyle(.plain)
                 .scrollContentBackground(.hidden)
-                .listStyle(PlainListStyle())
-
-                Spacer()
             }
             .navigationTitle("Add Place")
             .navigationBarTitleDisplayMode(.inline)

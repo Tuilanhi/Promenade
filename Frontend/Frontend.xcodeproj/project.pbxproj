@@ -12,6 +12,8 @@
 		0607B8ED2B8FEDF7000053CF /* ClearButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0607B8EC2B8FEDF7000053CF /* ClearButton.swift */; };
 		0607B8EF2B8FEE2C000053CF /* AddressRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0607B8EE2B8FEE2C000053CF /* AddressRow.swift */; };
 		0607B8F12B8FEE99000053CF /* AddressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0607B8F02B8FEE99000053CF /* AddressViewModel.swift */; };
+		0607B8F32B9055D5000053CF /* SavePlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0607B8F22B9055D5000053CF /* SavePlaceView.swift */; };
+		0607B8F52B906C95000053CF /* AddressBookViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0607B8F42B906C95000053CF /* AddressBookViewModel.swift */; };
 		06401F2A2B855B080016016A /* Promenade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F292B855B080016016A /* Promenade.swift */; };
 		06401F2C2B855B080016016A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F2B2B855B080016016A /* ContentView.swift */; };
 		06401F2E2B855B090016016A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06401F2D2B855B090016016A /* Assets.xcassets */; };
@@ -72,6 +74,8 @@
 		0607B8EC2B8FEDF7000053CF /* ClearButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearButton.swift; sourceTree = "<group>"; };
 		0607B8EE2B8FEE2C000053CF /* AddressRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressRow.swift; sourceTree = "<group>"; };
 		0607B8F02B8FEE99000053CF /* AddressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressViewModel.swift; sourceTree = "<group>"; };
+		0607B8F22B9055D5000053CF /* SavePlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavePlaceView.swift; sourceTree = "<group>"; };
+		0607B8F42B906C95000053CF /* AddressBookViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressBookViewModel.swift; sourceTree = "<group>"; };
 		06401F262B855B080016016A /* Frontend.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Frontend.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06401F292B855B080016016A /* Promenade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Promenade.swift; sourceTree = "<group>"; };
 		06401F2B2B855B080016016A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -253,6 +257,8 @@
 				068D9BCB2B86703000D0F1D6 /* LoadUserInfo.swift */,
 				068D9BCD2B868DB600D0F1D6 /* SavedAddressView.swift */,
 				068D9BCF2B86964700D0F1D6 /* AddSavedAddress.swift */,
+				0607B8F22B9055D5000053CF /* SavePlaceView.swift */,
+				0607B8F42B906C95000053CF /* AddressBookViewModel.swift */,
 			);
 			path = AccountPage;
 			sourceTree = "<group>";
@@ -370,6 +376,7 @@
 				06401F892B8597EB0016016A /* OrderPageView.swift in Sources */,
 				068D9BCC2B86703000D0F1D6 /* LoadUserInfo.swift in Sources */,
 				06401F2A2B855B080016016A /* Promenade.swift in Sources */,
+				0607B8F52B906C95000053CF /* AddressBookViewModel.swift in Sources */,
 				06401F832B8597720016016A /* DestinationSelectionPageView.swift in Sources */,
 				068D9BC42B86415900D0F1D6 /* MapView.swift in Sources */,
 				068D9BC02B863DC100D0F1D6 /* ActivityPageView.swift in Sources */,
@@ -388,6 +395,7 @@
 				06401F812B8567710016016A /* HomePageView.swift in Sources */,
 				0607B8F12B8FEE99000053CF /* AddressViewModel.swift in Sources */,
 				0607B8E92B8FED39000053CF /* AnnotationItem.swift in Sources */,
+				0607B8F32B9055D5000053CF /* SavePlaceView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
