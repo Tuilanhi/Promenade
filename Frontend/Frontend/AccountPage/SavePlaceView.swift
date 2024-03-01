@@ -6,10 +6,10 @@
 //
 
 import SwiftUI
+import FirebaseFirestore
 
 struct SavePlaceView: View {
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var viewModel: AddressBookViewModel
     var address: String
     @State private var placeName: String = ""
     
@@ -95,9 +95,26 @@ struct SavePlaceView: View {
     }
     
     private func savePlace() {
-        print("Place saved: \(placeName) at \(address)")
-        // After saving, go back to SavedAddressView
-        presentationMode.wrappedValue.dismiss()
+        // Ensure Firebase has been properly initialized
+        let db = Firestore.firestore()
+        
+        // Create a dictionary representing the data you want to save
+        let placeData: [String: Any] = [
+            "name": placeName,
+            "address": address
+        ]
+        
+        // Add a new document with a generated ID to a collection "places"
+        db.collection("places").addDocument(data: placeData) { error in
+            if let error = error {
+                // Handle any errors
+                print("Error saving place: \(error.localizedDescription)")
+            } else {
+                // If the save was successful, print a message and dismiss the view
+                print("Place saved successfully: \(self.placeName) at \(self.address)")
+                self.presentationMode.wrappedValue.dismiss()
+            }
+        }
     }
 }
 

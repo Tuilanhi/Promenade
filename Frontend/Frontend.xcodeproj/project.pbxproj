@@ -13,7 +13,6 @@
 		0607B8EF2B8FEE2C000053CF /* AddressRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0607B8EE2B8FEE2C000053CF /* AddressRow.swift */; };
 		0607B8F12B8FEE99000053CF /* AddressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0607B8F02B8FEE99000053CF /* AddressViewModel.swift */; };
 		0607B8F32B9055D5000053CF /* SavePlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0607B8F22B9055D5000053CF /* SavePlaceView.swift */; };
-		0607B8F52B906C95000053CF /* AddressBookViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0607B8F42B906C95000053CF /* AddressBookViewModel.swift */; };
 		06401F2A2B855B080016016A /* Promenade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F292B855B080016016A /* Promenade.swift */; };
 		06401F2C2B855B080016016A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F2B2B855B080016016A /* ContentView.swift */; };
 		06401F2E2B855B090016016A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06401F2D2B855B090016016A /* Assets.xcassets */; };
@@ -48,7 +47,6 @@
 		06401F752B855F020016016A /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 06401F742B855F020016016A /* FirebaseStorage */; };
 		06401F772B855F020016016A /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 06401F762B855F020016016A /* FirebaseStorageCombine-Community */; };
 		06401F792B855F900016016A /* GoogleLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F782B855F900016016A /* GoogleLoginView.swift */; };
-		06401F7D2B8561530016016A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06401F7C2B8561530016016A /* GoogleService-Info.plist */; };
 		06401F7F2B8565250016016A /* LoginPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F7E2B8565250016016A /* LoginPageView.swift */; };
 		06401F812B8567710016016A /* HomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F802B8567710016016A /* HomePageView.swift */; };
 		06401F832B8597720016016A /* DestinationSelectionPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F822B8597720016016A /* DestinationSelectionPageView.swift */; };
@@ -57,6 +55,8 @@
 		06401F892B8597EB0016016A /* OrderPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F882B8597EB0016016A /* OrderPageView.swift */; };
 		06401F8D2B8599B90016016A /* GoogleAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F8C2B8599B90016016A /* GoogleAuthentication.swift */; };
 		06401F962B85AE4C0016016A /* BottomNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F952B85AE4C0016016A /* BottomNavigation.swift */; };
+		065E74452B928A920036E6CA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065E74442B928A920036E6CA /* GoogleService-Info.plist */; };
+		065E74472B9291B80036E6CA /* AddressBookViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065E74462B9291B80036E6CA /* AddressBookViewModel.swift */; };
 		0683A1842B8F0BCB001C2FEA /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0683A1832B8F0BCB001C2FEA /* LocationManager.swift */; };
 		068D9BC02B863DC100D0F1D6 /* ActivityPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BBF2B863DC100D0F1D6 /* ActivityPageView.swift */; };
 		068D9BC22B863DFF00D0F1D6 /* AccountPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BC12B863DFE00D0F1D6 /* AccountPageView.swift */; };
@@ -75,7 +75,6 @@
 		0607B8EE2B8FEE2C000053CF /* AddressRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressRow.swift; sourceTree = "<group>"; };
 		0607B8F02B8FEE99000053CF /* AddressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressViewModel.swift; sourceTree = "<group>"; };
 		0607B8F22B9055D5000053CF /* SavePlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavePlaceView.swift; sourceTree = "<group>"; };
-		0607B8F42B906C95000053CF /* AddressBookViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressBookViewModel.swift; sourceTree = "<group>"; };
 		06401F262B855B080016016A /* Frontend.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Frontend.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06401F292B855B080016016A /* Promenade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Promenade.swift; sourceTree = "<group>"; };
 		06401F2B2B855B080016016A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -83,7 +82,6 @@
 		06401F302B855B090016016A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		06401F402B855D690016016A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		06401F782B855F900016016A /* GoogleLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleLoginView.swift; sourceTree = "<group>"; };
-		06401F7C2B8561530016016A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		06401F7E2B8565250016016A /* LoginPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageView.swift; sourceTree = "<group>"; };
 		06401F802B8567710016016A /* HomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageView.swift; sourceTree = "<group>"; };
 		06401F822B8597720016016A /* DestinationSelectionPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationSelectionPageView.swift; sourceTree = "<group>"; };
@@ -93,6 +91,8 @@
 		06401F8C2B8599B90016016A /* GoogleAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAuthentication.swift; sourceTree = "<group>"; };
 		06401F902B85A20C0016016A /* Frontend.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Frontend.entitlements; sourceTree = "<group>"; };
 		06401F952B85AE4C0016016A /* BottomNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomNavigation.swift; sourceTree = "<group>"; };
+		065E74442B928A920036E6CA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		065E74462B9291B80036E6CA /* AddressBookViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressBookViewModel.swift; sourceTree = "<group>"; };
 		0683A1832B8F0BCB001C2FEA /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationManager.swift; path = ../../../../../Documents/LocationManager.swift; sourceTree = "<group>"; };
 		068D9BBF2B863DC100D0F1D6 /* ActivityPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityPageView.swift; sourceTree = "<group>"; };
 		068D9BC12B863DFE00D0F1D6 /* AccountPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPageView.swift; sourceTree = "<group>"; };
@@ -181,8 +181,8 @@
 				068D9BC72B86513800D0F1D6 /* ActivityPage */,
 				06401F942B85AE3C0016016A /* HomePage */,
 				06401F902B85A20C0016016A /* Frontend.entitlements */,
-				06401F7C2B8561530016016A /* GoogleService-Info.plist */,
 				06401F402B855D690016016A /* Info.plist */,
+				065E74442B928A920036E6CA /* GoogleService-Info.plist */,
 				06401F382B855B350016016A /* Pages */,
 				06401F372B855B250016016A /* Auth */,
 				06401F292B855B080016016A /* Promenade.swift */,
@@ -258,7 +258,7 @@
 				068D9BCD2B868DB600D0F1D6 /* SavedAddressView.swift */,
 				068D9BCF2B86964700D0F1D6 /* AddSavedAddress.swift */,
 				0607B8F22B9055D5000053CF /* SavePlaceView.swift */,
-				0607B8F42B906C95000053CF /* AddressBookViewModel.swift */,
+				065E74462B9291B80036E6CA /* AddressBookViewModel.swift */,
 			);
 			path = AccountPage;
 			sourceTree = "<group>";
@@ -357,8 +357,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				06401F312B855B090016016A /* Preview Assets.xcassets in Resources */,
-				06401F7D2B8561530016016A /* GoogleService-Info.plist in Resources */,
 				06401F2E2B855B090016016A /* Assets.xcassets in Resources */,
+				065E74452B928A920036E6CA /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,7 +376,7 @@
 				06401F892B8597EB0016016A /* OrderPageView.swift in Sources */,
 				068D9BCC2B86703000D0F1D6 /* LoadUserInfo.swift in Sources */,
 				06401F2A2B855B080016016A /* Promenade.swift in Sources */,
-				0607B8F52B906C95000053CF /* AddressBookViewModel.swift in Sources */,
+				065E74472B9291B80036E6CA /* AddressBookViewModel.swift in Sources */,
 				06401F832B8597720016016A /* DestinationSelectionPageView.swift in Sources */,
 				068D9BC42B86415900D0F1D6 /* MapView.swift in Sources */,
 				068D9BC02B863DC100D0F1D6 /* ActivityPageView.swift in Sources */,
@@ -534,7 +534,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Frontend/Info.plist;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "$(MARKETING_VERSION)";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -567,7 +567,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Frontend/Info.plist;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "$(MARKETING_VERSION)";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
