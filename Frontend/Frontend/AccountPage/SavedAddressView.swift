@@ -49,6 +49,7 @@ struct SavedAddressView: View {
             }
             .navigationBarItems(trailing: EditButton()) // Add an Edit button
         }
+        
     }
 }
 

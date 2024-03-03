@@ -60,12 +60,12 @@
 		06648D6B2B951D4500DC9814 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06648D6A2B951D4500DC9814 /* LocationManager.swift */; };
 		068D9BC02B863DC100D0F1D6 /* ActivityPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BBF2B863DC100D0F1D6 /* ActivityPageView.swift */; };
 		068D9BC22B863DFF00D0F1D6 /* AccountPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BC12B863DFE00D0F1D6 /* AccountPageView.swift */; };
-		068D9BC42B86415900D0F1D6 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BC32B86415900D0F1D6 /* MapView.swift */; };
 		068D9BC62B86450300D0F1D6 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BC52B86450300D0F1D6 /* SearchBarView.swift */; };
 		068D9BC92B86541A00D0F1D6 /* ActivityCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BC82B86541A00D0F1D6 /* ActivityCard.swift */; };
 		068D9BCC2B86703000D0F1D6 /* LoadUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BCB2B86703000D0F1D6 /* LoadUserInfo.swift */; };
 		068D9BCE2B868DB600D0F1D6 /* SavedAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BCD2B868DB600D0F1D6 /* SavedAddressView.swift */; };
 		068D9BD02B86964700D0F1D6 /* AddSavedAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BCF2B86964700D0F1D6 /* AddSavedAddress.swift */; };
+		06C59CF22B8AD3AB003ED04F /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C59CF12B8AD3AB003ED04F /* MapView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -96,12 +96,12 @@
 		06648D6A2B951D4500DC9814 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		068D9BBF2B863DC100D0F1D6 /* ActivityPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityPageView.swift; sourceTree = "<group>"; };
 		068D9BC12B863DFE00D0F1D6 /* AccountPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPageView.swift; sourceTree = "<group>"; };
-		068D9BC32B86415900D0F1D6 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		068D9BC52B86450300D0F1D6 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 		068D9BC82B86541A00D0F1D6 /* ActivityCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityCard.swift; sourceTree = "<group>"; };
 		068D9BCB2B86703000D0F1D6 /* LoadUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadUserInfo.swift; sourceTree = "<group>"; };
 		068D9BCD2B868DB600D0F1D6 /* SavedAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedAddressView.swift; sourceTree = "<group>"; };
 		068D9BCF2B86964700D0F1D6 /* AddSavedAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSavedAddress.swift; sourceTree = "<group>"; };
+		06C59CF12B8AD3AB003ED04F /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -228,9 +228,9 @@
 			isa = PBXGroup;
 			children = (
 				06401F952B85AE4C0016016A /* BottomNavigation.swift */,
-				068D9BC32B86415900D0F1D6 /* MapView.swift */,
 				068D9BC52B86450300D0F1D6 /* SearchBarView.swift */,
 				06648D6A2B951D4500DC9814 /* LocationManager.swift */,
+				06C59CF12B8AD3AB003ED04F /* MapView.swift */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -370,7 +370,6 @@
 				06401F2A2B855B080016016A /* Promenade.swift in Sources */,
 				065E74472B9291B80036E6CA /* AddressBookViewModel.swift in Sources */,
 				06401F832B8597720016016A /* DestinationSelectionPageView.swift in Sources */,
-				068D9BC42B86415900D0F1D6 /* MapView.swift in Sources */,
 				068D9BC02B863DC100D0F1D6 /* ActivityPageView.swift in Sources */,
 				068D9BC92B86541A00D0F1D6 /* ActivityCard.swift in Sources */,
 				0607B8ED2B8FEDF7000053CF /* ClearButton.swift in Sources */,
@@ -382,6 +381,7 @@
 				0607B8EF2B8FEE2C000053CF /* AddressRow.swift in Sources */,
 				06401F852B8597A40016016A /* OptionsPageView.swift in Sources */,
 				06401F872B8597D30016016A /* ConfirmPageView.swift in Sources */,
+				06C59CF22B8AD3AB003ED04F /* MapView.swift in Sources */,
 				068D9BD02B86964700D0F1D6 /* AddSavedAddress.swift in Sources */,
 				06401F812B8567710016016A /* HomePageView.swift in Sources */,
 				0607B8F12B8FEE99000053CF /* AddressViewModel.swift in Sources */,
