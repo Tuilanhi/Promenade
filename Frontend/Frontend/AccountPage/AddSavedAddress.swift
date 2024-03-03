@@ -7,76 +7,46 @@
 
 import SwiftUI
 
+
 struct AddSavedAddress: View {
-    let savedAddresses = [
-        ("Home", "1234 Street Dr"),
-        ("Work", "1234 Street Dr"),
-        ("Home", "1234 Street Dr"),
-        ("Home", "1234 Street Dr"),
-        ("Home", "1234 Street Dr"),
-        ("Home", "1234 Street Dr"),
-        ("Home", "1234 Street Dr"),
-        ("Home", "1234 Street Dr"),
-        ("Home", "1234 Street Dr"),
-        ("Home", "1234 Street Dr"),
-        ("Work", "1234 Street Dr"),
-        ("Home", "1234 Street Dr"),
-        ("Home", "1234 Street Dr"),
-        ("Home", "1234 Street Dr"),
-        ("Home", "1234 Street Dr"),
-        ("Home", "1234 Street Dr"),
-        ("Home", "1234 Street Dr"),
-        ("Home", "1234 Street Dr"),
-        
-        // Add more addresses as needed
-    ]
     
-    @State var searchQuery = ""
-    
+    @StateObject var viewModel = AddressViewModel() // Initialize the view model for address search
+    @FocusState private var isFocusedTextField: Bool // State to manage focus on the text field
+
     var body: some View {
         NavigationView {
             VStack {
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                        .foregroundColor(.gray)
-                    
-                    TextField("Enter an address", text: $searchQuery)
-                        .foregroundColor(.primary)
-                    
-                    Spacer()
-                    
-                    if !searchQuery.isEmpty {
-                        Button(action: {
-                            searchQuery = ""
-                        }) {
-                            Image(systemName: "xmark.circle.fill")
-                                .foregroundColor(.gray)
-                        }
+                // Replace the old search bar with the new one
+                TextField("Enter an address", text: $viewModel.searchableText)
+                    .autocorrectionDisabled()
+                    .focused($isFocusedTextField)
+                    .font(.title2)
+                    .onReceive(
+                        viewModel.$searchableText.debounce(
+                            for: .seconds(1),
+                            scheduler: DispatchQueue.main
+                        )
+                    ) {
+                        viewModel.searchAddress($0)
+                    }
+                    .overlay {
+                        ClearButton(text: $viewModel.searchableText)
+                            .padding(.trailing)
+                    }
+                    .onAppear {
+                        isFocusedTextField = true
+                    }
+                    .padding(.horizontal)
+                    .frame(height: 40)
+                    .background(RoundedRectangle(cornerRadius: 0).fill(Color(.systemGray6)))
+                    .padding()
+                List(self.viewModel.results) { address in
+                    NavigationLink(destination: SavePlaceView(address: address.title)) {
+                        AddressRow(address: address)
                     }
                 }
-                .padding(.horizontal)
-                .frame(height: 40)
-                .background(RoundedRectangle(cornerRadius: 18).fill(Color(.systemGray6)))
-                .padding()
-                
-                List{
-                    ForEach(savedAddresses, id: \.self.0) { label, address in
-                        HStack{
-                            Image(systemName: "star.circle.fill")
-                                .resizable()
-                                .frame(width: 30, height: 30)
-                            VStack(alignment: .leading) {
-                                Text(label)
-                                    .foregroundColor(.black)
-                                Text(address)
-                                    .font(.subheadline)
-                                    .foregroundColor(.gray)
-                            }
-                        }
-                    }
-                }.listStyle(PlainListStyle())
-                
-                Spacer()
+                .listStyle(.plain)
+                .scrollContentBackground(.hidden)
             }
             .navigationTitle("Add Place")
             .navigationBarTitleDisplayMode(.inline)
@@ -85,6 +55,8 @@ struct AddSavedAddress: View {
     }
 }
 
-#Preview {
-    AddSavedAddress()
+struct AddSavedAddress_Previews: PreviewProvider {
+    static var previews: some View {
+        AddSavedAddress()
+    }
 }

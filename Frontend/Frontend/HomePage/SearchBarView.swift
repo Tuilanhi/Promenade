@@ -20,23 +20,7 @@ struct SearchBarView: View {
                     .foregroundColor(.black)
                 
                 // Search Text Field
-                TextField("Start Destination", text: $searchQuery1)
-                    .foregroundColor(.primary)
-                
-                Spacer()
-            }
-            .padding(.horizontal)
-            .frame(height: 40)
-            .background(RoundedRectangle(cornerRadius: 18).fill(Color(.systemGray6)))
-
-            // Search bars
-            HStack {
-                // Search Icon
-                Image(systemName: "magnifyingglass")
-                    .foregroundColor(.black)
-                
-                // Search Text Field
-                TextField("Destination", text: $searchQuery2)
+                TextField("Where To?", text: $searchQuery1)
                     .foregroundColor(.primary)
                 
                 Spacer()

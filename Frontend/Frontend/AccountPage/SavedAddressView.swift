@@ -8,29 +8,8 @@
 import SwiftUI
 
 struct SavedAddressView: View {
-    // Example data - replace with your actual data source
-        let savedAddresses = [
-            ("Home", "1234 Street Dr"),
-            ("Work", "1234 Street Dr"),
-            ("Home", "1234 Street Dr"),
-            ("Home", "1234 Street Dr"),
-            ("Home", "1234 Street Dr"),
-            ("Home", "1234 Street Dr"),
-            ("Home", "1234 Street Dr"),
-            ("Home", "1234 Street Dr"),
-            ("Home", "1234 Street Dr"),
-            ("Home", "1234 Street Dr"),
-            ("Work", "1234 Street Dr"),
-            ("Home", "1234 Street Dr"),
-            ("Home", "1234 Street Dr"),
-            ("Home", "1234 Street Dr"),
-            ("Home", "1234 Street Dr"),
-            ("Home", "1234 Street Dr"),
-            ("Home", "1234 Street Dr"),
-            ("Home", "1234 Street Dr"),
-            
-            // Add more addresses as needed
-        ]
+    @ObservedObject var viewModel = AddressBookViewModel()
+    @Environment(\.editMode) var editMode // To control the edit mode
     
     var body: some View {
         NavigationView {
@@ -47,24 +26,28 @@ struct SavedAddressView: View {
                         }
                     }
                 }
-                ForEach(savedAddresses, id: \.self.0) { label, address in
-                    HStack{
+                ForEach(viewModel.addresses) { address in
+                    HStack {
                         Image(systemName: "star.circle.fill")
                             .resizable()
                             .frame(width: 30, height: 30)
                         VStack(alignment: .leading) {
-                            Text(label)
+                            Text(address.name)
                                 .foregroundColor(.black)
-                            Text(address)
+                            Text(address.address)
                                 .font(.subheadline)
                                 .foregroundColor(.gray)
                         }
                     }
                 }
+                .onDelete(perform: viewModel.deleteAddress)
             }
             .listStyle(GroupedListStyle())
             .navigationTitle("Choose a Place")
-            .navigationBarItems(trailing: EditButton())
+            .onAppear() {
+                self.viewModel.fetchData()
+            }
+            .navigationBarItems(trailing: EditButton()) // Add an Edit button
         }
         
     }

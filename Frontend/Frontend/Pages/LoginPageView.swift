@@ -24,8 +24,6 @@ struct LoginPageView: View {
                         .padding()
                     // Google Login
                     GoogleLoginView()
-                    
-                    AppleLoginView()
                 }.padding()
             }
         }.onAppear {

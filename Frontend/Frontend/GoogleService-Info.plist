@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>111518080342-hl779ogfnnn9vfipdf7hala26pjmo0sn.apps.googleusercontent.com</string>
+	<string>832194658447-5ph4v6hb84slegm7bm0shs93m3d1nec5.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.111518080342-hl779ogfnnn9vfipdf7hala26pjmo0sn</string>
+	<string>com.googleusercontent.apps.832194658447-5ph4v6hb84slegm7bm0shs93m3d1nec5</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBuv9rrNyPDeHXTGjyku_8Ll_gy80LPPvY</string>
+	<string>AIzaSyDU7Cj4gToqt3_NTAYDp9S-PIzXn2LzmP0</string>
 	<key>GCM_SENDER_ID</key>
-	<string>111518080342</string>
+	<string>832194658447</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>tamu.Promenade.Frontend</string>
 	<key>PROJECT_ID</key>
-	<string>promenade-d5e6a</string>
+	<string>avian-azimuth-360217</string>
 	<key>STORAGE_BUCKET</key>
-	<string>promenade-d5e6a.appspot.com</string>
+	<string>avian-azimuth-360217.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:111518080342:ios:0807be945f57e5c64fcaf7</string>
+	<string>1:832194658447:ios:f2b5e71a3fffaaf026f0fa</string>
 </dict>
 </plist>
