@@ -50,6 +50,10 @@
 		06401F892B8597EB0016016A /* OrderPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F882B8597EB0016016A /* OrderPageView.swift */; };
 		06401F8D2B8599B90016016A /* GoogleAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F8C2B8599B90016016A /* GoogleAuthentication.swift */; };
 		06401F8F2B85A1520016016A /* AppleLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F8E2B85A1520016016A /* AppleLoginView.swift */; };
+
+		936526612B8EEF08005128D1 /* RideSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936526602B8EEF08005128D1 /* RideSelectionView.swift */; };
+		93FBA18C2B8C0C6400667E4F /* DestinationSelectionResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FBA18B2B8C0C6400667E4F /* DestinationSelectionResultCell.swift */; };
+
 		06401F962B85AE4C0016016A /* BottomNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06401F952B85AE4C0016016A /* BottomNavigation.swift */; };
 		068D9BC02B863DC100D0F1D6 /* ActivityPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BBF2B863DC100D0F1D6 /* ActivityPageView.swift */; };
 		068D9BC22B863DFF00D0F1D6 /* AccountPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BC12B863DFE00D0F1D6 /* AccountPageView.swift */; };
@@ -59,6 +63,7 @@
 		068D9BCE2B868DB600D0F1D6 /* SavedAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BCD2B868DB600D0F1D6 /* SavedAddressView.swift */; };
 		068D9BD02B86964700D0F1D6 /* AddSavedAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BCF2B86964700D0F1D6 /* AddSavedAddress.swift */; };
 		06C59CF22B8AD3AB003ED04F /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C59CF12B8AD3AB003ED04F /* MapView.swift */; };
+
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,6 +84,10 @@
 		06401F8C2B8599B90016016A /* GoogleAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAuthentication.swift; sourceTree = "<group>"; };
 		06401F8E2B85A1520016016A /* AppleLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginView.swift; sourceTree = "<group>"; };
 		06401F902B85A20C0016016A /* Frontend.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Frontend.entitlements; sourceTree = "<group>"; };
+
+		936526602B8EEF08005128D1 /* RideSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideSelectionView.swift; sourceTree = "<group>"; };
+		93FBA18B2B8C0C6400667E4F /* DestinationSelectionResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationSelectionResultCell.swift; sourceTree = "<group>"; };
+
 		06401F952B85AE4C0016016A /* BottomNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomNavigation.swift; sourceTree = "<group>"; };
 		068D9BBF2B863DC100D0F1D6 /* ActivityPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityPageView.swift; sourceTree = "<group>"; };
 		068D9BC12B863DFE00D0F1D6 /* AccountPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPageView.swift; sourceTree = "<group>"; };
@@ -88,6 +97,7 @@
 		068D9BCD2B868DB600D0F1D6 /* SavedAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedAddressView.swift; sourceTree = "<group>"; };
 		068D9BCF2B86964700D0F1D6 /* AddSavedAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSavedAddress.swift; sourceTree = "<group>"; };
 		06C59CF12B8AD3AB003ED04F /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,11 +196,15 @@
 		06401F382B855B350016016A /* Pages */ = {
 			isa = PBXGroup;
 			children = (
+
+				9365265E2B8EEE87005128D1 /* Destination-Selection */,
+
 				068D9BBF2B863DC100D0F1D6 /* ActivityPageView.swift */,
 				068D9BC12B863DFE00D0F1D6 /* AccountPageView.swift */,
+
 				06401F7E2B8565250016016A /* LoginPageView.swift */,
 				06401F802B8567710016016A /* HomePageView.swift */,
-				06401F822B8597720016016A /* DestinationSelectionPageView.swift */,
+				9365265F2B8EEED9005128D1 /* Ride-Selection */,
 				06401F842B8597A30016016A /* OptionsPageView.swift */,
 				06401F862B8597D30016016A /* ConfirmPageView.swift */,
 				06401F882B8597EB0016016A /* OrderPageView.swift */,
@@ -198,6 +212,23 @@
 			path = Pages;
 			sourceTree = "<group>";
 		};
+
+		9365265E2B8EEE87005128D1 /* Destination-Selection */ = {
+			isa = PBXGroup;
+			children = (
+				06401F822B8597720016016A /* DestinationSelectionPageView.swift */,
+				93FBA18B2B8C0C6400667E4F /* DestinationSelectionResultCell.swift */,
+			);
+			path = "Destination-Selection";
+			sourceTree = "<group>";
+		};
+		9365265F2B8EEED9005128D1 /* Ride-Selection */ = {
+			isa = PBXGroup;
+			children = (
+				936526602B8EEF08005128D1 /* RideSelectionView.swift */,
+			);
+			path = "Ride-Selection";
+
 		06401F942B85AE3C0016016A /* HomePage */ = {
 			isa = PBXGroup;
 			children = (
@@ -224,6 +255,7 @@
 				068D9BCF2B86964700D0F1D6 /* AddSavedAddress.swift */,
 			);
 			path = AccountPage;
+
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -349,9 +381,14 @@
 				06401F7F2B8565250016016A /* LoginPageView.swift in Sources */,
 				06401F852B8597A40016016A /* OptionsPageView.swift in Sources */,
 				06401F872B8597D30016016A /* ConfirmPageView.swift in Sources */,
+
+				93FBA18C2B8C0C6400667E4F /* DestinationSelectionResultCell.swift in Sources */,
+
 				06C59CF22B8AD3AB003ED04F /* MapView.swift in Sources */,
 				068D9BD02B86964700D0F1D6 /* AddSavedAddress.swift in Sources */,
+
 				06401F812B8567710016016A /* HomePageView.swift in Sources */,
+				936526612B8EEF08005128D1 /* RideSelectionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
