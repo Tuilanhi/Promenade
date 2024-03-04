@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct DestinationSelectionResultCell: View {
+    let title: String
+    let subtitle: String
     var body: some View {
         HStack {
             Image(systemName: "mappin.circle.fill")
@@ -17,9 +19,9 @@ struct DestinationSelectionResultCell: View {
                 .frame(width: 40, height: 40)
             
             VStack(alignment: .leading, spacing: 4) {
-                Text("Koala Tea")
+                Text(title)
                     .font(.body)
-                Text("123 Something Street")
+                Text(subtitle)
                     .font(.system(size: 15))
                     .foregroundColor(.gray)
                 Divider()
@@ -31,6 +33,8 @@ struct DestinationSelectionResultCell: View {
     }
 }
 
-#Preview {
-    DestinationSelectionResultCell()
+struct DestinationSelectionResultCell_Preview: PreviewProvider {
+    static var previews: some View {
+        DestinationSelectionResultCell(title: "Koala Tea", subtitle: "123 Main st.")
+    }
 }

@@ -11,6 +11,8 @@ import UIKit
 struct DestinationSelectionPageView: View {
     @State private var startLocation = ""
     @State private var destinationLocation = ""
+    @StateObject var viewModel = LocationSearchViewModel()
+    
     var body: some View {
         VStack(alignment: .leading) {
             // Header (text field) view
@@ -35,7 +37,7 @@ struct DestinationSelectionPageView: View {
                         .padding(.trailing)
                         .padding(.leading)
                     
-                    TextField("Destination", text:$destinationLocation)
+                    TextField("Destination", text:$viewModel.queryFragment)
                         .frame(height: 32)
                         .background(Color(.systemGray4))
                         .padding(.trailing)
@@ -51,8 +53,9 @@ struct DestinationSelectionPageView: View {
     
             ScrollView {
                 VStack(alignment: .leading) {
-                    ForEach(0 ..< 20, id: \.self) { _ in
-                        DestinationSelectionResultCell()
+                    ForEach(viewModel.results, id: \.self) { result in
+                        DestinationSelectionResultCell(title: result.title,
+                            subtitle: result.subtitle)
                     }
                 }
             }
