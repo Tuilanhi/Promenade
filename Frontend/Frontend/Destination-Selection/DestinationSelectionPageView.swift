@@ -10,8 +10,8 @@ import UIKit
 
 struct DestinationSelectionPageView: View {
     @State private var startLocation = ""
-    @State private var destinationLocation = ""
     @StateObject var viewModel = LocationSearchViewModel()
+    @State private var navigateToRideSelection = false
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -55,10 +55,12 @@ struct DestinationSelectionPageView: View {
                 VStack(alignment: .leading) {
                     ForEach(viewModel.results, id: \.self) { result in
                         DestinationSelectionResultCell(title: result.title,
-                            subtitle: result.subtitle)
+                                                       subtitle: result.subtitle)
                     }
                 }
             }
+
+
         }
         .navigationBarTitle("Select Destination", displayMode: .inline)
     }

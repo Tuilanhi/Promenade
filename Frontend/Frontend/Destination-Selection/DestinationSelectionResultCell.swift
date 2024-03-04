@@ -10,6 +10,7 @@ import SwiftUI
 struct DestinationSelectionResultCell: View {
     let title: String
     let subtitle: String
+    
     var body: some View {
         HStack {
             Image(systemName: "mappin.circle.fill")
