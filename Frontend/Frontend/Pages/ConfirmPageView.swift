@@ -20,106 +20,135 @@ struct ConfirmPageView: View {
     @State private var routeDestination: MKMapItem?
     
     @State private var address: String = "161 Wellborn Rd"
+    @State private var showOrderPage = false
     
     var body: some View {
         
-        VStack {
-            
-            Map(position: $cameraPosition) {
-                Annotation("Your Location", coordinate: .userLocation) {
-                    ZStack {
+        if showOrderPage {
+            OrderPageView()
+        } else {
+            VStack {
+                
+                Map(position: $cameraPosition) {
+                    Annotation("Your Location", coordinate: .userLocation) {
+                        ZStack {
+                            Circle()
+                                .frame(width: 32, height: 32)
+                                .foregroundColor(.blue.opacity(0.25))
+                            Circle()
+                                .frame(width: 20, height: 20)
+                                .foregroundColor(.white)
+                            Circle()
+                                .frame(width: 12, height: 12)
+                                .foregroundColor(.blue)
+                        }
+                    }
+                    
+                    Marker("Pick up Point", coordinate: .userDestination)
+                    
+                    
+                    if let route {
+                        MapPolyline(route.polyline)
+                            .stroke(.blue, lineWidth: 6)
+                    }
+                    
+                }
+                
+                Capsule()
+                    .foregroundColor(Color(.systemGray5))
+                    .frame(width: 48, height: 6)
+                
+                HStack {
+                    
+                    VStack{
                         Circle()
-                            .frame(width: 32, height: 32)
-                            .foregroundColor(.blue.opacity(0.25))
-                        Circle()
-                            .frame(width: 20, height: 20)
+                            .fill(Color(.systemGray3))
+                            .frame(width: 8, height: 8)
+                        Rectangle()
+                            .fill(Color(.systemGray3))
+                            .frame(width:1, height:32)
+                        Rectangle()
+                            .fill(.black)
+                            .frame(width: 8, height:8)
+                        
+                    }
+                    // walk info
+                    VStack(alignment: .leading, spacing: 24) {
+                        HStack {
+                            Text("Your location")
+                                .font(.system(size: 16, weight: .semibold))
+                                .foregroundColor(.gray)
+                            Spacer()
+                            Text("1:30 PM")
+                                .font(.system(size: 14, weight: .semibold))
+                                .foregroundColor(.gray)
+                        }
+                        .padding(.bottom, 10)
+                        
+                        HStack {
+                            Text("Zachry")
+                                .font(.system(size: 16, weight: .semibold))
+                            Spacer()
+                            Text("1:45 PM")
+                                .font(.system(size: 14, weight: .semibold))
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    .padding(.leading, 8)
+                }
+                .padding()
+                
+                
+                Divider()
+                    .padding(.vertical, 8)
+                
+                HStack {
+                    
+                    Button(action: {
+                        showOrderPage=true
+                    }) {
+                        Text("CONFIRM PICK UP POINT")
+                            .fontWeight(.bold)
+                            .frame(width: UIScreen.main.bounds.width-94, height: 50)
+                            .background(.blue)
+                            .cornerRadius(10)
                             .foregroundColor(.white)
-                        Circle()
-                            .frame(width: 12, height: 12)
-                            .foregroundColor(.blue)
                     }
-                }
-                
-                Marker("Pick up Point", coordinate: .userDestination)
-                
-                
-                if let route {
-                    MapPolyline(route.polyline)
-                        .stroke(.blue, lineWidth: 6)
-                }
-                
-            }
-            
-            Capsule()
-                .foregroundColor(Color(.systemGray5))
-                .frame(width: 48, height: 6)
-            
-            HStack {
-                
-                VStack{
-                    Circle()
-                        .fill(Color(.systemGray3))
-                        .frame(width: 8, height: 8)
-                    Rectangle()
-                        .fill(Color(.systemGray3))
-                        .frame(width:1, height:32)
-                    Rectangle()
-                        .fill(.black)
-                        .frame(width: 8, height:8)
+                    //                NavigationView {
+                    //                    VStack {
+                    //                        NavigationLink(
+                    //                            destination: OrderPageView(),
+                    //                            isActive: $isOrderPageViewActive
+                    //                        ) {
+                    //                            EmptyView()
+                    //                        }
+                    //                        Button(action: {
+                    //                            isOrderPageViewActive=true
+                    //                        }) {
+                    //
+                    //                            Text("CONFIRM PICK UP POINT")
+                    //                                .fontWeight(.bold)
+                    //                                .frame(width: UIScreen.main.bounds.width-94, height: 50)
+                    //                                .background(.blue)
+                    //                                .cornerRadius(10)
+                    //                                .foregroundColor(.white)
+                    //                        }
+                    //                    }
+                    //                }
                     
-                }
-                // walk info
-                VStack(alignment: .leading, spacing: 24) {
-                    HStack {
-                        Text("Your location")
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(.gray)
-                        Spacer()
-                        Text("1:30 PM")
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundColor(.gray)
-                    }
-                    .padding(.bottom, 10)
-                    
-                    HStack {
-                        Text("Zachry")
-                            .font(.system(size: 16, weight: .semibold))
-                        Spacer()
-                        Text("1:45 PM")
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundColor(.gray)
+                    Button(action: {}) {
+                        Image(systemName: "magnifyingglass")
+                            .padding()
+                            .foregroundColor(Color.white)
+                            .background(Color.black)
+                            .cornerRadius(10)
                     }
                 }
-                .padding(.leading, 8)
             }
-            .padding()
-            
-            
-            Divider()
-                .padding(.vertical, 8)
-            
-            HStack {
-                Button {
-                } label : {
-                    Text("CONFIRM PICK UP POINT")
-                        .fontWeight(.bold)
-                        .frame(width: UIScreen.main.bounds.width-94, height: 50)
-                        .background(.blue)
-                        .cornerRadius(10)
-                        .foregroundColor(.white)
-                }
-                Button(action: {}) {
-                    Image(systemName: "magnifyingglass")
-                        .padding()
-                        .foregroundColor(Color.white)
-                        .background(Color.black)
-                        .cornerRadius(10)
-                }
+            .background(.white)
+            .onAppear {
+                fetchRoute()
             }
-        }
-        .background(.white)
-        .onAppear {
-            fetchRoute()
         }
     }
 }
