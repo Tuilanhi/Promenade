@@ -9,12 +9,11 @@ import SwiftUI
 
 
 struct AddSavedAddress: View {
-    
     @StateObject var viewModel = AddressViewModel() // Initialize the view model for address search
     @FocusState private var isFocusedTextField: Bool // State to manage focus on the text field
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 // Replace the old search bar with the new one
                 TextField("Enter an address", text: $viewModel.searchableText)
@@ -51,7 +50,6 @@ struct AddSavedAddress: View {
             .navigationTitle("Add Place")
             .navigationBarTitleDisplayMode(.inline)
         }
-        .navigationBarBackButtonHidden(true)
     }
 }
 

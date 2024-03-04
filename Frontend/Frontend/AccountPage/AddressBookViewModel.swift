@@ -28,35 +28,58 @@ class AddressBookViewModel: ObservableObject {
     func fetchData() {
         db.collection("places").addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
-                print("No documents")
+                print("No documents or error: \(String(describing: error))")
                 return
             }
-            
-            self.addresses = documents.map { queryDocumentSnapshot -> Address in
-                let data = queryDocumentSnapshot.data()
-                let name = data["name"] as? String ?? ""
-                let address = data["address"] as? String ?? ""
-                return Address(id: queryDocumentSnapshot.documentID, name: name, address: address)
+            print("Snapshot listener triggered with \(documents.count) documents.")
+            DispatchQueue.main.async {
+                self.addresses = documents.map { queryDocumentSnapshot -> Address in
+                    let data = queryDocumentSnapshot.data()
+                    let name = data["name"] as? String ?? ""
+                    let address = data["address"] as? String ?? ""
+                    return Address(id: queryDocumentSnapshot.documentID, name: name, address: address)
+                }
             }
         }
     }
     
-    func deleteAddress(at offsets: IndexSet) {
-        // Iterate over the offsets to find the documents to delete
-        offsets.forEach { index in
-            // Get the ID of the document to delete
-            let documentId = addresses[index].id
-            
-            // Delete the document from the 'addresses' collection
-            db.collection("places").document(documentId).delete() { err in
-                if let err = err {
-                    print("Error removing document: \(err)")
+    func deleteAddressById(_ documentId: String, completion: @escaping () -> Void) {
+        db.collection("places").document(documentId).delete() { err in
+            if let err = err {
+                print("Error removing document: \(err)")
+            } else {
+                print("Document successfully removed!")
+                DispatchQueue.main.async {
+                    completion()
+                }
+            }
+        }
+    }
+    
+    func savePlace(name: String, address: String, id: String? = nil) {
+        let db = Firestore.firestore()
+        
+        let placeData: [String: Any] = [
+            "name": name,
+            "address": address
+        ]
+        
+        if let id = id {
+            // Update existing document
+            db.collection("places").document(id).setData(placeData) { error in
+                if let error = error {
+                    print("Error updating place: \(error.localizedDescription)")
                 } else {
-                    print("Document successfully removed!")
-                    // After confirming deletion from Firestore, remove the item from the local array
-                    DispatchQueue.main.async {
-                        self.addresses.remove(atOffsets: offsets)
-                    }
+                    print("Place updated successfully")
+                }
+            }
+        } else {
+            // Add a new document
+            db.collection("places").addDocument(data: placeData) { error in
+                if let error = error {
+                    print("Error saving place: \(error.localizedDescription)")
+                } else {
+                    print("Place saved successfully")
                 }
             }
         }

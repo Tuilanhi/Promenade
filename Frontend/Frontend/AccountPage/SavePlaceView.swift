@@ -9,6 +9,7 @@ import SwiftUI
 import FirebaseFirestore
 
 struct SavePlaceView: View {
+    @StateObject var viewModel = AddressBookViewModel()
     @Environment(\.presentationMode) var presentationMode
     var address: String
     @State private var placeName: String = ""
@@ -77,7 +78,8 @@ struct SavePlaceView: View {
 
             Button(action: {
                 // Handle saving to Firebase here
-                savePlace()
+                viewModel.savePlace(name: placeName, address: address)
+                presentationMode.wrappedValue.dismiss()
             }) {
                 Text("Save Place")
                     .frame(minWidth: 0, maxWidth: .infinity)
@@ -92,29 +94,6 @@ struct SavePlaceView: View {
         .edgesIgnoringSafeArea(.top) // Ignore the safe area to allow the color to extend to the top of the screen
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
-    }
-    
-    private func savePlace() {
-        // Ensure Firebase has been properly initialized
-        let db = Firestore.firestore()
-        
-        // Create a dictionary representing the data you want to save
-        let placeData: [String: Any] = [
-            "name": placeName,
-            "address": address
-        ]
-        
-        // Add a new document with a generated ID to a collection "places"
-        db.collection("places").addDocument(data: placeData) { error in
-            if let error = error {
-                // Handle any errors
-                print("Error saving place: \(error.localizedDescription)")
-            } else {
-                // If the save was successful, print a message and dismiss the view
-                print("Place saved successfully: \(self.placeName) at \(self.address)")
-                self.presentationMode.wrappedValue.dismiss()
-            }
-        }
     }
 }
 

@@ -66,6 +66,7 @@
 		068D9BD02B86964700D0F1D6 /* AddSavedAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BCF2B86964700D0F1D6 /* AddSavedAddress.swift */; };
 		06C59CF22B8AD3AB003ED04F /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C59CF12B8AD3AB003ED04F /* MapView.swift */; };
 		06E83C612B95769400C51198 /* DestinationSelectionPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931B4E2F2B953C44008211E4 /* DestinationSelectionPageView.swift */; };
+		06E83C632B958D6700C51198 /* EditSavedPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E83C622B958D6700C51198 /* EditSavedPlace.swift */; };
 		93BEAEDD2B9552DE004D2761 /* DestinationSelectionResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BEAEDC2B9552DE004D2761 /* DestinationSelectionResultCell.swift */; };
 		93BEAEDF2B9552E8004D2761 /* RideSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BEAEDE2B9552E8004D2761 /* RideSelectionView.swift */; };
 /* End PBXBuildFile section */
@@ -103,6 +104,7 @@
 		068D9BCD2B868DB600D0F1D6 /* SavedAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedAddressView.swift; sourceTree = "<group>"; };
 		068D9BCF2B86964700D0F1D6 /* AddSavedAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSavedAddress.swift; sourceTree = "<group>"; };
 		06C59CF12B8AD3AB003ED04F /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		06E83C622B958D6700C51198 /* EditSavedPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSavedPlace.swift; sourceTree = "<group>"; };
 		931B4E2F2B953C44008211E4 /* DestinationSelectionPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationSelectionPageView.swift; sourceTree = "<group>"; };
 		93BEAEDC2B9552DE004D2761 /* DestinationSelectionResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationSelectionResultCell.swift; sourceTree = "<group>"; };
 		93BEAEDE2B9552E8004D2761 /* RideSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideSelectionView.swift; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 				068D9BCF2B86964700D0F1D6 /* AddSavedAddress.swift */,
 				0607B8F22B9055D5000053CF /* SavePlaceView.swift */,
 				065E74462B9291B80036E6CA /* AddressBookViewModel.swift */,
+				06E83C622B958D6700C51198 /* EditSavedPlace.swift */,
 			);
 			path = AccountPage;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 				06401F8D2B8599B90016016A /* GoogleAuthentication.swift in Sources */,
 				06401F2C2B855B080016016A /* ContentView.swift in Sources */,
 				06401F962B85AE4C0016016A /* BottomNavigation.swift in Sources */,
+				06E83C632B958D6700C51198 /* EditSavedPlace.swift in Sources */,
 				068D9BC62B86450300D0F1D6 /* SearchBarView.swift in Sources */,
 				06401F892B8597EB0016016A /* OrderPageView.swift in Sources */,
 				068D9BCC2B86703000D0F1D6 /* LoadUserInfo.swift in Sources */,

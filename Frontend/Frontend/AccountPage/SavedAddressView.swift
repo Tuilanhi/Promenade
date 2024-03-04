@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct SavedAddressView: View {
-    @ObservedObject var viewModel = AddressBookViewModel()
-    @Environment(\.editMode) var editMode // To control the edit mode
+    @StateObject var viewModel = AddressBookViewModel()
     
     var body: some View {
         NavigationView {
@@ -27,27 +26,27 @@ struct SavedAddressView: View {
                     }
                 }
                 ForEach(viewModel.addresses) { address in
-                    HStack {
-                        Image(systemName: "star.circle.fill")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                        VStack(alignment: .leading) {
-                            Text(address.name)
-                                .foregroundColor(.black)
-                            Text(address.address)
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
+                    NavigationLink(destination: EditSavedPlace(address: address)) {
+                        HStack {
+                            Image(systemName: "star.circle.fill")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                            VStack(alignment: .leading) {
+                                Text(address.name)
+                                    .foregroundColor(.black)
+                                Text(address.address)
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
                         }
                     }
                 }
-                .onDelete(perform: viewModel.deleteAddress)
             }
             .listStyle(GroupedListStyle())
             .navigationTitle("Choose a Place")
             .onAppear() {
                 self.viewModel.fetchData()
             }
-            .navigationBarItems(trailing: EditButton()) // Add an Edit button
         }
         
     }

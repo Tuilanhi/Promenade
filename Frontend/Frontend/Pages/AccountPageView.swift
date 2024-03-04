@@ -13,7 +13,7 @@ struct AccountPageView: View {
     @State private var isLoggingOut = false
 
     var body: some View {
-        NavigationView{
+        NavigationStack{
             VStack {
                 Spacer()
                 
