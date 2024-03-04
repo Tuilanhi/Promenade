@@ -12,7 +12,7 @@ struct DestinationSelectionPageView: View {
     @State private var startLocation = ""
     @State private var destinationLocation = ""
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             // Header (text field) view
             HStack {
                 VStack {
@@ -57,6 +57,7 @@ struct DestinationSelectionPageView: View {
                 }
             }
         }
+        .navigationBarTitle("Select Destination", displayMode: .inline)
     }
 }
 

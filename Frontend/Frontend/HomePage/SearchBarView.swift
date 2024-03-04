@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct SearchBarView: View {
-    @State private var searchQuery1 = ""
-    @State private var searchQuery2 = ""
+    @State private var searchQuery = ""
     
     var body: some View {
         VStack {
@@ -20,7 +19,7 @@ struct SearchBarView: View {
                     .foregroundColor(.black)
                 
                 // Search Text Field
-                TextField("Where To?", text: $searchQuery1)
+                TextField("Where To?", text: $searchQuery)
                     .foregroundColor(.primary)
                 
                 Spacer()

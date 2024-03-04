@@ -65,6 +65,7 @@
 		068D9BCE2B868DB600D0F1D6 /* SavedAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BCD2B868DB600D0F1D6 /* SavedAddressView.swift */; };
 		068D9BD02B86964700D0F1D6 /* AddSavedAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068D9BCF2B86964700D0F1D6 /* AddSavedAddress.swift */; };
 		06C59CF22B8AD3AB003ED04F /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C59CF12B8AD3AB003ED04F /* MapView.swift */; };
+		06E83C612B95769400C51198 /* DestinationSelectionPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931B4E2F2B953C44008211E4 /* DestinationSelectionPageView.swift */; };
 		93BEAEDD2B9552DE004D2761 /* DestinationSelectionResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BEAEDC2B9552DE004D2761 /* DestinationSelectionResultCell.swift */; };
 		93BEAEDF2B9552E8004D2761 /* RideSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BEAEDE2B9552E8004D2761 /* RideSelectionView.swift */; };
 /* End PBXBuildFile section */
@@ -396,6 +397,7 @@
 				0607B8EB2B8FED50000053CF /* AddressResult.swift in Sources */,
 				06401F792B855F900016016A /* GoogleLoginView.swift in Sources */,
 				068D9BC22B863DFF00D0F1D6 /* AccountPageView.swift in Sources */,
+				06E83C612B95769400C51198 /* DestinationSelectionPageView.swift in Sources */,
 				068D9BCE2B868DB600D0F1D6 /* SavedAddressView.swift in Sources */,
 				06401F7F2B8565250016016A /* LoginPageView.swift in Sources */,
 				0607B8EF2B8FEE2C000053CF /* AddressRow.swift in Sources */,
