@@ -68,6 +68,7 @@
 		06E83C612B95769400C51198 /* DestinationSelectionPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931B4E2F2B953C44008211E4 /* DestinationSelectionPageView.swift */; };
 		93BEAEDD2B9552DE004D2761 /* DestinationSelectionResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BEAEDC2B9552DE004D2761 /* DestinationSelectionResultCell.swift */; };
 		93BEAEDF2B9552E8004D2761 /* RideSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BEAEDE2B9552E8004D2761 /* RideSelectionView.swift */; };
+		93BEAEE22B958965004D2761 /* LocationSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BEAEE12B958965004D2761 /* LocationSearchViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -106,6 +107,7 @@
 		931B4E2F2B953C44008211E4 /* DestinationSelectionPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationSelectionPageView.swift; sourceTree = "<group>"; };
 		93BEAEDC2B9552DE004D2761 /* DestinationSelectionResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationSelectionResultCell.swift; sourceTree = "<group>"; };
 		93BEAEDE2B9552E8004D2761 /* RideSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideSelectionView.swift; sourceTree = "<group>"; };
+		93BEAEE12B958965004D2761 /* LocationSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -265,6 +267,7 @@
 			children = (
 				931B4E2F2B953C44008211E4 /* DestinationSelectionPageView.swift */,
 				93BEAEDC2B9552DE004D2761 /* DestinationSelectionResultCell.swift */,
+				93BEAEE12B958965004D2761 /* LocationSearchViewModel.swift */,
 			);
 			path = "Destination-Selection";
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 				06401F8D2B8599B90016016A /* GoogleAuthentication.swift in Sources */,
 				06401F2C2B855B080016016A /* ContentView.swift in Sources */,
 				06401F962B85AE4C0016016A /* BottomNavigation.swift in Sources */,
+				93BEAEE22B958965004D2761 /* LocationSearchViewModel.swift in Sources */,
 				068D9BC62B86450300D0F1D6 /* SearchBarView.swift in Sources */,
 				06401F892B8597EB0016016A /* OrderPageView.swift in Sources */,
 				068D9BCC2B86703000D0F1D6 /* LoadUserInfo.swift in Sources */,
