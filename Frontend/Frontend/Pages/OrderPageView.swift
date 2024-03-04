@@ -16,7 +16,11 @@ struct OrderPageView: View {
             
         VStack {
          
-            Button(action: {}) {
+            Button(action: {
+                if let url = URL(string: "https://maps.apple.com/?ll=30.613, -96.342") {
+                    UIApplication.shared.open(url)
+                }
+            }) {
                 Text("Get Directions")
                     .font(.title)
                     .fontWeight(.bold)
@@ -26,7 +30,11 @@ struct OrderPageView: View {
                     .cornerRadius(10)
             }
    
-            Button(action: {}) {
+            Button(action: {
+                if let url = URL(string: "https://www.uber.com/") {
+                    UIApplication.shared.open(url)
+                }
+            }) {
                 Text("Order Uber")
                     .font(.title)
                     .fontWeight(.bold)
