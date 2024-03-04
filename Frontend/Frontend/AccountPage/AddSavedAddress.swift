@@ -9,27 +9,18 @@ import SwiftUI
 
 
 struct AddSavedAddress: View {
-    @StateObject var viewModel = AddressViewModel() // Initialize the view model for address search
+    @StateObject var viewModel = LocationSearchViewModel() // Initialize the view model for address search
     @FocusState private var isFocusedTextField: Bool // State to manage focus on the text field
 
     var body: some View {
         NavigationStack {
             VStack {
-                // Replace the old search bar with the new one
-                TextField("Enter an address", text: $viewModel.searchableText)
+                TextField("Enter an address", text: $viewModel.queryFragment)
                     .autocorrectionDisabled()
                     .focused($isFocusedTextField)
                     .font(.title2)
-                    .onReceive(
-                        viewModel.$searchableText.debounce(
-                            for: .seconds(1),
-                            scheduler: DispatchQueue.main
-                        )
-                    ) {
-                        viewModel.searchAddress($0)
-                    }
                     .overlay {
-                        ClearButton(text: $viewModel.searchableText)
+                        ClearButton(text: $viewModel.queryFragment)
                             .padding(.trailing)
                     }
                     .onAppear {
@@ -39,9 +30,13 @@ struct AddSavedAddress: View {
                     .frame(height: 40)
                     .background(RoundedRectangle(cornerRadius: 0).fill(Color(.systemGray6)))
                     .padding()
-                List(self.viewModel.results) { address in
-                    NavigationLink(destination: SavePlaceView(address: address.title)) {
-                        AddressRow(address: address)
+
+                List(viewModel.results, id: \.self) { result in // Iterate over viewModel.results
+                    NavigationLink(destination: SavePlaceView(address: result.title)) {
+                        VStack(alignment: .leading) {
+                            Text(result.title)
+                            Text(result.subtitle).font(.subheadline).foregroundColor(.gray)
+                        }
                     }
                 }
                 .listStyle(.plain)

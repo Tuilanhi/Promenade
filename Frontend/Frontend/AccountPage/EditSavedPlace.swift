@@ -14,7 +14,7 @@ struct EditSavedPlace: View {
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(alignment: .leading){
                 Divider()
                 HStack {
@@ -94,6 +94,7 @@ struct EditSavedPlace: View {
                 .padding(.bottom, 15)
             }
             .navigationTitle("Edit Saved Place")
+            .navigationBarTitleDisplayMode(.inline)
         }
 
     }

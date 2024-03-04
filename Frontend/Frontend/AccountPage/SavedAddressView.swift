@@ -11,7 +11,7 @@ struct SavedAddressView: View {
     @StateObject var viewModel = AddressBookViewModel()
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 // "Add Saved Place" button
                 NavigationLink(destination: AddSavedAddress()) {
