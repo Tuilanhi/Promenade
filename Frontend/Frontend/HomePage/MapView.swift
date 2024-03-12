@@ -17,13 +17,6 @@ struct MapView: View {
         {
             UserAnnotation()
         }
-        .overlay(
-            // This Circle will use the center of the current region as its center
-            Circle()
-                .fill(Color.blue.opacity(0.5))
-                .frame(width: 100, height: 100)
-                .offset(x: 0, y: 0), alignment: .center
-        )
         .edgesIgnoringSafeArea(.all)
     }
 }
