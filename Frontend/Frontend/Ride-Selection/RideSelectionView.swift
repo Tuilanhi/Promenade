@@ -6,13 +6,26 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct RideSelectionView: View {
     @State var navigateToConfirmPage = false
+    @State private var selectedRouteId: Int? = nil
+    @StateObject var manager = LocationManager()
+    
+    let routeOptions: [RouteOption] = [
+        RouteOption(id: 0, title: "Fastest", distance: "0.8 miles", price: "$12.00", iconName: "hare.fill"),
+        RouteOption(id: 1, title: "Recommended", distance: "1.2 miles", price: "$17.50", iconName: "figure.walk"),
+        RouteOption(id: 2, title: "Eco", distance: "1.5 miles", price: "$29.00", iconName: "tortoise.fill")
+    ]
     
     var body: some View {
-        NavigationStack {
+        NavigationView {
             VStack {
+                Map(position: $manager.region)
+                {
+                
+                }
                 Capsule()
                     .foregroundColor(Color(.systemGray5))
                     .frame(width: 48, height: 6)
@@ -71,31 +84,32 @@ struct RideSelectionView: View {
                     .foregroundColor(Color.gray)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
-                ScrollView(.horizontal) {
-                    HStack(spacing: 12) {
-                        ForEach(0 ..< 3, id: \.self) { _ in
-                            VStack(alignment: .leading) {
-                                Image("turtle")
-                                    .resizable()
-                                    .scaledToFit()
+                HStack(spacing: 12) {
+                    ForEach(routeOptions) { option in
+                        Button(action: {
+                            // Toggle selection state
+                            selectedRouteId = option.id
+                        }) {
+                            VStack {
+                                Image(systemName: option.iconName)
+                                    .font(.largeTitle)
+                                    .foregroundColor(selectedRouteId == option.id ? .blue : .black)
                                 
-                                VStack(spacing: 4) {
-                                    Text("Walk-Ride")
-                                        .font(.system(size: 14, weight: .semibold))
-                                    
-                                    Text("0.6 miles")
-                                        .font(.system(size: 14, weight: .semibold))
-                                    
-                                    Text("$10.35")
-                                        .font(.system(size: 14, weight: .semibold))
-                                }
-                                .padding(8)
+                                Text(option.title)
+                                    .fontWeight(.semibold)
                                 
+                                Text(option.distance)
+                                    .foregroundColor(.gray)
+                                
+                                Text(option.price)
+                                    .fontWeight(.semibold)
                             }
-                            .frame(width:112, height: 140)
-                            .background(Color(.systemGroupedBackground))
+                            .padding()
+                            .frame(width: 112, height: 150)
+                            .background(selectedRouteId == option.id ? Color(.systemBlue).opacity(0.2) : Color(.systemGroupedBackground))
                             .cornerRadius(10)
                         }
+                        .buttonStyle(PlainButtonStyle())
                     }
                 }
                 .padding(.horizontal)
@@ -109,10 +123,13 @@ struct RideSelectionView: View {
                     Text("CONFIRM ROUTE")
                         .fontWeight(.bold)
                         .frame(width: UIScreen.main.bounds.width - 32, height: 50)
-                        .background(.blue)
+                        .background(selectedRouteId != nil ? Color.blue : Color.gray) // Change color based on selection
                         .cornerRadius(10)
                         .foregroundColor(.white)
-                }.navigationDestination(isPresented: $navigateToConfirmPage) {
+                }
+                .disabled(selectedRouteId == nil) // Disable the button if no route is selected
+                .padding(.vertical)
+                .navigationDestination(isPresented: $navigateToConfirmPage) {
                     ConfirmPageView()
                 }
             }

@@ -28,7 +28,6 @@ struct ConfirmPageView: View {
             OrderPageView()
         } else {
             VStack {
-                
                 Map(position: $cameraPosition) {
                     Annotation("Your Location", coordinate: .userLocation) {
                         ZStack {
