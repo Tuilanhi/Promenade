@@ -52,6 +52,23 @@ struct DestinationSelectionPageView: View {
                 Divider()
                     .padding(.vertical)
                 
+                // Navigation Link to SavedAddressView
+                NavigationLink(destination: Destination_SelectionSavedAddressView()) {
+                    HStack {
+                        Image(systemName: "star.fill") // Use your house icon here
+                            .foregroundColor(.black)
+                        VStack(alignment: .leading) {
+                            Text("Saved Address")
+                                .font(.subheadline)
+                                .foregroundColor(.black)
+                        }
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(.gray)
+                    }
+                }
+                .padding()
+                
                 ScrollView {
                     VStack(alignment: .leading) {
                         ForEach(viewModel.results, id: \.self) { result in
@@ -68,6 +85,8 @@ struct DestinationSelectionPageView: View {
                 
                 
             }
+            .navigationTitle("Search a Place")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }

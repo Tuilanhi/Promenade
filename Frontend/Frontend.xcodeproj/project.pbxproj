@@ -43,6 +43,7 @@
 		5A056B662B9FDB46002F08C8 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 5A056B652B9FDB46002F08C8 /* FirebaseAuth */; };
 		5A056B682B9FDB46002F08C8 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 5A056B672B9FDB46002F08C8 /* FirebaseFirestore */; };
 		5A056B6A2B9FDB46002F08C8 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5A056B692B9FDB46002F08C8 /* FirebaseFirestoreSwift */; };
+		5AF09FD92BA3D68A0093F0E1 /* Destination-SelectionSavedAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF09FD82BA3D68A0093F0E1 /* Destination-SelectionSavedAddressView.swift */; };
 		93BEAEDD2B9552DE004D2761 /* DestinationSelectionResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BEAEDC2B9552DE004D2761 /* DestinationSelectionResultCell.swift */; };
 		93BEAEDF2B9552E8004D2761 /* RideSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BEAEDE2B9552E8004D2761 /* RideSelectionView.swift */; };
 		93BEAEE22B958965004D2761 /* LocationSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BEAEE12B958965004D2761 /* LocationSearchViewModel.swift */; };
@@ -82,6 +83,7 @@
 		068D9BCF2B86964700D0F1D6 /* AddSavedAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSavedAddress.swift; sourceTree = "<group>"; };
 		06C59CF12B8AD3AB003ED04F /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		06E83C622B958D6700C51198 /* EditSavedPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSavedPlace.swift; sourceTree = "<group>"; };
+		5AF09FD82BA3D68A0093F0E1 /* Destination-SelectionSavedAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Destination-SelectionSavedAddressView.swift"; sourceTree = "<group>"; };
 		931B4E2F2B953C44008211E4 /* DestinationSelectionPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationSelectionPageView.swift; sourceTree = "<group>"; };
 		93BEAEDC2B9552DE004D2761 /* DestinationSelectionResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationSelectionResultCell.swift; sourceTree = "<group>"; };
 		93BEAEDE2B9552E8004D2761 /* RideSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideSelectionView.swift; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 				931B4E2F2B953C44008211E4 /* DestinationSelectionPageView.swift */,
 				93BEAEDC2B9552DE004D2761 /* DestinationSelectionResultCell.swift */,
 				93BEAEE12B958965004D2761 /* LocationSearchViewModel.swift */,
+				5AF09FD82BA3D68A0093F0E1 /* Destination-SelectionSavedAddressView.swift */,
 			);
 			path = "Destination-Selection";
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 				0607B8ED2B8FEDF7000053CF /* ClearButton.swift in Sources */,
 				0607B8EB2B8FED50000053CF /* AddressResult.swift in Sources */,
 				06401F792B855F900016016A /* GoogleLoginView.swift in Sources */,
+				5AF09FD92BA3D68A0093F0E1 /* Destination-SelectionSavedAddressView.swift in Sources */,
 				068D9BC22B863DFF00D0F1D6 /* AccountPageView.swift in Sources */,
 				06E83C612B95769400C51198 /* DestinationSelectionPageView.swift in Sources */,
 				068D9BCE2B868DB600D0F1D6 /* SavedAddressView.swift in Sources */,
