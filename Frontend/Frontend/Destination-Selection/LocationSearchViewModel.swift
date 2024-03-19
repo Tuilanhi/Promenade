@@ -19,6 +19,7 @@ class LocationSearchViewModel: NSObject, ObservableObject {
     private let currentLocationSearchCompleter = MKLocalSearchCompleter()
     
     @Published var selectionComplete: Bool = false
+    @Published var savedAddressSelected: Bool = false
     
     @Published var currentLocationQuery: String = "" {
         didSet {

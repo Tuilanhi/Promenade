@@ -18,7 +18,6 @@ struct RideSelectionView: View {
         RouteOption(id: 0, title: "Fastest", distance: "0.8 miles", price: "$12.00", iconName: "hare.fill"),
         RouteOption(id: 1, title: "Recommended", distance: "1.2 miles", price: "$17.50", iconName: "figure.walk"),
         RouteOption(id: 2, title: "Eco", distance: "1.5 miles", price: "$29.00", iconName: "tortoise.fill"),
-        RouteOption(id: 3, title: "Other", distance: "1.4 miles", price: "$27.00", iconName: "figure")
     ]
     
     var body: some View {
@@ -98,22 +97,20 @@ struct RideSelectionView: View {
                 .foregroundColor(Color.gray)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
-                    ForEach(routeOptions) { option in
-                        Button(action: {
-                            // Toggle selection state
-                            selectedRouteId = option.id
-                        }) {
-                            OptionView(option: option)
-                                .background(selectedRouteId == option.id ? Color.blue.opacity(0.3) : Color(.systemGroupedBackground))
-                                .cornerRadius(10)
-                        }
-                        .buttonStyle(PlainButtonStyle())
+            HStack(spacing: 12) {
+                ForEach(routeOptions) { option in
+                    Button(action: {
+                        // Toggle selection state
+                        selectedRouteId = option.id
+                    }) {
+                        OptionView(option: option)
+                            .background(selectedRouteId == option.id ? Color.blue.opacity(0.3) : Color(.systemGroupedBackground))
+                            .cornerRadius(10)
                     }
+                    .buttonStyle(PlainButtonStyle())
                 }
-                .padding(.horizontal)
             }
+            .padding(.horizontal)
         }
     }
 

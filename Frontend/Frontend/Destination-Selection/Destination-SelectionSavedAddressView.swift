@@ -8,14 +8,18 @@
 import SwiftUI
 
 struct Destination_SelectionSavedAddressView: View {
+    @Environment(\.dismiss) var dismiss
     @StateObject var viewModel = AddressBookViewModel()
-    @State private var navigateToRideSelection = false // Add this line
+    @State private var navigateToRideSelection = false
+    var onSelectAddress: (String) -> Void
 
     var body: some View {
         List {
             ForEach(viewModel.addresses) { address in
                 Button(action: {
-                    navigateToRideSelection = true // Trigger navigation when an address is tapped
+                    self.onSelectAddress(address.address)
+                    /*navigateToRideSelection = true*/ // Trigger navigation when an address is tapped
+                    self.dismiss()
                 }) {
                     HStack {
                         Image(systemName: "star.circle.fill")
@@ -37,13 +41,13 @@ struct Destination_SelectionSavedAddressView: View {
         .onAppear() {
             viewModel.fetchData()
         }
-        .navigationDestination(isPresented: $navigateToRideSelection) {
-            RideSelectionView()
-        }
+//        .navigationDestination(isPresented: $navigateToRideSelection) {
+//            RideSelectionView()
+//        }
     }
 }
 
-#Preview {
-    Destination_SelectionSavedAddressView()
-}
+//#Preview {
+//    Destination_SelectionSavedAddressView()
+//}
 

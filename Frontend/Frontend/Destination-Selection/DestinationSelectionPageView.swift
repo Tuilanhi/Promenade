@@ -16,14 +16,12 @@ struct DestinationSelectionPageView: View {
     @State private var isCurrentLocationActive = false
     @State private var isDestinationActive = false
     
-    // Add state variables for coordinates
     @State private var sourceCoordinates = CLLocationCoordinate2D(latitude: 30.942052, longitude: -94.125397)
     @State private var destinationCoordinates = CLLocationCoordinate2D(latitude: 31.124356, longitude: -93.234586)
 
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
-                // Header (text field) view
                 HStack {
                     VStack {
                         Circle()
@@ -42,6 +40,7 @@ struct DestinationSelectionPageView: View {
                         TextField("Current Location", text: $viewModel.currentLocationQuery)
                             .onTapGesture {
                                 self.isCurrentLocationActive = true
+                                self.viewModel.savedAddressSelected = false
                             }
                             .frame(height: 32)
                             .background(Color(.systemGroupedBackground))
@@ -68,7 +67,12 @@ struct DestinationSelectionPageView: View {
                     .padding(.vertical)
                 
                 // Navigation Link to SavedAddressView
-                NavigationLink(destination: Destination_SelectionSavedAddressView()) {
+                NavigationLink(destination: Destination_SelectionSavedAddressView(onSelectAddress: { selectedAddress in
+                    viewModel.currentLocationQuery = selectedAddress
+                    viewModel.savedAddressSelected = true
+                    isCurrentLocationActive = false
+                    geocodeAddressString(selectedAddress)
+                }))  {
                     HStack {
                         Image(systemName: "star.fill")
                             .foregroundColor(.black)
@@ -128,6 +132,10 @@ struct DestinationSelectionPageView: View {
     }
     
     private func updateLocationQuery(initial: Bool = false) {
+        if viewModel.savedAddressSelected {
+            return
+        }
+        
         guard let location = locationManager.userLocation else {
             if initial {
                 locationManager.setup()
@@ -140,7 +148,6 @@ struct DestinationSelectionPageView: View {
             guard let placemark = placemarks?.first else { return }
             let formattedAddress = [placemark.subThoroughfare, placemark.thoroughfare, placemark.locality].compactMap { $0 }.joined(separator: ", ")
             viewModel?.currentLocationQuery = formattedAddress
-            // Update the source coordinates with the user's current location
             self.sourceCoordinates = location.coordinate
         }
     }
@@ -150,7 +157,6 @@ struct DestinationSelectionPageView: View {
         geocoder.geocodeAddressString(addressString) { placemarks, error in
             guard let placemark = placemarks?.first, let location = placemark.location else { return }
             
-            // Decide whether to update source or destination based on active field
             if self.isCurrentLocationActive {
                 self.sourceCoordinates = location.coordinate
                 if self.isDestinationActive {
