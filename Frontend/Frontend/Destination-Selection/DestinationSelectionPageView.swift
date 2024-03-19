@@ -7,11 +7,12 @@
 
 import SwiftUI
 import UIKit
+import CoreLocation
 
 struct DestinationSelectionPageView: View {
     @StateObject var viewModel = LocationSearchViewModel()
+    @StateObject private var locationManager = LocationManager()
     @State private var navigateToRideSelection = false
-    
     @State private var isCurrentLocationActive = false
 
     var body: some View {
@@ -42,7 +43,6 @@ struct DestinationSelectionPageView: View {
                             .padding(.trailing)
                             .padding(.leading)
                             .disableAutocorrection(true)
-                            .autocapitalization(.none)
                         
                         TextField("Destination", text: $viewModel.destinationQuery)
                             .onTapGesture {
@@ -53,9 +53,6 @@ struct DestinationSelectionPageView: View {
                             .padding(.trailing)
                             .padding(.leading)
                             .disableAutocorrection(true)
-                            .autocapitalization(.none)
-                        
-                        
                     }
                 }
                 .padding(.horizontal)
@@ -67,7 +64,7 @@ struct DestinationSelectionPageView: View {
                 // Navigation Link to SavedAddressView
                 NavigationLink(destination: Destination_SelectionSavedAddressView()) {
                     HStack {
-                        Image(systemName: "star.fill") // Use your house icon here
+                        Image(systemName: "star.fill")
                             .foregroundColor(.black)
                         VStack(alignment: .leading) {
                             Text("Saved Address")
@@ -113,6 +110,31 @@ struct DestinationSelectionPageView: View {
             }
             .navigationTitle("Search a Place")
             .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                locationManager.setup()
+                updateLocationQuery(initial: true)
+            }
+            .onChange(of: locationManager.userLocation) { oldValue, _ in
+                updateLocationQuery()
+            }
+        }
+    }
+    
+    private func updateLocationQuery(initial: Bool = false) {
+        guard let location = locationManager.userLocation else {
+            if initial {
+                locationManager.setup() // Trigger a location request if not already done.
+            }
+            return
+        }
+        
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(location) { [weak viewModel] placemarks, error in
+            if let placemark = placemarks?.first {
+                // Combine relevant placemark fields into a single address string.
+                let formattedAddress = [placemark.subThoroughfare, placemark.thoroughfare, placemark.locality].compactMap { $0 }.joined(separator: ", ")
+                viewModel?.currentLocationQuery = formattedAddress
+            }
         }
     }
 }
