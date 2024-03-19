@@ -14,6 +14,11 @@ struct DestinationSelectionPageView: View {
     @StateObject private var locationManager = LocationManager()
     @State private var navigateToRideSelection = false
     @State private var isCurrentLocationActive = false
+    @State private var isDestinationActive = false
+    
+    // Add state variables for coordinates
+    @State private var sourceCoordinates = CLLocationCoordinate2D(latitude: 30.942052, longitude: -94.125397)
+    @State private var destinationCoordinates = CLLocationCoordinate2D(latitude: 31.124356, longitude: -93.234586)
 
     var body: some View {
         NavigationStack {
@@ -47,6 +52,7 @@ struct DestinationSelectionPageView: View {
                         TextField("Destination", text: $viewModel.destinationQuery)
                             .onTapGesture {
                                 self.isCurrentLocationActive = false
+                                self.isDestinationActive = true
                             }
                             .frame(height: 32)
                             .background(Color(.systemGray4))
@@ -87,7 +93,7 @@ struct DestinationSelectionPageView: View {
                                 .onTapGesture {
                                     self.viewModel.currentLocationQuery = result.title
                                     self.viewModel.selectCurrentLocation(result.title)
-                                    
+                                    geocodeAddressString(result.title)
                                 }
                             }
                         }
@@ -99,6 +105,7 @@ struct DestinationSelectionPageView: View {
                                 .onTapGesture {
                                     self.viewModel.destinationQuery = result.title
                                     self.navigateToRideSelection = true
+                                    geocodeAddressString(result.title)
                                 }
                             }
                         }
@@ -114,7 +121,7 @@ struct DestinationSelectionPageView: View {
                 locationManager.setup()
                 updateLocationQuery(initial: true)
             }
-            .onChange(of: locationManager.userLocation) { oldValue, _ in
+            .onChange(of: locationManager.userLocation) { oldValue, newValue in
                 updateLocationQuery()
             }
         }
@@ -123,19 +130,56 @@ struct DestinationSelectionPageView: View {
     private func updateLocationQuery(initial: Bool = false) {
         guard let location = locationManager.userLocation else {
             if initial {
-                locationManager.setup() // Trigger a location request if not already done.
+                locationManager.setup()
             }
             return
         }
         
         let geocoder = CLGeocoder()
         geocoder.reverseGeocodeLocation(location) { [weak viewModel] placemarks, error in
-            if let placemark = placemarks?.first {
-                // Combine relevant placemark fields into a single address string.
-                let formattedAddress = [placemark.subThoroughfare, placemark.thoroughfare, placemark.locality].compactMap { $0 }.joined(separator: ", ")
-                viewModel?.currentLocationQuery = formattedAddress
+            guard let placemark = placemarks?.first else { return }
+            let formattedAddress = [placemark.subThoroughfare, placemark.thoroughfare, placemark.locality].compactMap { $0 }.joined(separator: ", ")
+            viewModel?.currentLocationQuery = formattedAddress
+            // Update the source coordinates with the user's current location
+            self.sourceCoordinates = location.coordinate
+        }
+    }
+    
+    private func geocodeAddressString(_ addressString: String) {
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(addressString) { placemarks, error in
+            guard let placemark = placemarks?.first, let location = placemark.location else { return }
+            
+            // Decide whether to update source or destination based on active field
+            if self.isCurrentLocationActive {
+                self.sourceCoordinates = location.coordinate
+                if self.isDestinationActive {
+                    self.destinationCoordinates = location.coordinate
+                    self.navigateToRideSelection = true
+                    self.printLocationJSON()
+                }
+            } else {
+                self.destinationCoordinates = location.coordinate
+                self.navigateToRideSelection = true
+                self.printLocationJSON()
             }
         }
+    }
+    
+    private func printLocationJSON() {
+        let jsonOutput = """
+        {
+          "source": {
+            "lat": \(sourceCoordinates.latitude),
+            "long": \(sourceCoordinates.longitude)
+          },
+          "destination": {
+            "lat": \(destinationCoordinates.latitude),
+            "long": \(destinationCoordinates.longitude)
+          },
+        }
+        """
+        print(jsonOutput)
     }
 }
 
