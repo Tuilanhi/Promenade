@@ -93,7 +93,7 @@ struct DestinationSelectionPageView: View {
                                 .onTapGesture {
                                     self.viewModel.currentLocationQuery = result.title
                                     self.viewModel.selectCurrentLocation(result.title)
-                                    geocodeAddressString(result.title)
+                                    geocodeAddressString(result.subtitle)
                                 }
                             }
                         }
@@ -105,7 +105,7 @@ struct DestinationSelectionPageView: View {
                                 .onTapGesture {
                                     self.viewModel.destinationQuery = result.title
                                     self.navigateToRideSelection = true
-                                    geocodeAddressString(result.title)
+                                    geocodeAddressString(result.subtitle)
                                 }
                             }
                         }
