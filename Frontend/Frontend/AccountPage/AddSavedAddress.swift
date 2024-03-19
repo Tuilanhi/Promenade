@@ -15,12 +15,12 @@ struct AddSavedAddress: View {
     var body: some View {
         NavigationStack {
             VStack {
-                TextField("Enter an address", text: $viewModel.queryFragment)
+                TextField("Enter an address", text: $viewModel.destinationQuery)
                     .autocorrectionDisabled()
                     .focused($isFocusedTextField)
                     .font(.title2)
                     .overlay {
-                        ClearButton(text: $viewModel.queryFragment)
+                        ClearButton(text: $viewModel.destinationQuery)
                             .padding(.trailing)
                     }
                     .onAppear {
@@ -31,7 +31,7 @@ struct AddSavedAddress: View {
                     .background(RoundedRectangle(cornerRadius: 0).fill(Color(.systemGray6)))
                     .padding()
 
-                List(viewModel.results, id: \.self) { result in // Iterate over viewModel.results
+                List(viewModel.destinationResults, id: \.self) { result in // Iterate over viewModel.results
                     NavigationLink(destination: SavePlaceView(address: result.title)) {
                         VStack(alignment: .leading) {
                             Text(result.title)

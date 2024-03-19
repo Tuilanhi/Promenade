@@ -10,31 +10,54 @@ import MapKit
 
 class LocationSearchViewModel: NSObject, ObservableObject {
     // Properties
-    @Published var results = [MKLocalSearchCompletion]()
-    @Published var selectedLocation: String?
+    @Published var destinationResults = [MKLocalSearchCompletion]()
+    @Published var currentLocationResults = [MKLocalSearchCompletion]()
+    @Published var selectedDestination: String?
+    @Published var selectedCurrentLocation: String?
     
-    private let searchCompleter = MKLocalSearchCompleter()
-    var queryFragment: String = "" {
+    private let destinationSearchCompleter = MKLocalSearchCompleter()
+    private let currentLocationSearchCompleter = MKLocalSearchCompleter()
+    
+    @Published var selectionComplete: Bool = false
+    
+    @Published var currentLocationQuery: String = "" {
         didSet {
-            searchCompleter.queryFragment = queryFragment
+            currentLocationSearchCompleter.queryFragment = currentLocationQuery
+        }
+    }
+    
+    @Published var destinationQuery: String = "" {
+        didSet {
+            destinationSearchCompleter.queryFragment = destinationQuery
         }
     }
     
     override init() {
         super.init()
-        searchCompleter.delegate = self
-        searchCompleter.queryFragment = queryFragment
+        destinationSearchCompleter.delegate = self
+        currentLocationSearchCompleter.delegate = self
     }
     
     // Helper functions
     
-    func selectLocation(_ location: String) {
-        self.selectedLocation = location
+    func selectDestination(_ location: String) {
+        self.selectedDestination = location
+        self.selectionComplete = true
+    }
+    
+    func selectCurrentLocation(_ location: String) {
+        self.selectedCurrentLocation = location
+        // Immediately hide the address list by setting selectionComplete to true
+        self.selectionComplete = true
     }
 }
 
 extension LocationSearchViewModel: MKLocalSearchCompleterDelegate {
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-        self.results = completer.results
+        if completer == destinationSearchCompleter {
+            self.destinationResults = completer.results
+        } else if completer == currentLocationSearchCompleter {
+            self.currentLocationResults = completer.results
+        }
     }
 }
