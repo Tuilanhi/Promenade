@@ -18,7 +18,6 @@ struct Destination_SelectionSavedAddressView: View {
             ForEach(viewModel.addresses) { address in
                 Button(action: {
                     self.onSelectAddress(address.address)
-                    /*navigateToRideSelection = true*/ // Trigger navigation when an address is tapped
                     self.dismiss()
                 }) {
                     HStack {
@@ -34,16 +33,13 @@ struct Destination_SelectionSavedAddressView: View {
                         }
                     }
                 }
-                .buttonStyle(PlainButtonStyle()) // Use this to retain the list's default tap feedback
+                .buttonStyle(PlainButtonStyle())
             }
         }
         .listStyle(GroupedListStyle())
         .onAppear() {
             viewModel.fetchData()
         }
-//        .navigationDestination(isPresented: $navigateToRideSelection) {
-//            RideSelectionView()
-//        }
     }
 }
 

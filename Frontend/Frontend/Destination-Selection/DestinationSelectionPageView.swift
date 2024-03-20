@@ -68,10 +68,16 @@ struct DestinationSelectionPageView: View {
                 
                 // Navigation Link to SavedAddressView
                 NavigationLink(destination: Destination_SelectionSavedAddressView(onSelectAddress: { selectedAddress in
-                    viewModel.currentLocationQuery = selectedAddress
+                    if isCurrentLocationActive{
+                        viewModel.currentLocationQuery = selectedAddress
+                        isCurrentLocationActive = false
+                    }else
+                    {
+                        viewModel.destinationQuery = selectedAddress
+                        isDestinationActive = false
+                        navigateToRideSelection = true
+                    }
                     viewModel.savedAddressSelected = true
-                    isCurrentLocationActive = false
-                    geocodeAddressString(selectedAddress)
                 }))  {
                     HStack {
                         Image(systemName: "star.fill")
@@ -100,7 +106,7 @@ struct DestinationSelectionPageView: View {
                                     geocodeAddressString(result.subtitle)
                                 }
                             }
-                        }
+                        }	
                         else
                         {
                             ForEach(viewModel.destinationResults, id: \.self) { result in
@@ -125,7 +131,7 @@ struct DestinationSelectionPageView: View {
                 locationManager.setup()
                 updateLocationQuery(initial: true)
             }
-            .onChange(of: locationManager.userLocation) { oldValue, newValue in
+            .onChange(of: locationManager.userLocation) {
                 updateLocationQuery()
             }
         }
@@ -183,6 +189,7 @@ struct DestinationSelectionPageView: View {
             "lat": \(destinationCoordinates.latitude),
             "long": \(destinationCoordinates.longitude)
           },
+        "maxPoints": 3
         }
         """
         print(jsonOutput)
