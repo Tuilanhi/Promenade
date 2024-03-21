@@ -202,7 +202,13 @@ struct RideSelectionView: View {
         }
         .padding(.vertical)
         .navigationDestination(isPresented: $navigateToConfirmPage) {
-            ConfirmPageView()
+            if let selectedRouteId = selectedRouteId,
+               let selectedRoute = routeOptions.first(where: { $0.id == selectedRouteId }) {
+                ConfirmPageView(currentTime: Date().formattedTime(), destinationTime: selectedRoute.formattedDestinationTime)
+            } else {
+                // Fallback or error handling if no route is selected
+                Text("No route selected")
+            }
         }
     }
     
