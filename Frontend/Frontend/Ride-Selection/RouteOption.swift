@@ -17,12 +17,12 @@ struct RouteOption: Identifiable {
     
     // Convert walkTime in seconds to a formatted string (e.g., "12 min")
     var formattedWalkTime: String {
-        "\(walkTime / 60) min"
+        "\(walkTime / 60) min walk"
     }
 
     // Format walkDistance to a string with 1 decimal place
     var formattedWalkDistance: String {
-        String(format: "%.1f miles", walkDistance)
+        String(format: "%.1f mi", walkDistance)
     }
 
     // Format price to a currency string
