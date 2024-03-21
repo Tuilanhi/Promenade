@@ -10,15 +10,9 @@ import MapKit
 
 struct RideSelectionView: View {
     @State var navigateToConfirmPage = false
-    @State private var selectedRouteId: Int? = 1
-    // Drag featur
+    @State private var selectedRouteId: Int?
     @State private var dragOffset = CGSize.zero
-    
-    let routeOptions: [RouteOption] = [
-        RouteOption(id: 0, title: "Fastest", distance: "0.8 miles", price: "$12.00", iconName: "hare.fill"),
-        RouteOption(id: 1, title: "Recommended", distance: "1.2 miles", price: "$17.50", iconName: "figure.walk"),
-        RouteOption(id: 2, title: "Eco", distance: "1.5 miles", price: "$29.00", iconName: "tortoise.fill"),
-    ]
+    @State private var routeOptions: [RouteOption] = []
     
     var body: some View {
         NavigationView {
@@ -30,8 +24,6 @@ struct RideSelectionView: View {
                         .frame(width: 48, height: 6)
                 
                     VStack {
-                        tripInformation
-                        Divider()
                         routeSelection
                         Divider().padding(.vertical, 8)
                         confirmButton
@@ -39,7 +31,89 @@ struct RideSelectionView: View {
                 }
                 .background(.white)
             }
+            .onAppear {
+                loadRouteOptions()
+            }
         }
+    }
+    
+    func loadRouteOptions() {
+        let jsonData = """
+        {
+          "rides": [
+            {
+              "source": {
+                "lat": 30.629979658501668,
+                "long": -96.3324372242465
+              },
+              "pickupPoint": {
+                "lat": 30.6213803,
+                "long": -96.340158
+              },
+              "destination": {
+                "lat": 30.6231958,
+                "long": -96.3285208
+              },
+              "walkTime": 1044,
+              "walkDistance": 0.9003665790000001,
+              "driveTime": 271,
+              "driveDistance": 0.720168989,
+              "totalTime": 1315,
+              "totalDistance": 1.6205355680000002,
+              "price": 10.854228
+            },
+            {
+              "source": {
+                "lat": 30.62178035739474,
+                "long": -96.33854449199474
+              },
+              "pickupPoint": {
+                "lat": 30.6213803,
+                "long": -96.340158
+              },
+              "destination": {
+                "lat": 30.6231958,
+                "long": -96.3285208
+              },
+              "walkTime": 120,
+              "walkDistance": 0.103768957,
+              "driveTime": 296,
+              "driveDistance": 0.893531498,
+              "totalTime": 416,
+              "totalDistance": 0.997300455,
+              "price": 11.031393
+            },
+            {
+              "source": {
+                "lat": 30.62170959960276,
+                "long": -96.34179274951764
+              },
+              "pickupPoint": {
+                "lat": 30.6213803,
+                "long": -96.340158
+              },
+              "destination": {
+                "lat": 30.6231958,
+                "long": -96.3285208
+              },
+              "walkTime": 209,
+              "walkDistance": 0.18019759,
+              "driveTime": 324,
+              "driveDistance": 1.166313367,
+              "totalTime": 533,
+              "totalDistance": 1.346510957,
+              "price": 11.2584305
+            }
+          ]
+        }
+        """.data(using: .utf8)!
+        
+        routeOptions = parseRideOptions(from: jsonData)
+        routeOptions = assignIconsToRouteOptions(routeOptions)
+        if let figureWalkIndex = routeOptions.firstIndex(where: { $0.iconName == "hare.fill" }) {
+                    selectedRouteId = routeOptions[figureWalkIndex].id
+                }
+        self.routeOptions = routeOptions
     }
     
     private var tripInformation: some View {
@@ -66,7 +140,7 @@ struct RideSelectionView: View {
                     
                     Spacer()
                     
-                    Text("1:30 PM")
+                    Text(Date().formattedTime())
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundColor(.gray)
                 }
@@ -78,9 +152,11 @@ struct RideSelectionView: View {
                     
                     Spacer()
                     
-                    Text("1:45 PM")
-                        .font(.system(size: 14, weight: .semibold))
-                        .foregroundColor(.gray)
+                    if let selectedRoute = routeOptions.first(where: { $0.id == selectedRouteId }) {
+                        Text("\(selectedRoute.formattedDestinationTime)")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(.gray)
+                    }
                 }
             }
             .padding(.leading, 8)
@@ -97,10 +173,9 @@ struct RideSelectionView: View {
                 .foregroundColor(Color.gray)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
-            HStack(spacing: 12) {
+            VStack(spacing: 12) {
                 ForEach(routeOptions) { option in
                     Button(action: {
-                        // Toggle selection state
                         selectedRouteId = option.id
                     }) {
                         OptionView(option: option)
@@ -113,8 +188,6 @@ struct RideSelectionView: View {
             .padding(.horizontal)
         }
     }
-
-
     
     private var confirmButton: some View {
         Button {
@@ -123,7 +196,7 @@ struct RideSelectionView: View {
             Text("CONFIRM ROUTE")
                 .fontWeight(.bold)
                 .frame(width: UIScreen.main.bounds.width - 32, height: 50)
-                .background(Color.blue) // Change color based on selection
+                .background(Color.blue)
                 .cornerRadius(10)
                 .foregroundColor(.white)
         }
@@ -137,26 +210,43 @@ struct RideSelectionView: View {
         let option: RouteOption
 
         var body: some View {
-            VStack {
+            HStack {
                 Image(systemName: option.iconName)
                     .font(.largeTitle)
                     .foregroundColor(.blue)
-                
-                Text(option.title)
-                    .fontWeight(.semibold)
-                
-                Text(option.distance)
-                    .foregroundColor(.gray)
-                
-                Text(option.price)
-                    .fontWeight(.semibold)
+                    .frame(width: 60)
+
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text(option.formattedWalkTime)
+                            .fontWeight(.bold)
+                        Text("•")
+                        Text(option.formattedWalkDistance)
+                            .fontWeight(.bold)
+                        Spacer()
+                        Text(option.formattedPrice)
+                            .fontWeight(.bold)
+                    }
+                    Text("Arrive by: \(option.formattedDestinationTime)")
+                        .fontWeight(.regular)
+                }
+                Spacer()
             }
             .padding()
-            .frame(width: 112, height: 150)
+            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 100)
             .cornerRadius(10)
         }
     }
 }
+
+extension Date {
+    func formattedTime() -> String {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        return formatter.string(from: self)
+    }
+}
+
 
 #Preview {
     RideSelectionView()

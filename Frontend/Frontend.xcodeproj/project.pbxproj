@@ -37,6 +37,7 @@
 		06C59CF22B8AD3AB003ED04F /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C59CF12B8AD3AB003ED04F /* MapView.swift */; };
 		06E83C612B95769400C51198 /* DestinationSelectionPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931B4E2F2B953C44008211E4 /* DestinationSelectionPageView.swift */; };
 		06E83C632B958D6700C51198 /* EditSavedPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E83C622B958D6700C51198 /* EditSavedPlace.swift */; };
+		5A289B9F2BACC20C00C702A5 /* ParseRideOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A289B9E2BACC20C00C702A5 /* ParseRideOption.swift */; };
 		5A4FAB652BA3E371005BDAF3 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 5A4FAB642BA3E371005BDAF3 /* FirebaseAnalytics */; };
 		5A4FAB672BA3E371005BDAF3 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 5A4FAB662BA3E371005BDAF3 /* FirebaseAuth */; };
 		5A4FAB692BA3E371005BDAF3 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 5A4FAB682BA3E371005BDAF3 /* FirebaseFirestore */; };
@@ -84,6 +85,7 @@
 		068D9BCF2B86964700D0F1D6 /* AddSavedAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSavedAddress.swift; sourceTree = "<group>"; };
 		06C59CF12B8AD3AB003ED04F /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		06E83C622B958D6700C51198 /* EditSavedPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSavedPlace.swift; sourceTree = "<group>"; };
+		5A289B9E2BACC20C00C702A5 /* ParseRideOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseRideOption.swift; sourceTree = "<group>"; };
 		5A4FAB752BA3E3E0005BDAF3 /* RouteOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteOption.swift; sourceTree = "<group>"; };
 		5AF09FD82BA3D68A0093F0E1 /* Destination-SelectionSavedAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Destination-SelectionSavedAddressView.swift"; sourceTree = "<group>"; };
 		931B4E2F2B953C44008211E4 /* DestinationSelectionPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationSelectionPageView.swift; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 			children = (
 				93BEAEDE2B9552E8004D2761 /* RideSelectionView.swift */,
 				5A4FAB752BA3E3E0005BDAF3 /* RouteOption.swift */,
+				5A289B9E2BACC20C00C702A5 /* ParseRideOption.swift */,
 			);
 			path = "Ride-Selection";
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 				0607B8ED2B8FEDF7000053CF /* ClearButton.swift in Sources */,
 				5A4FAB762BA3E3E0005BDAF3 /* RouteOption.swift in Sources */,
 				0607B8EB2B8FED50000053CF /* AddressResult.swift in Sources */,
+				5A289B9F2BACC20C00C702A5 /* ParseRideOption.swift in Sources */,
 				06401F792B855F900016016A /* GoogleLoginView.swift in Sources */,
 				5AF09FD92BA3D68A0093F0E1 /* Destination-SelectionSavedAddressView.swift in Sources */,
 				068D9BC22B863DFF00D0F1D6 /* AccountPageView.swift in Sources */,
