@@ -114,14 +114,16 @@ struct DestinationSelectionPageView: View {
                                                                subtitle: result.subtitle)
                                 .onTapGesture {
                                     self.viewModel.destinationQuery = result.title
-                                    self.navigateToRideSelection = true
+                                    if (viewModel.selectionComplete) {
+                                        self.navigateToRideSelection = true
+                                    }
                                     geocodeAddressString(result.subtitle)
                                 }
                             }
                         }
                     }
                     .navigationDestination(isPresented: $navigateToRideSelection) {
-                        RideSelectionView()
+                        RideSelectionView($sourceCoordinates, $destinationCoordinates)
                     }
                 }
             }

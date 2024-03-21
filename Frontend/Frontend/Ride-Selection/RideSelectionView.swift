@@ -14,6 +14,15 @@ struct RideSelectionView: View {
     // Drag featur
     @State private var dragOffset = CGSize.zero
     
+    @Binding var sourceCoordinates: CLLocationCoordinate2D
+    @Binding var destinationCoordinates: CLLocationCoordinate2D
+    
+    init(_ destinationCoordinates: Binding<CLLocationCoordinate2D>, _ sourceCoordinates: Binding<CLLocationCoordinate2D>) {
+        self._destinationCoordinates = destinationCoordinates
+        self._sourceCoordinates = sourceCoordinates
+    }
+    
+    
     let routeOptions: [RouteOption] = [
         RouteOption(id: 0, title: "Fastest", distance: "0.8 miles", price: "$12.00", iconName: "hare.fill"),
         RouteOption(id: 1, title: "Recommended", distance: "1.2 miles", price: "$17.50", iconName: "figure.walk"),
@@ -23,7 +32,7 @@ struct RideSelectionView: View {
     var body: some View {
         NavigationView {
             VStack(alignment: .leading){
-                MapView()
+                RouteView($sourceCoordinates, $destinationCoordinates)
                 VStack {
                     Capsule()
                         .foregroundColor(Color(.systemGray5))
@@ -158,6 +167,6 @@ struct RideSelectionView: View {
     }
 }
 
-#Preview {
-    RideSelectionView()
-}
+//#Preview {
+//    RideSelectionView()
+//}
