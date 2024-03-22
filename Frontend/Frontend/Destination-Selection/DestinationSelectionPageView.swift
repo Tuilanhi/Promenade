@@ -121,7 +121,7 @@ struct DestinationSelectionPageView: View {
                         }
                     }
                     .navigationDestination(isPresented: $navigateToRideSelection) {
-                        RideSelectionView()
+                        RideSelectionView($sourceCoordinates, $destinationCoordinates)
                     }
                 }
             }

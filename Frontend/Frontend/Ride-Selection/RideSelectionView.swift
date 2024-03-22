@@ -14,10 +14,18 @@ struct RideSelectionView: View {
     @State private var dragOffset = CGSize.zero
     @State private var routeOptions: [RouteOption] = []
     
+    @Binding var sourceCoordinates: CLLocationCoordinate2D
+    @Binding var destinationCoordinates: CLLocationCoordinate2D
+    
+    init(_ sourceCoordinates: Binding<CLLocationCoordinate2D>, _ destinationCoordinates: Binding<CLLocationCoordinate2D>) {
+        self._sourceCoordinates = sourceCoordinates
+        self._destinationCoordinates = destinationCoordinates
+    }
+    
     var body: some View {
         NavigationView {
             VStack(alignment: .leading){
-                MapView()
+                RouteView($sourceCoordinates, $destinationCoordinates)
                 VStack {
                     Capsule()
                         .foregroundColor(Color(.systemGray5))
@@ -254,6 +262,6 @@ extension Date {
 }
 
 
-#Preview {
-    RideSelectionView()
-}
+//#Preview {
+//    RideSelectionView()
+//}
