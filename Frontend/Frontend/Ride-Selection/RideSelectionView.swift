@@ -7,6 +7,7 @@
 
 import SwiftUI
 import MapKit
+import Firebase
 
 struct RideSelectionView: View {
     @State var navigateToConfirmPage = false
@@ -14,18 +15,17 @@ struct RideSelectionView: View {
     @State private var dragOffset = CGSize.zero
     @State private var routeOptions: [RouteOption] = []
     
-    @Binding var sourceCoordinates: CLLocationCoordinate2D
-    @Binding var destinationCoordinates: CLLocationCoordinate2D
-    
-    init(_ sourceCoordinates: Binding<CLLocationCoordinate2D>, _ destinationCoordinates: Binding<CLLocationCoordinate2D>) {
-        self._sourceCoordinates = sourceCoordinates
-        self._destinationCoordinates = destinationCoordinates
-    }
-    
     var body: some View {
         NavigationView {
             VStack(alignment: .leading){
-                RouteView($sourceCoordinates, $destinationCoordinates)
+                if let selectedRoute = routeOptions.first(where: { $0.id == selectedRouteId }) {
+                    RouteView(Binding.constant(selectedRoute.sourceCoordinate), Binding.constant(selectedRoute.destinationCoordinate))
+                    } else {
+                    Text("Loading routes...")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color.gray.opacity(0.5))
+                        .transition(.opacity)
+                }
                 VStack {
                     Capsule()
                         .foregroundColor(Color(.systemGray5))
@@ -46,83 +46,56 @@ struct RideSelectionView: View {
     }
     
     func loadRouteOptions() {
-        let jsonData = """
-        {
-          "rides": [
-            {
-              "source": {
-                "lat": 30.629979658501668,
-                "long": -96.3324372242465
-              },
-              "pickupPoint": {
-                "lat": 30.6213803,
-                "long": -96.340158
-              },
-              "destination": {
-                "lat": 30.6231958,
-                "long": -96.3285208
-              },
-              "walkTime": 1044,
-              "walkDistance": 0.9003665790000001,
-              "driveTime": 271,
-              "driveDistance": 0.720168989,
-              "totalTime": 1315,
-              "totalDistance": 1.6205355680000002,
-              "price": 10.854228
-            },
-            {
-              "source": {
-                "lat": 30.62178035739474,
-                "long": -96.33854449199474
-              },
-              "pickupPoint": {
-                "lat": 30.6213803,
-                "long": -96.340158
-              },
-              "destination": {
-                "lat": 30.6231958,
-                "long": -96.3285208
-              },
-              "walkTime": 120,
-              "walkDistance": 0.103768957,
-              "driveTime": 296,
-              "driveDistance": 0.893531498,
-              "totalTime": 416,
-              "totalDistance": 0.997300455,
-              "price": 11.031393
-            },
-            {
-              "source": {
-                "lat": 30.62170959960276,
-                "long": -96.34179274951764
-              },
-              "pickupPoint": {
-                "lat": 30.6213803,
-                "long": -96.340158
-              },
-              "destination": {
-                "lat": 30.6231958,
-                "long": -96.3285208
-              },
-              "walkTime": 209,
-              "walkDistance": 0.18019759,
-              "driveTime": 324,
-              "driveDistance": 1.166313367,
-              "totalTime": 533,
-              "totalDistance": 1.346510957,
-              "price": 11.2584305
-            }
-          ]
-        }
-        """.data(using: .utf8)!
-        
-        routeOptions = parseRideOptions(from: jsonData)
-        routeOptions = assignIconsToRouteOptions(routeOptions)
-        if let figureWalkIndex = routeOptions.firstIndex(where: { $0.iconName == "hare.fill" }) {
-                    selectedRouteId = routeOptions[figureWalkIndex].id
-                }
-        self.routeOptions = routeOptions
+        let db = Firestore.firestore()
+        db.collection("suggested-routes")
+          .order(by: "price", descending: false)
+          .limit(to: 3)
+          .getDocuments {(querySnapshot, err) in
+              guard let documents = querySnapshot?.documents else {
+                  print("Error fetching documents: \(err!)")
+                  return
+              }
+              
+              var tempRouteOptions = documents.compactMap { doc -> RouteOption? in
+                  guard let ride = Ride(dictionary: doc.data()) else { return nil }
+                  // Temporarily, initialize without setting iconName
+                  return RouteOption(ride: ride, id: doc.documentID.hashValue)
+              }.sorted(by: { $0.walkTime < $1.walkTime }) // Ensure the sorting is as required
+              
+              // Now, set iconName based on the position in the array
+              for (index, _) in tempRouteOptions.enumerated() {
+                  switch index {
+                      case 0:
+                          tempRouteOptions[index].iconName = "hare.fill"
+                      case 1:
+                          tempRouteOptions[index].iconName = "figure.walk"
+                      case 2:
+                          tempRouteOptions[index].iconName = "tortoise.fill"
+                      default:
+                          break // For more than three, if ever needed
+                  }
+              }
+
+              self.routeOptions = tempRouteOptions
+              
+              if let firstOption = tempRouteOptions.first {
+                  self.selectedRouteId = firstOption.id
+              }
+          }
     }
+    
+    func iconNameForPrice(_ price: Double) -> String {
+        // Example logic to determine icon name based on price. Adjust according to your actual criteria.
+        switch price {
+        case 0..<10:
+            return "hare.fill"
+        case 10..<20:
+            return "figure.walk"
+        default:
+            return "tortoise.fill"
+        }
+    }
+
     
     private var tripInformation: some View {
         HStack {

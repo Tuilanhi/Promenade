@@ -2,12 +2,23 @@
 //  ParseRideOption.swift
 //  Frontend
 //
-//  Created by Nhi Vu on 3/21/24.
+//  Created by Nhi Vu on 3/25/24.
 //
 
 import Foundation
-// Represents a single ride option in the JSON.
+import CoreLocation
+
+// Represents a geographic location with latitude and longitude
+struct Location: Codable {
+    let lat: Double
+    let long: Double
+}
+
+// Represents a single ride option
 struct Ride: Decodable {
+    let source: Location
+    let pickupPoint: Location
+    let destination: Location
     let walkTime: Int
     let walkDistance: Double
     let driveTime: Int
@@ -15,55 +26,54 @@ struct Ride: Decodable {
     let totalTime: Int
     let totalDistance: Double
     let price: Double
-}
-
-// Container for the JSON structure
-struct RideOptionsContainer: Decodable {
-    let rides: [Ride]
-}
-
-func assignIconsToRouteOptions(_ routeOptions: [RouteOption]) -> [RouteOption] {
-    let sortedOptions = routeOptions.sorted(by: { $0.walkTime < $1.walkTime })
-    return sortedOptions.enumerated().map { index, option in
-        var modifiedOption = option
-        switch index {
-            case 0:
-                modifiedOption.iconName = "hare.fill"
-            case sortedOptions.count - 1:
-                modifiedOption.iconName = "tortoise.fill"
-            default:
-                modifiedOption.iconName = "figure.walk"
+    
+    init?(dictionary: [String: Any]) {
+        guard let sourceDict = dictionary["source"] as? [String: Double],
+              let pickupPointDict = dictionary["pickupPoint"] as? [String: Double],
+              let destinationDict = dictionary["destination"] as? [String: Double],
+              let walkTime = dictionary["walkTime"] as? Int,
+              let walkDistance = dictionary["walkDistance"] as? Double,
+              let driveTime = dictionary["driveTime"] as? Int,
+              let driveDistance = dictionary["driveDistance"] as? Double,
+              let totalTime = dictionary["totalTime"] as? Int,
+              let totalDistance = dictionary["totalDistance"] as? Double,
+              let price = dictionary["price"] as? Double else {
+            return nil
         }
-        return modifiedOption
+
+        self.source = Location(lat: sourceDict["lat"]!, long: sourceDict["long"]!)
+        self.pickupPoint = Location(lat: pickupPointDict["lat"]!, long: pickupPointDict["long"]!)
+        self.destination = Location(lat: destinationDict["lat"]!, long: destinationDict["long"]!)
+        self.walkTime = walkTime
+        self.walkDistance = walkDistance
+        self.driveTime = driveTime
+        self.driveDistance = driveDistance
+        self.totalTime = totalTime
+        self.totalDistance = totalDistance
+        self.price = price
     }
 }
-
 
 func parseRideOptions(from jsonData: Data) -> [RouteOption] {
     let decoder = JSONDecoder()
     do {
-        let container = try decoder.decode(RideOptionsContainer.self, from: jsonData)
-        var routeOptions = container.rides.enumerated().map { index, ride in
-            let iconName = "figure.walk"
-            
-            let destinationTime = Calendar.current.date(byAdding: .second, value: ride.walkTime, to: Date())!
-            
-            // Use index as id for simplicity
-            return RouteOption(
+        let rides = try decoder.decode([Ride].self, from: jsonData)
+        return rides.enumerated().map { index, ride in
+            // Assuming destinationTime and iconName need to be derived or set explicitly
+            RouteOption(
                 id: index,
-                walkTime: ride.walkTime,
+                iconName: "figure.walk",
+                walkTime: ride.walkTime, // example default value
                 walkDistance: ride.walkDistance,
                 price: ride.price,
-                iconName: iconName, // This will be adjusted in the next step
-                destinationTime: destinationTime
+                destinationTime: Date(), // Convert or calculate as needed
+                sourceCoordinate: CLLocationCoordinate2D(latitude: ride.source.lat, longitude: ride.source.long),
+                destinationCoordinate: CLLocationCoordinate2D(latitude: ride.destination.lat, longitude: ride.destination.long)
             )
         }
-        routeOptions = assignIconsToRouteOptions(routeOptions)
-        return routeOptions
     } catch {
         print("Error decoding JSON: \(error)")
         return []
     }
 }
-
 

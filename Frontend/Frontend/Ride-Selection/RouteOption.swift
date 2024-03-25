@@ -6,14 +6,17 @@
 //
 
 import Foundation
+import CoreLocation
 
 struct RouteOption: Identifiable {
-    let id: Int
-    let walkTime: Int
-    let walkDistance: Double
-    let price: Double
+    var id: Int
     var iconName: String
-    let destinationTime: Date
+    var walkTime: Int
+    var walkDistance: Double
+    var price: Double
+    var destinationTime: Date
+    var sourceCoordinate: CLLocationCoordinate2D
+    var destinationCoordinate: CLLocationCoordinate2D
     
     // Convert walkTime in seconds to a formatted string (e.g., "12 min")
     var formattedWalkTime: String {
@@ -37,3 +40,18 @@ struct RouteOption: Identifiable {
         return formatter.string(from: destinationTime)
     }
 }
+
+extension RouteOption {
+    init(ride: Ride, id: Int) {
+        self.id = id
+        self.walkTime = ride.walkTime
+        self.walkDistance = ride.walkDistance
+        self.price = ride.price
+        self.iconName = "" // Initialize with a default value or your logic
+        self.destinationTime = Date() // Adjust based on your logic or data
+        // Add more fields as necessary
+        self.sourceCoordinate = CLLocationCoordinate2D(latitude: ride.source.lat, longitude: ride.source.long)
+        self.destinationCoordinate = CLLocationCoordinate2D(latitude: ride.destination.lat, longitude: ride.destination.long)
+    }
+}
+
