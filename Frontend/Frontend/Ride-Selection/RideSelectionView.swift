@@ -25,7 +25,8 @@ struct RideSelectionView: View {
     var body: some View {
         NavigationView {
             VStack(alignment: .leading){
-                RouteView($sourceCoordinates, $destinationCoordinates)
+                RouteView()
+//                RouteView($sourceCoordinates, $destinationCoordinates)
                 VStack {
                     Capsule()
                         .foregroundColor(Color(.systemGray5))
