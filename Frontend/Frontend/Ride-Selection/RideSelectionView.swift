@@ -12,14 +12,13 @@ import Firebase
 struct RideSelectionView: View {
     @State var navigateToConfirmPage = false
     @State private var selectedRouteId: Int?
-    @State private var dragOffset = CGSize.zero
     @State private var routeOptions: [RouteOption] = []
     
     var body: some View {
         NavigationView {
             VStack(alignment: .leading){
                 if let selectedRoute = routeOptions.first(where: { $0.id == selectedRouteId }) {
-                    RouteView(Binding.constant(selectedRoute.sourceCoordinate), Binding.constant(selectedRoute.destinationCoordinate))
+                    RouteView(sourceCoordinates: Binding.constant(selectedRoute.pickupPointCoordinate), destinationCoordinates: Binding.constant(selectedRoute.sourceCoordinate))
                     } else {
                     Text("Loading routes...")
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -72,7 +71,7 @@ struct RideSelectionView: View {
                       case 2:
                           tempRouteOptions[index].iconName = "tortoise.fill"
                       default:
-                          break // For more than three, if ever needed
+                          break
                   }
               }
 

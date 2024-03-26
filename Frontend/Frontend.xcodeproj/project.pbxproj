@@ -37,6 +37,8 @@
 		06C59CF22B8AD3AB003ED04F /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C59CF12B8AD3AB003ED04F /* MapView.swift */; };
 		06E83C612B95769400C51198 /* DestinationSelectionPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931B4E2F2B953C44008211E4 /* DestinationSelectionPageView.swift */; };
 		06E83C632B958D6700C51198 /* EditSavedPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E83C622B958D6700C51198 /* EditSavedPlace.swift */; };
+		5A065C342BB35B7600449BC8 /* GIFImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A065C332BB35B7600449BC8 /* GIFImageView.swift */; };
+		5A065C362BB35D4900449BC8 /* logo.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5A065C352BB35D4900449BC8 /* logo.gif */; };
 		5A14DECA2BB1FD8700AFC6BD /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 5A14DEC92BB1FD8700AFC6BD /* FirebaseAuth */; };
 		5A14DECC2BB1FD8700AFC6BD /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 5A14DECB2BB1FD8700AFC6BD /* FirebaseFirestore */; };
 		5A14DECF2BB1FD8F00AFC6BD /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 5A14DECE2BB1FD8F00AFC6BD /* GoogleSignIn */; };
@@ -83,6 +85,8 @@
 		068D9BCF2B86964700D0F1D6 /* AddSavedAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSavedAddress.swift; sourceTree = "<group>"; };
 		06C59CF12B8AD3AB003ED04F /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		06E83C622B958D6700C51198 /* EditSavedPlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSavedPlace.swift; sourceTree = "<group>"; };
+		5A065C332BB35B7600449BC8 /* GIFImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFImageView.swift; sourceTree = "<group>"; };
+		5A065C352BB35D4900449BC8 /* logo.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = logo.gif; sourceTree = "<group>"; };
 		5A14DED22BB236D500AFC6BD /* ParseRideOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseRideOption.swift; sourceTree = "<group>"; };
 		5A4FAB752BA3E3E0005BDAF3 /* RouteOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteOption.swift; sourceTree = "<group>"; };
 		5AF09FD82BA3D68A0093F0E1 /* Destination-SelectionSavedAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Destination-SelectionSavedAddressView.swift"; sourceTree = "<group>"; };
@@ -139,6 +143,7 @@
 		06401F282B855B080016016A /* Frontend */ = {
 			isa = PBXGroup;
 			children = (
+				5A065C322BB35B5F00449BC8 /* Loading */,
 				93B3571B2B953ED400D6F531 /* Ride-Selection */,
 				931B4E2C2B953B22008211E4 /* Destination-Selection */,
 				0607B8E72B8FED23000053CF /* AutoaddressCompletion */,
@@ -218,6 +223,15 @@
 				06E83C622B958D6700C51198 /* EditSavedPlace.swift */,
 			);
 			path = AccountPage;
+			sourceTree = "<group>";
+		};
+		5A065C322BB35B5F00449BC8 /* Loading */ = {
+			isa = PBXGroup;
+			children = (
+				5A065C332BB35B7600449BC8 /* GIFImageView.swift */,
+				5A065C352BB35D4900449BC8 /* logo.gif */,
+			);
+			path = Loading;
 			sourceTree = "<group>";
 		};
 		931B4E2C2B953B22008211E4 /* Destination-Selection */ = {
@@ -311,6 +325,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				06401F312B855B090016016A /* Preview Assets.xcassets in Resources */,
+				5A065C362BB35D4900449BC8 /* logo.gif in Resources */,
 				06401F2E2B855B090016016A /* Assets.xcassets in Resources */,
 				065E74452B928A920036E6CA /* GoogleService-Info.plist in Resources */,
 			);
@@ -328,6 +343,7 @@
 				5A14DED32BB236D500AFC6BD /* ParseRideOption.swift in Sources */,
 				06401F962B85AE4C0016016A /* BottomNavigation.swift in Sources */,
 				93BEAEE22B958965004D2761 /* LocationSearchViewModel.swift in Sources */,
+				5A065C342BB35B7600449BC8 /* GIFImageView.swift in Sources */,
 				06E83C632B958D6700C51198 /* EditSavedPlace.swift in Sources */,
 				068D9BC62B86450300D0F1D6 /* SearchBarView.swift in Sources */,
 				06401F892B8597EB0016016A /* OrderPageView.swift in Sources */,
