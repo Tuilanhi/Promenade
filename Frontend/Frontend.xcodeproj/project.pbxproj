@@ -229,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				5A065C332BB35B7600449BC8 /* GIFImageView.swift */,
+				5A065C352BB35D4900449BC8 /* logo.gif */,
 			);
 			path = Loading;
 			sourceTree = "<group>";
@@ -236,7 +237,6 @@
 		931B4E2C2B953B22008211E4 /* Destination-Selection */ = {
 			isa = PBXGroup;
 			children = (
-				5A065C352BB35D4900449BC8 /* logo.gif */,
 				931B4E2F2B953C44008211E4 /* DestinationSelectionPageView.swift */,
 				93BEAEDC2B9552DE004D2761 /* DestinationSelectionResultCell.swift */,
 				93BEAEE12B958965004D2761 /* LocationSearchViewModel.swift */,
