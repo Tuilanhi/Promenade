@@ -68,7 +68,8 @@ func parseRideOptions(from jsonData: Data) -> [RouteOption] {
                 price: ride.price,
                 destinationTime: Date(), // Convert or calculate as needed
                 sourceCoordinate: CLLocationCoordinate2D(latitude: ride.source.lat, longitude: ride.source.long),
-                destinationCoordinate: CLLocationCoordinate2D(latitude: ride.destination.lat, longitude: ride.destination.long)
+                destinationCoordinate: CLLocationCoordinate2D(latitude: ride.destination.lat, longitude: ride.destination.long),
+                pickupPointCoordinate: CLLocationCoordinate2D(latitude: ride.pickupPoint.lat, longitude: ride.pickupPoint.long)
             )
         }
     } catch {

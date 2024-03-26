@@ -249,7 +249,6 @@ extension DestinationSelectionPageView {
             for document in documents {
                 try await collectionRef.document(document.documentID).delete()
             }
-            print("Existing documents in 'suggested-routes' cleared.")
         } catch {
             print("Error clearing 'suggested-routes' collection: \(error.localizedDescription)")
             // You might decide to handle this error differently depending on your needs.
@@ -265,7 +264,6 @@ extension DestinationSelectionPageView {
         for ride in rides {
             do {
                 let docRef = try await collectionRef.addDocument(data: ride)
-                print("Document added with ID: \(docRef.documentID)")
             } catch {
                 print("Error adding document to 'suggested-routes': \(error.localizedDescription)")
                 // Handle or log the error as needed
