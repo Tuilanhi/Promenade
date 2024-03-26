@@ -38,7 +38,7 @@ struct CustomMapView: UIViewRepresentable {
         mapView.addAnnotation(destinationAnnotation)
         
         // Set the visible region of the map
-        let region = MKCoordinateRegion(center: sourceCoordinates, latitudinalMeters: 4000, longitudinalMeters: 4000)
+        let region = MKCoordinateRegion(center: sourceCoordinates, latitudinalMeters: 5000, longitudinalMeters: 5000)
         mapView.setRegion(region, animated: true)
         
         // Draw the route

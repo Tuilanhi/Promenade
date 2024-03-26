@@ -26,12 +26,11 @@ struct DestinationSelectionPageView: View {
         NavigationStack {
             VStack(alignment: .leading) {
                 if showLoadingScreen {
-                    // Your Loading Screen UI here
-                    // For example, a simple text or a custom loading view
-                    Text("Loading...")
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(Color.gray.opacity(0.5))
-                        .transition(.opacity)
+                    // Loading screen
+                    GIFImageView(imageName: "logo")
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .background(Color.black.opacity(0.9))
+                            .transition(.opacity)
                     
                 }
                 else
