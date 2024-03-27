@@ -49,11 +49,11 @@ extension RouteOption {
         self.walkDistance = ride.walkDistance
         self.price = ride.price
         self.iconName = "" // Initialize with a default value or your logic
-        self.destinationTime = Date() // Adjust based on your logic or data
+        self.destinationTime = Date().addingTimeInterval(TimeInterval(walkTime))
         // Add more fields as necessary
         self.sourceCoordinate = CLLocationCoordinate2D(latitude: ride.source.lat, longitude: ride.source.long)
         self.destinationCoordinate = CLLocationCoordinate2D(latitude: ride.destination.lat, longitude: ride.destination.long)
-        self.pickupPointCoordinate = CLLocationCoordinate2D(latitude: ride.destination.lat, longitude: ride.destination.long)
+        self.pickupPointCoordinate = CLLocationCoordinate2D(latitude: ride.pickupPoint.lat, longitude: ride.pickupPoint.long)
     }
 }
 
