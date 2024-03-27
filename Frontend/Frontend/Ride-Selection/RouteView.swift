@@ -11,9 +11,10 @@ import MapKit
 struct RouteView: View {
     @Binding var sourceCoordinates: CLLocationCoordinate2D
     @Binding var destinationCoordinates: CLLocationCoordinate2D
+    @Binding var pickupCoordinates: CLLocationCoordinate2D
 
     var body: some View {
-        CustomMapView(sourceCoordinates: sourceCoordinates, destinationCoordinates: destinationCoordinates)
+        CustomMapView(sourceCoordinates: sourceCoordinates, destinationCoordinates: destinationCoordinates, pickupCoordinates: pickupCoordinates)
             .edgesIgnoringSafeArea(.all)
     }
 }
@@ -21,6 +22,7 @@ struct RouteView: View {
 struct CustomMapView: UIViewRepresentable {
     var sourceCoordinates: CLLocationCoordinate2D
     var destinationCoordinates: CLLocationCoordinate2D
+    var pickupCoordinates: CLLocationCoordinate2D
 
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()
@@ -34,24 +36,42 @@ struct CustomMapView: UIViewRepresentable {
         
         let destinationAnnotation = MKPointAnnotation()
         destinationAnnotation.coordinate = destinationCoordinates
-        destinationAnnotation.title = "Rideshare Pickup Point"
+        destinationAnnotation.title = "Destination"
         mapView.addAnnotation(destinationAnnotation)
+        
+        let pickupAnnotation = MKPointAnnotation()
+        pickupAnnotation.coordinate = pickupCoordinates
+        pickupAnnotation.title = "Rideshare Pickup"
+        mapView.addAnnotation(pickupAnnotation)
         
         // Set the visible region of the map
         let region = MKCoordinateRegion(center: sourceCoordinates, latitudinalMeters: 5000, longitudinalMeters: 5000)
         mapView.setRegion(region, animated: true)
         
-        // Draw the route
-        let request = MKDirections.Request()
-        request.source = MKMapItem(placemark: MKPlacemark(coordinate: sourceCoordinates))
-        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: destinationCoordinates))
-        request.transportType = .walking
+        // Rideshare pickup route
+        let pickupRouteRequest = MKDirections.Request()
+        pickupRouteRequest.source = MKMapItem(placemark: MKPlacemark(coordinate: sourceCoordinates))
+        pickupRouteRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: pickupCoordinates))
+        pickupRouteRequest.transportType = .walking
         
-        let directions = MKDirections(request: request)
-        directions.calculate { (response, error) in
-            guard let route = response?.routes.first else { return }
-            mapView.addOverlay(route.polyline)
-            mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
+        
+        let pickupDirections = MKDirections(request: pickupRouteRequest)
+        pickupDirections.calculate { (response, error) in
+            guard let pickupRoute = response?.routes.first else { return }
+            mapView.addOverlay(pickupRoute.polyline)
+            mapView.setVisibleMapRect(pickupRoute.polyline.boundingMapRect, animated: true)
+        }
+        
+        let destinationRouteRequest = MKDirections.Request()
+        destinationRouteRequest.source = MKMapItem(placemark: MKPlacemark(coordinate: pickupCoordinates))
+        destinationRouteRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: destinationCoordinates))
+        destinationRouteRequest.transportType = .automobile
+        
+        let destinationDirections = MKDirections(request: destinationRouteRequest)
+        destinationDirections.calculate {(response, error) in
+            guard let destinationRoute = response?.routes.first else {return}
+            mapView.addOverlay(destinationRoute.polyline)
+            mapView.setVisibleMapRect(destinationRoute.polyline.boundingMapRect, animated: true)
         }
 
         return mapView
@@ -70,17 +90,34 @@ struct CustomMapView: UIViewRepresentable {
 
         let destinationAnnotation = MKPointAnnotation()
         destinationAnnotation.coordinate = destinationCoordinates
-        destinationAnnotation.title = "Pickup"
+        destinationAnnotation.title = "Destination"
         uiView.addAnnotation(destinationAnnotation)
+        
+        let pickupAnnotation = MKPointAnnotation()
+        pickupAnnotation.coordinate = pickupCoordinates
+        pickupAnnotation.title = "Pickup"
+        uiView.addAnnotation(pickupAnnotation)
 
         // Draw the new route
-        let request = MKDirections.Request()
-        request.source = MKMapItem(placemark: MKPlacemark(coordinate: sourceCoordinates))
-        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: destinationCoordinates))
-        request.transportType = .walking
+        let pickupRequest = MKDirections.Request()
+        pickupRequest.source = MKMapItem(placemark: MKPlacemark(coordinate: sourceCoordinates))
+        pickupRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: pickupCoordinates))
+        pickupRequest.transportType = .walking
 
-        let directions = MKDirections(request: request)
-        directions.calculate { (response, error) in
+        let pickupDirections = MKDirections(request: pickupRequest)
+        pickupDirections.calculate { (response, error) in
+            guard let route = response?.routes.first else { return }
+            uiView.addOverlay(route.polyline)
+            uiView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
+        }
+        
+        let destinationRequest = MKDirections.Request()
+        destinationRequest.source = MKMapItem(placemark: MKPlacemark(coordinate: pickupCoordinates))
+        destinationRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: destinationCoordinates))
+        destinationRequest.transportType = .walking
+
+        let destinationDirections = MKDirections(request: destinationRequest)
+        destinationDirections.calculate { (response, error) in
             guard let route = response?.routes.first else { return }
             uiView.addOverlay(route.polyline)
             uiView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
@@ -111,6 +148,8 @@ struct CustomMapView: UIViewRepresentable {
                 annotationView.image = UIImage(systemName: "person.fill")
             } else if annotation.title == "Pickup" {
                 annotationView.image = UIImage(systemName: "hare.fill")
+            } else if annotation.title == "Destination" {
+                annotationView.image = UIImage(systemName: "circle.fill")
             }
             
             annotationView.frame.size = CGSize(width: 20, height: 20)
