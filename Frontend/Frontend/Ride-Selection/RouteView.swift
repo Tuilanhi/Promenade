@@ -70,7 +70,7 @@ struct CustomMapView: UIViewRepresentable {
 
         let destinationAnnotation = MKPointAnnotation()
         destinationAnnotation.coordinate = destinationCoordinates
-        destinationAnnotation.title = "Rideshare Pickup Point"
+        destinationAnnotation.title = "Pickup"
         uiView.addAnnotation(destinationAnnotation)
 
         // Draw the new route
@@ -108,14 +108,29 @@ struct CustomMapView: UIViewRepresentable {
             let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "customAnnotation")
             
             if annotation.title == "Start" {
-                // Customize the image for the source annotation
-                annotationView.image = UIImage(named: "test")
-            } else if annotation.title == "Rideshare Pickup Point" {
-                // Customize the image for the destination annotation
-                annotationView.image = UIImage(named: "test")
+                annotationView.image = UIImage(systemName: "hare.fill")
+            } else if annotation.title == "Pickup" {
+                annotationView.image = UIImage(systemName: "hare.fill")
             }
             
             annotationView.frame.size = CGSize(width: 30, height: 30)
+            
+            if let title = annotation.title {
+                    let label = UILabel()
+                    label.textAlignment = .center
+                    label.font = UIFont.systemFont(ofSize: 10)
+                    label.text = title
+                    label.numberOfLines = 0 // Allow multiple lines
+                    label.adjustsFontSizeToFitWidth = true // Adjust font size to fit width
+                    label.minimumScaleFactor = 0.5 // Minimum scale factor for adjusting font size
+                    label.frame.size = label.intrinsicContentSize // Adjust frame size based on content size
+                    label.frame.origin.y = annotationView.frame.size.height // Position label underneath image
+                    label.frame.origin.x = (annotationView.frame.size.width - label.frame.size.width) / 2 // Center label horizontally
+                    annotationView.addSubview(label)
+            }
+
+            annotationView.canShowCallout = true
+
             
             return annotationView
         }
