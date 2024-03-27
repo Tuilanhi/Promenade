@@ -34,7 +34,7 @@ struct CustomMapView: UIViewRepresentable {
         
         let destinationAnnotation = MKPointAnnotation()
         destinationAnnotation.coordinate = destinationCoordinates
-        destinationAnnotation.title = "Destination"
+        destinationAnnotation.title = "Rideshare Pickup Point"
         mapView.addAnnotation(destinationAnnotation)
         
         // Set the visible region of the map
@@ -65,12 +65,12 @@ struct CustomMapView: UIViewRepresentable {
         // Add new annotations for the updated source and destination
         let sourceAnnotation = MKPointAnnotation()
         sourceAnnotation.coordinate = sourceCoordinates
-        sourceAnnotation.title = "start"
+        sourceAnnotation.title = "Start"
         uiView.addAnnotation(sourceAnnotation)
 
         let destinationAnnotation = MKPointAnnotation()
         destinationAnnotation.coordinate = destinationCoordinates
-        destinationAnnotation.title = "destination"
+        destinationAnnotation.title = "Rideshare Pickup Point"
         uiView.addAnnotation(destinationAnnotation)
 
         // Draw the new route
@@ -98,6 +98,27 @@ struct CustomMapView: UIViewRepresentable {
         init(_ parent: CustomMapView) {
             self.parent = parent
         }
+        
+        func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+            guard !(annotation is MKUserLocation) else {
+                // If the annotation is the user's location, return nil to use default view
+                return nil
+            }
+
+            let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "customAnnotation")
+            
+            if annotation.title == "Start" {
+                // Customize the image for the source annotation
+                annotationView.image = UIImage(named: "test")
+            } else if annotation.title == "Rideshare Pickup Point" {
+                // Customize the image for the destination annotation
+                annotationView.image = UIImage(named: "test")
+            }
+            
+            annotationView.frame.size = CGSize(width: 30, height: 30)
+            
+            return annotationView
+        }
 
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
             if overlay is MKPolyline {
@@ -110,4 +131,3 @@ struct CustomMapView: UIViewRepresentable {
         }
     }
 }
-    
