@@ -9,7 +9,7 @@ import SwiftUI
 import MapKit
 
 struct ConfirmPageView: View {
-    @State private var cameraPosition: MapCameraPosition = .region(.userRegion)
+//    @State private var cameraPosition: MapCameraPosition = .region(.userRegion)
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 30.613, longitude: -96.342),
         span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
@@ -22,8 +22,20 @@ struct ConfirmPageView: View {
     @State private var address: String = "161 Wellborn Rd"
     @State private var showOrderPage = false
     
+    
     let currentTime: String
     let destinationTime: String
+    
+    let userPickup: CLLocationCoordinate2D
+//    let userCurrentLocation: CLLocationCoordinate2D
+    @State private var userCurrentLocation: CLLocationCoordinate2D
+    
+    init(currentTime: String, destinationTime: String, userCurrentLocation: CLLocationCoordinate2D, userPickup: CLLocationCoordinate2D) {
+        self.currentTime = currentTime
+        self.destinationTime = destinationTime
+        self.userCurrentLocation = userCurrentLocation
+        self.userPickup = userPickup
+    }
 
     
     var body: some View {
@@ -33,8 +45,8 @@ struct ConfirmPageView: View {
         } else {
             NavigationView{
                 VStack {
-                    Map(position: $cameraPosition) {
-                        Annotation("Your Location", coordinate: .userLocation) {
+                    Map/*(position: $cameraPosition)*/ {
+                        Annotation("Your Location", coordinate: userCurrentLocation) {
                             ZStack {
                                 Circle()
                                     .frame(width: 32, height: 32)
@@ -48,7 +60,8 @@ struct ConfirmPageView: View {
                             }
                         }
                         
-                        Marker("Pick up Point", coordinate: .userDestination)
+                        // need to get coordinate from ride selection
+                        Marker("Pickup Point", coordinate: userPickup)
                     
                         if let route {
                             MapPolyline(route.polyline)
@@ -89,7 +102,7 @@ struct ConfirmPageView: View {
                             .padding(.bottom, 10)
                             
                             HStack {
-                                Text("Zachry")
+                                Text("Destination")
                                     .font(.system(size: 16, weight: .semibold))
                                 Spacer()
                                 Text(destinationTime)
@@ -137,40 +150,44 @@ struct ConfirmPageView: View {
     }
 }
 
-extension CLLocationCoordinate2D {
-    static var userLocation: CLLocationCoordinate2D {
-        return .init(latitude: 30.613, longitude: -96.342)
-    }
-}
+//extension CLLocationCoordinate2D {
+//    static var userLocation: CLLocationCoordinate2D {
+//        return .init(latitude: 30.613, longitude: -96.342)
+//    }
+//}
 
-extension CLLocationCoordinate2D {
-    static var userDestination: CLLocationCoordinate2D {
-        return .init(latitude: 30.619049, longitude: -96.339394)
-    }
-}
-
-extension MKCoordinateRegion {
-    static var userRegion: MKCoordinateRegion {
-        return .init(center: .userLocation, latitudinalMeters: 1000, longitudinalMeters: 1000)
-    }
-}
+//extension CLLocationCoordinate2D {
+//    static var userDestination: CLLocationCoordinate2D {
+//        return .init(latitude: 30.619049, longitude: -96.339394)
+//    }
+//}
+//
+//extension MKCoordinateRegion {
+//    static var userRegion: MKCoordinateRegion {
+//        return .init(center: userCurrentLocation, latitudinalMeters: 1000, longitudinalMeters: 1000)
+//    }
+//}
 
 extension ConfirmPageView {
     
     func fetchRoute() {
         
         let request = MKDirections.Request()
-        request.source = MKMapItem(placemark: .init(coordinate: .userLocation))
-        request.destination = MKMapItem(placemark: .init(coordinate: .userDestination))
+        request.source = MKMapItem(placemark: .init(coordinate: userCurrentLocation))
+        request.destination = MKMapItem(placemark: .init(coordinate: userPickup))
         
         Task {
             let result = try? await MKDirections(request: request).calculate()
             route = result?.routes.first
-            routeDestination =  MKMapItem(placemark: .init(coordinate: .userDestination))
+            routeDestination =  MKMapItem(placemark: .init(coordinate: userPickup))
         }
     }
 }
 
 #Preview {
-    ConfirmPageView(currentTime: "", destinationTime: "")
+//    ConfirmPageView(currentTime: "", destinationTime: "")
+    ConfirmPageView(currentTime: "", destinationTime: "",
+                    userCurrentLocation: CLLocationCoordinate2D(latitude: 0, longitude: 0),
+                    userPickup: CLLocationCoordinate2D(latitude: 0, longitude: 0))
 }
+
