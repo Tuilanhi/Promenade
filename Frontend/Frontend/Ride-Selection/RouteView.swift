@@ -108,12 +108,12 @@ struct CustomMapView: UIViewRepresentable {
             let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "customAnnotation")
             
             if annotation.title == "Start" {
-                annotationView.image = UIImage(systemName: "hare.fill")
+                annotationView.image = UIImage(systemName: "person.fill")
             } else if annotation.title == "Pickup" {
                 annotationView.image = UIImage(systemName: "hare.fill")
             }
             
-            annotationView.frame.size = CGSize(width: 30, height: 30)
+            annotationView.frame.size = CGSize(width: 20, height: 20)
             
             if let title = annotation.title {
                     let label = UILabel()

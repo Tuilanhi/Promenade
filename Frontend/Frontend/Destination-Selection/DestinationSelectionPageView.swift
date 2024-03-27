@@ -264,7 +264,7 @@ extension DestinationSelectionPageView {
         }
         for ride in rides {
             do {
-                let docRef = try await collectionRef.addDocument(data: ride)
+                _ = try await collectionRef.addDocument(data: ride)
             } catch {
                 print("Error adding document to 'suggested-routes': \(error.localizedDescription)")
                 // Handle or log the error as needed
