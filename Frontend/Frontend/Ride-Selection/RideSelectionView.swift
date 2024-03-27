@@ -83,19 +83,6 @@ struct RideSelectionView: View {
           }
     }
     
-    func iconNameForPrice(_ price: Double) -> String {
-        // Example logic to determine icon name based on price. Adjust according to your actual criteria.
-        switch price {
-        case 0..<10:
-            return "hare.fill"
-        case 10..<20:
-            return "figure.walk"
-        default:
-            return "tortoise.fill"
-        }
-    }
-
-    
     private var tripInformation: some View {
         HStack {
             VStack {
