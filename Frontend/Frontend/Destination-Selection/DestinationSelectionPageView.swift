@@ -213,6 +213,8 @@ extension DestinationSelectionPageView {
             ],
             "maxPoints": 3
         ]
+        
+        print(jsonBody)
 
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: jsonBody)
