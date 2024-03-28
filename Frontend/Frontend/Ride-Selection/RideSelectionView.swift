@@ -18,7 +18,7 @@ struct RideSelectionView: View {
         NavigationView {
             VStack(alignment: .leading){
                 if let selectedRoute = routeOptions.first(where: { $0.id == selectedRouteId }) {
-                    RouteView(sourceCoordinates: Binding.constant(selectedRoute.pickupPointCoordinate), destinationCoordinates: Binding.constant(selectedRoute.sourceCoordinate))
+                    RouteView(sourceCoordinates: Binding.constant(selectedRoute.pickupPointCoordinate), destinationCoordinates: Binding.constant(selectedRoute.destinationCoordinate), pickupCoordinates: Binding.constant(selectedRoute.sourceCoordinate))
                     } else {
                     Text("Loading routes...")
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
