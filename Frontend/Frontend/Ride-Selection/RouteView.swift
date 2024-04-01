@@ -45,7 +45,7 @@ struct CustomMapView: UIViewRepresentable {
         mapView.addAnnotation(pickupAnnotation)
         
         // Set the visible region of the map
-        let region = MKCoordinateRegion(center: sourceCoordinates, latitudinalMeters: 5000, longitudinalMeters: 5000)
+        let region = MKCoordinateRegion(center: sourceCoordinates, latitudinalMeters: 4000, longitudinalMeters: 4000)
         mapView.setRegion(region, animated: true)
         
         // Rideshare pickup route
@@ -178,7 +178,7 @@ struct CustomMapView: UIViewRepresentable {
             if overlay is MKPolyline {
                 let renderer = MKPolylineRenderer(overlay: overlay)
                 renderer.strokeColor = .blue
-                renderer.lineWidth = 6
+                renderer.lineWidth = 4
                 return renderer
             }
             return MKOverlayRenderer()

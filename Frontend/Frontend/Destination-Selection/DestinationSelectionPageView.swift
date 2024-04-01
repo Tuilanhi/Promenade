@@ -29,7 +29,7 @@ struct DestinationSelectionPageView: View {
                     // Loading screen
                     GIFImageView(imageName: "logo")
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .background(Color.black.opacity(0.9))
+                            .background(Color.black.opacity(1))
                             .transition(.opacity)
                     
                 }
