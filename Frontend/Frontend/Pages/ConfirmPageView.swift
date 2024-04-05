@@ -7,6 +7,7 @@
 
 import SwiftUI
 import MapKit
+import CoreLocation
 
 struct ConfirmPageView: View {
 //    @State private var cameraPosition: MapCameraPosition = .region(.userRegion)
@@ -19,7 +20,7 @@ struct ConfirmPageView: View {
     @State private var route: MKRoute?
     @State private var routeDestination: MKMapItem?
     
-    @State private var address: String = "161 Wellborn Rd"
+    @State public var address: String = ""
     @State private var showOrderPage = false
     
     
@@ -102,8 +103,17 @@ struct ConfirmPageView: View {
                             .padding(.bottom, 10)
                             
                             HStack {
-                                Text("Destination")
-                                    .font(.system(size: 16, weight: .semibold))
+//                                Text("Destination")
+//                                Text(getAddressFromCoordinates(userPickup: userPickup))
+//                                    .font(.system(size: 16, weight: .semibold))
+                                Text(address)
+                                      .font(.system(size: 16, weight: .semibold))
+                                      .onAppear {
+                                          //getAddress(userPickup: userPickup)
+                                          getAddress(userPickup: userPickup) { fetchedAddress in
+                                              self.address = fetchedAddress
+                                          }
+                                      }
                                 Spacer()
                                 Text(destinationTime)
                                     .font(.system(size: 14, weight: .semibold))
@@ -150,31 +160,47 @@ struct ConfirmPageView: View {
     }
 }
 
-//extension CLLocationCoordinate2D {
-//    static var userLocation: CLLocationCoordinate2D {
-//        return .init(latitude: 30.613, longitude: -96.342)
-//    }
-//}
 
-//extension CLLocationCoordinate2D {
-//    static var userDestination: CLLocationCoordinate2D {
-//        return .init(latitude: 30.619049, longitude: -96.339394)
-//    }
-//}
-//
-//extension MKCoordinateRegion {
-//    static var userRegion: MKCoordinateRegion {
-//        return .init(center: userCurrentLocation, latitudinalMeters: 1000, longitudinalMeters: 1000)
-//    }
-//}
-
-extension ConfirmPageView {
+func getAddress(userPickup: CLLocationCoordinate2D,  completion: @escaping (String) -> Void) {
     
-    func fetchRoute() {
+    let coords = CLLocation(latitude: userPickup.latitude, longitude: userPickup.longitude)
+    let geocoder = CLGeocoder()
+    var addressParts = [String]()
+    
+    geocoder.reverseGeocodeLocation(coords) { (placemarks, error) in
+        guard let placemark = placemarks?.first else {
+            print("Placemark error")
+            return
+        }
         
+        
+        let number = placemark.subThoroughfare ?? ""
+     
+        if let street = placemark.thoroughfare {
+            addressParts.append(street)
+        }
+        if let city = placemark.locality {
+            addressParts.append(city)
+        }
+        if let state = placemark.administrativeArea {
+            addressParts.append(state)
+        }
+       
+        let address = number + " " + addressParts.joined(separator: ", ")
+        completion(address)
+     
+    }
+}
+    
+    
+extension ConfirmPageView {
+        
+    func fetchRoute() {
+            
         let request = MKDirections.Request()
         request.source = MKMapItem(placemark: .init(coordinate: userCurrentLocation))
         request.destination = MKMapItem(placemark: .init(coordinate: userPickup))
+        request.transportType = .walking
         
         Task {
             let result = try? await MKDirections(request: request).calculate()
@@ -183,11 +209,11 @@ extension ConfirmPageView {
         }
     }
 }
-
+    
 #Preview {
-//    ConfirmPageView(currentTime: "", destinationTime: "")
+        //    ConfirmPageView(currentTime: "", destinationTime: "")
     ConfirmPageView(currentTime: "", destinationTime: "",
-                    userCurrentLocation: CLLocationCoordinate2D(latitude: 0, longitude: 0),
+                    userCurrentLocation: CLLocationCoordinate2D(latitude: 0,longitude: 0),
                     userPickup: CLLocationCoordinate2D(latitude: 0, longitude: 0))
 }
-
+    
