@@ -8,6 +8,8 @@
 import SwiftUI
 import MapKit
 import CoreLocation
+import Firebase
+
 
 struct ConfirmPageView: View {
 //    @State private var cameraPosition: MapCameraPosition = .region(.userRegion)
@@ -131,6 +133,7 @@ struct ConfirmPageView: View {
                     HStack {
                         
                         Button(action: {
+                            addCurrentRouteToPastRoutes()
                             showOrderPage=true
                         }) {
                             Text("CONFIRM PICK UP POINT")
@@ -158,6 +161,37 @@ struct ConfirmPageView: View {
             }
         }
     }
+    
+    func addCurrentRouteToPastRoutes() {
+        let db = Firestore.firestore()
+        
+        // Assuming "user-current-route" is the ID of your current route document
+        let currentRouteRef = db.collection("current-route").document("user-current-route")
+        
+        currentRouteRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                
+                // Add this data to the "past-routes" collection
+                var pastRouteData = data
+                // Optionally modify or add any additional data here before saving
+                pastRouteData?["timestamp"] = FieldValue.serverTimestamp() // For example, adding a timestamp
+                
+                db.collection("past-routes").addDocument(data: pastRouteData ?? [:]) { error in
+                    if let error = error {
+                        print("Error adding document to past routes: \(error.localizedDescription)")
+                    } else {
+                        print("Current route successfully added to past routes.")
+                        // Handle any post-save actions here, like navigation or confirmation messages
+                    }
+                }
+            } else {
+                print("Document does not exist in 'current-route'")
+            }
+        }
+    }
+
+    
 }
 
 

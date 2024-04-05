@@ -8,6 +8,7 @@
 import SwiftUI
 import MapKit
 import Firebase
+import CoreLocation
 
 struct RideSelectionView: View {
     @State var navigateToConfirmPage = false
@@ -18,7 +19,7 @@ struct RideSelectionView: View {
         NavigationView {
             VStack(alignment: .leading){
                 if let selectedRoute = routeOptions.first(where: { $0.id == selectedRouteId }) {
-                    RouteView(sourceCoordinates: Binding.constant(selectedRoute.pickupPointCoordinate), destinationCoordinates: Binding.constant(selectedRoute.sourceCoordinate))
+                    RouteView(sourceCoordinates: Binding.constant(selectedRoute.pickupPointCoordinate), destinationCoordinates: Binding.constant(selectedRoute.destinationCoordinate), pickupCoordinates: Binding.constant(selectedRoute.sourceCoordinate))
                     } else {
                     Text("Loading routes...")
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -82,19 +83,6 @@ struct RideSelectionView: View {
               }
           }
     }
-    
-    func iconNameForPrice(_ price: Double) -> String {
-        // Example logic to determine icon name based on price. Adjust according to your actual criteria.
-        switch price {
-        case 0..<10:
-            return "hare.fill"
-        case 10..<20:
-            return "figure.walk"
-        default:
-            return "tortoise.fill"
-        }
-    }
-
     
     private var tripInformation: some View {
         HStack {
@@ -168,10 +156,110 @@ struct RideSelectionView: View {
             .padding(.horizontal)
         }
     }
+
+    func updateCurrentRouteInFirestore(with selectedRoute: RouteOption) {
+        // Geocode coordinates to addresses and titles
+        let group = DispatchGroup()
+        
+        var sourceAddress = ""
+        var destinationAddress = ""
+        var pickupPointAddress = ""
+        var pickupPointTitle = ""  // Add this line to declare the variable
+        
+        group.enter()
+        geocodeCoordinate(selectedRoute.sourceCoordinate) { address, _ in
+            sourceAddress = address
+            group.leave()
+        }
+        
+        group.enter()
+        geocodeCoordinate(selectedRoute.destinationCoordinate) { address, _ in
+            destinationAddress = address
+            group.leave()
+        }
+        
+        group.enter()
+        geocodeCoordinate(selectedRoute.pickupPointCoordinate) { address, title in
+            pickupPointAddress = address
+            pickupPointTitle = title  // Save the title here
+            group.leave()
+        }
+        
+        // Once all geocoding is complete, update Firestore
+        group.notify(queue: .main) {
+            let routeData = self.createRouteDataDictionary(from: selectedRoute, sourceAddress: sourceAddress, destinationAddress: destinationAddress, pickupPointAddress: pickupPointAddress, pickupPointTitle: pickupPointTitle)  // Pass the title to the dictionary
+            
+            let db = Firestore.firestore()
+            
+            // Updating the "current-route"
+            let currentRouteRef = db.collection("current-route").document("user-current-route")
+            currentRouteRef.setData(routeData)
+        }
+    }
+
+    func geocodeCoordinate(_ coordinate: CLLocationCoordinate2D, completion: @escaping (String, String) -> Void) {
+        let geocoder = CLGeocoder()
+        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        
+        geocoder.reverseGeocodeLocation(location) { placemarks, error in
+            guard let placemark = placemarks?.first, error == nil else {
+                completion("Unknown Location", "Unknown Title")
+                return
+            }
+
+            // Create the title using subThoroughfare and thoroughfare
+            let streetNumber = placemark.subThoroughfare ?? ""
+            let streetName = placemark.thoroughfare ?? ""
+            let streetAddress = streetNumber.isEmpty ? streetName : "\(streetNumber) \(streetName)"
+            let pickupPointTitle = (streetNumber + " " + streetName).trimmingCharacters(in: .whitespaces)
+
+            // Continue with the full address creation
+            let addressComponents = [streetAddress, placemark.locality, placemark.administrativeArea, placemark.country].compactMap { $0 }.filter { !$0.isEmpty }
+            let address = addressComponents.joined(separator: ", ")
+            
+            completion(address, pickupPointTitle)
+        }
+    }
+
+
+    func createRouteDataDictionary(from selectedRoute: RouteOption, sourceAddress: String, destinationAddress: String, pickupPointAddress: String, pickupPointTitle: String) -> [String: Any] {
+        let timeFormatter = DateFormatter()
+        timeFormatter.timeStyle = .short
+        let currentTime = timeFormatter.string(from: Date())
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d"
+        let currentDate = dateFormatter.string(from: Date())
+
+        let routeData: [String: Any] = [
+            "iconName": selectedRoute.iconName,
+            "walkTime": selectedRoute.walkTime,
+            "walkDistance": selectedRoute.walkDistance,
+            "price": selectedRoute.price,
+            "destinationTime": Timestamp(date: selectedRoute.destinationTime),
+            "sourceAddress": sourceAddress,
+            "destinationAddress": destinationAddress,
+            "pickupPointAddress": pickupPointAddress,
+            "currentTime": currentTime,
+            "currentDate": currentDate,
+            "pickupPointTitle": pickupPointTitle,
+        ]
+        return routeData
+    }
+
+
+
     
     private var confirmButton: some View {
         Button {
-            self.navigateToConfirmPage = true
+            if let selectedRouteId = selectedRouteId,
+               let selectedRoute = routeOptions.first(where: { $0.id == selectedRouteId }) {
+                updateCurrentRouteInFirestore(with: selectedRoute)
+                self.navigateToConfirmPage = true
+            } else {
+                // Handle case where no route is selected
+                print("No route selected")
+            }
         } label: {
             Text("CONFIRM ROUTE")
                 .fontWeight(.bold)
@@ -182,16 +270,16 @@ struct RideSelectionView: View {
         }
         .padding(.vertical)
         .navigationDestination(isPresented: $navigateToConfirmPage) {
-            if let selectedRouteId = selectedRouteId,
-               let selectedRoute = routeOptions.first(where: { $0.id == selectedRouteId }) {
-//                ConfirmPageView(currentTime: Date().formattedTime(), destinationTime: selectedRoute.formattedDestinationTime)
-                ConfirmPageView(currentTime: Date().formattedTime(), destinationTime: selectedRoute.formattedDestinationTime, userCurrentLocation: selectedRoute.pickupPointCoordinate, userPickup: selectedRoute.sourceCoordinate)
-            } else {
-                // Fallback or error handling if no route is selected
-                Text("No route selected")
-            }
-        }
+                    if let selectedRouteId = selectedRouteId,
+                       let selectedRoute = routeOptions.first(where: { $0.id == selectedRouteId }) {
+                        ConfirmPageView(currentTime: Date().formattedTime(), destinationTime: selectedRoute.formattedDestinationTime, userCurrentLocation: selectedRoute.pickupPointCoordinate, userPickup: selectedRoute.sourceCoordinate)
+                    } else {
+                        // Fallback or error handling if no route is selected
+                        Text("No route selected")
+                    }
+                }
     }
+
     
     struct OptionView: View {
         let option: RouteOption

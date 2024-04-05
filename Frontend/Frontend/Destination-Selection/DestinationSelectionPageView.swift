@@ -29,7 +29,7 @@ struct DestinationSelectionPageView: View {
                     // Loading screen
                     GIFImageView(imageName: "logo")
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .background(Color.black.opacity(0.9))
+                            .background(Color.black.opacity(1))
                             .transition(.opacity)
                     
                 }
@@ -213,6 +213,8 @@ extension DestinationSelectionPageView {
             ],
             "maxPoints": 3
         ]
+        
+        print(jsonBody)
 
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: jsonBody)
@@ -262,7 +264,7 @@ extension DestinationSelectionPageView {
         }
         for ride in rides {
             do {
-                let docRef = try await collectionRef.addDocument(data: ride)
+                _ = try await collectionRef.addDocument(data: ride)
             } catch {
                 print("Error adding document to 'suggested-routes': \(error.localizedDescription)")
                 // Handle or log the error as needed
