@@ -44,7 +44,7 @@ struct ConfirmPageView: View {
     var body: some View {
         
         if showOrderPage {
-            OrderPageView()
+            OrderPageView(userCurrentLocation: userCurrentLocation, userPickup: userPickup)
         } else {
             NavigationView{
                 VStack {
