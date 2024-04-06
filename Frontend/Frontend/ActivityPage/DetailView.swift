@@ -27,14 +27,14 @@ struct DetailView: View {
 
                     Text("Source Address")
                         .font(.headline)
-                    Text(activity.sourceAddress)
+                    Text(activity.pickupPointAddress)
                         .font(.subheadline)
 
                     Spacer().frame(height: 20)
 
                     Text("Pickup Address")
                         .font(.headline)
-                    Text(activity.pickupPointAddress)
+                    Text(activity.sourceAddress)
                         .font(.subheadline)
 
                     Spacer().frame(height: 20)

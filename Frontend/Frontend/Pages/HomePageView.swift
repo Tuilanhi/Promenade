@@ -19,7 +19,7 @@ struct HomePageView: View {
                 }) {
                     SearchBarView()
                 }
-                .buttonStyle(PlainButtonStyle()) // Make sure the button doesn't apply any default styling
+                .buttonStyle(PlainButtonStyle())
                 
                 MapView()
             }

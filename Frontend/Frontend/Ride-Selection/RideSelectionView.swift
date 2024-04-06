@@ -27,9 +27,6 @@ struct RideSelectionView: View {
                         .transition(.opacity)
                 }
                 VStack {
-                    Capsule()
-                        .foregroundColor(Color(.systemGray5))
-                        .frame(width: 48, height: 6)
                 
                     VStack {
                         routeSelection
