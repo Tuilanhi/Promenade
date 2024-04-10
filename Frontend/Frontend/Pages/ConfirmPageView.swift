@@ -143,14 +143,6 @@ struct ConfirmPageView: View {
                                 .cornerRadius(10)
                                 .foregroundColor(.white)
                         }
-                        
-                        Button(action: {}) {
-                            Image(systemName: "magnifyingglass")
-                                .padding()
-                                .foregroundColor(Color.white)
-                                .background(Color.black)
-                                .cornerRadius(10)
-                        }
                     }
                     .padding(.vertical)
                 }
