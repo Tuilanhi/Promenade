@@ -21,6 +21,7 @@ struct DestinationSelectionPageView: View {
     @State private var destinationCoordinates = CLLocationCoordinate2D(latitude: 31.124356, longitude: -93.234586)
 
     @State private var showLoadingScreen = false
+    @FocusState private var isDestinationFocused: Bool
     
     var body: some View {
         NavigationStack {
@@ -55,18 +56,19 @@ struct DestinationSelectionPageView: View {
                                     self.isCurrentLocationActive = true
                                     self.viewModel.savedAddressSelected = false
                                 }
-                                .frame(height: 32)
+                                .frame(height: 38)
                                 .background(Color(.systemGroupedBackground))
                                 .padding(.trailing)
                                 .padding(.leading)
                                 .disableAutocorrection(true)
                             
                             TextField("Destination", text: $viewModel.destinationQuery)
+                                .focused($isDestinationFocused)
                                 .onTapGesture {
                                     self.isCurrentLocationActive = false
                                     self.isDestinationActive = true
                                 }
-                                .frame(height: 32)
+                                .frame(height: 38)
                                 .background(Color(.systemGray4))
                                 .padding(.trailing)
                                 .padding(.leading)
@@ -142,6 +144,9 @@ struct DestinationSelectionPageView: View {
             .onAppear {
                 locationManager.setup()
                 updateLocationQuery(initial: true)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.isDestinationFocused = true
+                    }
             }
             .onChange(of: locationManager.userLocation) {
                 updateLocationQuery()
@@ -164,7 +169,12 @@ struct DestinationSelectionPageView: View {
         let geocoder = CLGeocoder()
         geocoder.reverseGeocodeLocation(location) { [weak viewModel] placemarks, error in
             guard let placemark = placemarks?.first else { return }
-            let formattedAddress = [placemark.subThoroughfare, placemark.thoroughfare, placemark.locality].compactMap { $0 }.joined(separator: ", ")
+            
+            let streetNumber = placemark.subThoroughfare ?? ""
+            let streetName = placemark.thoroughfare ?? ""
+            let streetAddress = streetNumber.isEmpty ? streetName : "\(streetNumber) \(streetName)"
+            
+            let formattedAddress = [streetAddress, placemark.locality].compactMap { $0 }.joined(separator: ", ")
             viewModel?.currentLocationQuery = formattedAddress
             self.sourceCoordinates = location.coordinate
         }

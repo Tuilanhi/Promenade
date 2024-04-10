@@ -13,14 +13,13 @@ final class LocationManager: NSObject, ObservableObject {
     private let locationManager = CLLocationManager()
     
     @Published var region = MapCameraPosition.region(MKCoordinateRegion(
-        center: .init(latitude: 37.334_900, longitude: -122.009_020),
+        center: .init(latitude: 37.334_900, longitude: -122.009_020), // Default to San Francisco
         span: .init(latitudeDelta: 0.2, longitudeDelta: 0.2)
     ))
     @Published var userLocation: CLLocation?
     
     override init() {
         super.init()
-        
         self.locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         setup()
@@ -29,19 +28,23 @@ final class LocationManager: NSObject, ObservableObject {
     func setup() {
         switch locationManager.authorizationStatus {
         case .authorizedWhenInUse, .authorizedAlways:
-            locationManager.requestLocation()
+            locationManager.startUpdatingLocation()
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         default:
-            break
+            print("Location access not authorized.")
         }
     }
 }
 
 extension LocationManager: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        guard manager.authorizationStatus == .authorizedWhenInUse || manager.authorizationStatus == .authorizedAlways else { return }
-        locationManager.requestLocation()
+        switch manager.authorizationStatus {
+        case .authorizedWhenInUse, .authorizedAlways:
+            locationManager.startUpdatingLocation() // Make sure to start updating location here as well
+        default:
+            print("Location access was not authorized.")
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -49,7 +52,6 @@ extension LocationManager: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        locationManager.stopUpdatingLocation()
         if let location = locations.last {
             userLocation = location
             region = MapCameraPosition.region(MKCoordinateRegion(
