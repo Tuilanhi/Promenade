@@ -27,6 +27,7 @@ struct CustomMapView: UIViewRepresentable {
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()
         mapView.delegate = context.coordinator
+        mapView.userTrackingMode = .follow
         
         // Add annotations for source and destination
         let sourceAnnotation = MKPointAnnotation()
