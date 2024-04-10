@@ -237,7 +237,6 @@ extension ConfirmPageView {
 }
     
 #Preview {
-        //    ConfirmPageView(currentTime: "", destinationTime: "")
     ConfirmPageView(currentTime: "", destinationTime: "",
                     userCurrentLocation: CLLocationCoordinate2D(latitude: 0,longitude: 0),
                     userPickup: CLLocationCoordinate2D(latitude: 0, longitude: 0))

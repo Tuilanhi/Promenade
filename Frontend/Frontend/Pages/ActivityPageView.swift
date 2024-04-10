@@ -52,10 +52,27 @@ struct ActivityPageView: View {
                 print("Error fetching documents: \(String(describing: error))")
                 return
             }
-            
+
+            let dateFormatter = DateFormatter()
+            // Assuming English locale for month abbreviation
+            dateFormatter.locale = Locale(identifier: "en_US")
+            dateFormatter.dateFormat = "MMM dd yyyy h:mm a"
+
+            let currentYear = Calendar.current.component(.year, from: Date())
+
             self.activities = documents.compactMap { doc -> Activity? in
                 return Activity(documentId: doc.documentID, data: doc.data())
-            }
+            }.sorted(by: { firstActivity, secondActivity in
+                let firstDateString = "\(firstActivity.currentDate) \(currentYear) \(firstActivity.currentTime)"
+                let secondDateString = "\(secondActivity.currentDate) \(currentYear) \(secondActivity.currentTime)"
+                
+                guard let firstDate = dateFormatter.date(from: firstDateString),
+                      let secondDate = dateFormatter.date(from: secondDateString) else {
+                    return false
+                }
+
+                return firstDate > secondDate
+            })
         }
     }
 }

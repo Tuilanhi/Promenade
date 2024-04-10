@@ -52,9 +52,16 @@ struct DestinationSelectionPageView: View {
                         }
                         VStack {
                             TextField("Current Location", text: $viewModel.currentLocationQuery)
+                                .onChange(of: viewModel.currentLocationQuery) { oldValue, newValue in
+                                    viewModel.userClearedCurrentLocation = newValue.isEmpty
+                                    if newValue.isEmpty {
+                                        viewModel.allowAutomaticLocationUpdate = false
+                                    }
+                                }
                                 .onTapGesture {
                                     self.isCurrentLocationActive = true
                                     self.viewModel.savedAddressSelected = false
+                                    // Possibly add a button or action to re-enable automatic location updates.
                                 }
                                 .frame(height: 38)
                                 .background(Color(.systemGroupedBackground))
@@ -155,7 +162,7 @@ struct DestinationSelectionPageView: View {
     }
     
     private func updateLocationQuery(initial: Bool = false) {
-        if viewModel.savedAddressSelected {
+        if !viewModel.allowAutomaticLocationUpdate || viewModel.userClearedCurrentLocation {
             return
         }
         

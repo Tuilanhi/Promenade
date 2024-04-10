@@ -9,6 +9,7 @@
 
 import SwiftUI
 import MapKit
+import Firebase
 
 struct OrderPageView: View {
     
@@ -19,6 +20,9 @@ struct OrderPageView: View {
     @State private var stepIndex: Int = 0
     
     @State private var route: MKRoute?
+    
+    @State private var pickupCoordinates = CLLocationCoordinate2D(latitude: 0, longitude: 0)
+    @State private var dropoffCoordinates = CLLocationCoordinate2D(latitude: 0, longitude: 0)
     
     init(userCurrentLocation: CLLocationCoordinate2D, userPickup: CLLocationCoordinate2D) {
         self._userCurrentLocation = State(initialValue: userCurrentLocation)
@@ -99,9 +103,7 @@ struct OrderPageView: View {
                 
                 HStack {
                     Button(action: {
-                        if let url = URL(string: "https://www.uber.com/") {
-                            UIApplication.shared.open(url)
-                        }
+                        openUberWithCoordinates()
                     }) {
                         Text("Order Uber")
                             .font(.title)
@@ -118,7 +120,39 @@ struct OrderPageView: View {
             .onAppear {
                 fetchRoute()
                 fetchDirections()
+                fetchCurrentRouteFromFirestore()
             }
+        }
+    }
+    
+    private func fetchCurrentRouteFromFirestore() {
+        let db = Firestore.firestore()
+        db.collection("current-route").document("user-current-route").getDocument { (document, error) in
+            if let document = document, document.exists {
+                if let data = document.data() {
+                    if let pickupPoint = data["pickupPointCoordinates"] as? GeoPoint,
+                       let destination = data["destinationCoordinates"] as? GeoPoint {
+                        self.pickupCoordinates = CLLocationCoordinate2D(latitude: pickupPoint.latitude, longitude: pickupPoint.longitude)
+                        self.dropoffCoordinates = CLLocationCoordinate2D(latitude: destination.latitude, longitude: destination.longitude)
+                        
+                        // Print the coordinates to verify
+                        print("Pickup Coordinates: \(self.pickupCoordinates.latitude), \(self.pickupCoordinates.longitude)")
+                        print("Dropoff Coordinates: \(self.dropoffCoordinates.latitude), \(self.dropoffCoordinates.longitude)")
+                    }
+                }
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+    
+    private func openUberWithCoordinates() {
+        print("Opening Uber with Pickup Coordinates: \(pickupCoordinates.latitude), \(pickupCoordinates.longitude)")
+        print("Opening Uber with Dropoff Coordinates: \(dropoffCoordinates.latitude), \(dropoffCoordinates.longitude)")
+        
+        let uberURL = "uber://?action=setPickup&client_id=W9IJVfDtraQeCVxSeWFYfxtpE2InanIl&pickup[latitude]=\(pickupCoordinates.latitude)&pickup[longitude]=\(pickupCoordinates.longitude)&dropoff[latitude]=\(dropoffCoordinates.latitude)&dropoff[longitude]=\(dropoffCoordinates.longitude)"
+        if let url = URL(string: uberURL) {
+            UIApplication.shared.open(url)
         }
     }
     

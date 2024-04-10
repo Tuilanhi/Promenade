@@ -221,7 +221,10 @@ struct RideSelectionView: View {
 
     func createRouteDataDictionary(from selectedRoute: RouteOption, sourceAddress: String, destinationAddress: String, pickupPointAddress: String, pickupPointTitle: String) -> [String: Any] {
         let timeFormatter = DateFormatter()
-        timeFormatter.timeStyle = .short
+        // Explicitly set the locale to ensure consistent behavior
+        timeFormatter.locale = Locale(identifier: "en_US_POSIX")
+        // Set a specific format that includes AM/PM
+        timeFormatter.dateFormat = "h:mm a"
         let currentTime = timeFormatter.string(from: Date())
 
         let dateFormatter = DateFormatter()
@@ -240,6 +243,9 @@ struct RideSelectionView: View {
             "currentTime": currentTime,
             "currentDate": currentDate,
             "pickupPointTitle": pickupPointTitle,
+            "sourceCoordinates": GeoPoint(latitude: selectedRoute.sourceCoordinate.latitude, longitude: selectedRoute.sourceCoordinate.longitude),
+            "pickupPointCoordinates": GeoPoint(latitude: selectedRoute.pickupPointCoordinate.latitude, longitude: selectedRoute.pickupPointCoordinate.longitude),
+            "destinationCoordinates": GeoPoint(latitude: selectedRoute.destinationCoordinate.latitude, longitude: selectedRoute.destinationCoordinate.longitude)
         ]
         return routeData
     }

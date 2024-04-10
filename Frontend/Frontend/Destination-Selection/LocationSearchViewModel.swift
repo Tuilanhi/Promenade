@@ -21,6 +21,10 @@ class LocationSearchViewModel: NSObject, ObservableObject {
     @Published var selectionComplete: Bool = false
     @Published var savedAddressSelected: Bool = false
     
+    @Published var userClearedCurrentLocation: Bool = false
+    // Add a property to control when to allow automatic location updates
+    @Published var allowAutomaticLocationUpdate: Bool = true
+    
     @Published var currentLocationQuery: String = "" {
         didSet {
             currentLocationSearchCompleter.queryFragment = currentLocationQuery
