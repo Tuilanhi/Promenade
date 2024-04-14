@@ -1,15 +1,7 @@
-////
-////  OrderPageView.swift
-////  Frontend
-////
-////  Created by nhi vu on 2/20/24.
-////
-////
-//
-
 import SwiftUI
 import MapKit
 import Firebase
+import CoreLocation
 
 struct OrderPageView: View {
     
@@ -24,6 +16,8 @@ struct OrderPageView: View {
     @State private var pickupCoordinates = CLLocationCoordinate2D(latitude: 0, longitude: 0)
     @State private var dropoffCoordinates = CLLocationCoordinate2D(latitude: 0, longitude: 0)
     
+    @StateObject private var locationViewModel = LocationViewModel()
+    
     init(userCurrentLocation: CLLocationCoordinate2D, userPickup: CLLocationCoordinate2D) {
         self._userCurrentLocation = State(initialValue: userCurrentLocation)
         self.userPickup = userPickup
@@ -32,97 +26,90 @@ struct OrderPageView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Map/*(position: $cameraPosition)*/ {
-                    Annotation("Your Location", coordinate: userCurrentLocation) {
-                        ZStack {
-                            Circle()
-                                .frame(width: 32, height: 32)
-                                .foregroundColor(.blue.opacity(0.25))
-                            Circle()
-                                .frame(width: 20, height: 20)
-                                .foregroundColor(.white)
-                            Circle()
-                                .frame(width: 12, height: 12)
-                                .foregroundColor(.blue)
-                        }
+                MapViewer(userLocation: $userCurrentLocation, pickupLocation: userPickup, route: $route)
+                    .onAppear {
+                        fetchRoute()
+                        fetchDirections()
+                        fetchCurrentRouteFromFirestore()
+                        locationViewModel.startUpdatingLocation()
                     }
-                    
-                    Marker("Pickup Point", coordinate: userPickup)
-                
-                    if let route {
-                        MapPolyline(route.polyline)
-                            .stroke(.blue, lineWidth: 6)
+                    .onDisappear {
+                        locationViewModel.stopUpdatingLocation()
                     }
-                    
-                }
                 
                 VStack {
-                  
-                    HStack {
-                       
+                    if !directions.isEmpty {
+                        Text("Route Name")
+                            .font(.headline)
+                            .padding(.bottom)
                         
-                        Button(action: {
-                            if stepIndex > 0 {
-                                stepIndex -= 1
-                            }
-                        }) {
-                            Image(systemName: "chevron.left")
+                        ForEach(directions.indices, id: \.self) { index in
+                            DirectionStepView(stepNumber: index + 1, instruction: directions[index], isActive: index == stepIndex)
+                                .onTapGesture {
+                                    stepIndex = index
+                                }
                         }
-                        
-                        Spacer()
-                        
-                        if directions.indices.contains(stepIndex) {
-                            Text(directions[stepIndex])
-                                .multilineTextAlignment(.center)
-                                .padding()
-                                .foregroundColor(.black)
-                        } else {
-                            Text("directions not available")
-                                .padding()
-                        }
-                        
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            if stepIndex < directions.count - 1 {
-                                stepIndex += 1
-                            }
-                        }) {
-                            Image(systemName: "chevron.right")
-                        }
-                        
+                    } else {
+                        Text("Directions not available")
                     }
-                    .padding()
-                    .foregroundColor(.blue)
                 }
-                .padding(.leading, 8)
+                .padding()
+                .background(Color.white)
+                .cornerRadius(10)
+                .shadow(radius: 5)
+                .padding()
                 
-                Divider()
-                    .padding(.vertical, 8)
+                Spacer()
                 
                 HStack {
                     Button(action: {
-                        openUberWithCoordinates()
+                        updateStepIndex(forward: false)
                     }) {
-                        Text("Order Uber")
-                            .font(.title)
-                            .fontWeight(.bold)
+                        Image(systemName: "chevron.left")
                             .padding()
-                            .foregroundColor(Color.white)
-                            .background(Color.black)
-                            .cornerRadius(10)
+                            .background(stepIndex == 0 ? Color.gray.opacity(0.5) : Color.blue.opacity(0.7))
+                            .clipShape(Circle())
                     }
+                    .disabled(stepIndex == 0)
+                    
+                    Spacer()
+                    
+                    Text("Step \(stepIndex + 1) of \(directions.count)")
+                        .font(.headline)
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        updateStepIndex(forward: true)
+                    }) {
+                        Image(systemName: "chevron.right")
+                            .padding()
+                            .background(stepIndex == directions.count - 1 ? Color.gray.opacity(0.5) : Color.blue.opacity(0.7))
+                            .clipShape(Circle())
+                    }
+                    .disabled(stepIndex == directions.count - 1)
                 }
-                .padding(.vertical)
-            }
-            .background(Color.white)
-            .onAppear {
-                fetchRoute()
-                fetchDirections()
-                fetchCurrentRouteFromFirestore()
+                .foregroundColor(.white)
+                .padding()
+                .background(Color.blue)
+                .cornerRadius(10)
+                .padding()
+                
+                Button(action: {
+                    openUberWithCoordinates()
+                }) {
+                    Text("Order Uber")
+                        .font(.headline)
+                        .fontWeight(.bold)
+                        .padding()
+                        .foregroundColor(Color.white)
+                        .background(Color.black)
+                        .cornerRadius(10)
+                }
+                .padding()
             }
         }
+        .navigationBarTitle("Order Details", displayMode: .inline)
     }
     
     private func fetchCurrentRouteFromFirestore() {
@@ -134,10 +121,6 @@ struct OrderPageView: View {
                        let destination = data["destinationCoordinates"] as? GeoPoint {
                         self.pickupCoordinates = CLLocationCoordinate2D(latitude: pickupPoint.latitude, longitude: pickupPoint.longitude)
                         self.dropoffCoordinates = CLLocationCoordinate2D(latitude: destination.latitude, longitude: destination.longitude)
-                        
-                        // Print the coordinates to verify
-                        print("Pickup Coordinates: \(self.pickupCoordinates.latitude), \(self.pickupCoordinates.longitude)")
-                        print("Dropoff Coordinates: \(self.dropoffCoordinates.latitude), \(self.dropoffCoordinates.longitude)")
                     }
                 }
             } else {
@@ -147,9 +130,6 @@ struct OrderPageView: View {
     }
     
     private func openUberWithCoordinates() {
-        print("Opening Uber with Pickup Coordinates: \(pickupCoordinates.latitude), \(pickupCoordinates.longitude)")
-        print("Opening Uber with Dropoff Coordinates: \(dropoffCoordinates.latitude), \(dropoffCoordinates.longitude)")
-        
         let uberURL = "uber://?action=setPickup&client_id=W9IJVfDtraQeCVxSeWFYfxtpE2InanIl&pickup[latitude]=\(pickupCoordinates.latitude)&pickup[longitude]=\(pickupCoordinates.longitude)&dropoff[latitude]=\(dropoffCoordinates.latitude)&dropoff[longitude]=\(dropoffCoordinates.longitude)"
         if let url = URL(string: uberURL) {
             UIApplication.shared.open(url)
@@ -208,9 +188,132 @@ struct OrderPageView: View {
             completion(steps)
         }
     }
+    
+    private func updateStepIndex(forward: Bool) {
+        if forward {
+            if stepIndex < directions.count - 1 {
+                stepIndex += 1
+            }
+        } else {
+            if stepIndex > 0 {
+                stepIndex -= 1
+            }
+        }
+    }
 }
 
-
-#Preview {
-    OrderPageView(userCurrentLocation: CLLocationCoordinate2D(latitude: 0,longitude: 0), userPickup: CLLocationCoordinate2D(latitude: 0, longitude: 0))
+struct MapViewer: UIViewRepresentable {
+    @Binding var userLocation: CLLocationCoordinate2D
+    let pickupLocation: CLLocationCoordinate2D
+    @Binding var route: MKRoute?
+    
+    func makeUIView(context: Context) -> MKMapView {
+        let mapView = MKMapView()
+        mapView.delegate = context.coordinator
+        return mapView
+    }
+    
+    func updateUIView(_ uiView: MKMapView, context: Context) {
+        uiView.showsUserLocation = true
+        
+        let userAnnotation = MKPointAnnotation()
+        userAnnotation.coordinate = userLocation
+        userAnnotation.title = "Your Location"
+        
+        let pickupAnnotation = MKPointAnnotation()
+        pickupAnnotation.coordinate = pickupLocation
+        pickupAnnotation.title = "Pickup Point"
+        
+        uiView.removeAnnotations(uiView.annotations)
+        uiView.addAnnotation(userAnnotation)
+        uiView.addAnnotation(pickupAnnotation)
+        
+        if let route = route {
+            uiView.addOverlay(route.polyline)
+            
+            // Zoom to user's location when the directions start
+            if !route.steps.isEmpty {
+                let firstStep = route.steps.first!
+                let region = MKCoordinateRegion(center: firstStep.polyline.coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
+                uiView.setRegion(region, animated: true)
+            }
+        }
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+    
+    class Coordinator: NSObject, MKMapViewDelegate {
+        var parent: MapViewer
+        
+        init(_ parent: MapViewer) {
+            self.parent = parent
+        }
+        
+        func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+            if let polyline = overlay as? MKPolyline {
+                let renderer = MKPolylineRenderer(polyline: polyline)
+                renderer.strokeColor = .blue
+                renderer.lineWidth = 6
+                return renderer
+            }
+            return MKOverlayRenderer()
+        }
+    }
 }
+
+struct DirectionStepView: View {
+    let stepNumber: Int
+    let instruction: String
+    let isActive: Bool
+    
+    var body: some View {
+        HStack(alignment: .top, spacing: 10) {
+            Circle()
+                .fill(isActive ? Color.blue : Color.gray)
+                .frame(width: 10, height: 10)
+                .padding(.leading, 5)
+            
+            Text(instruction)
+                .font(.body)
+            
+            Spacer()
+        }
+        .padding(.vertical, 5)
+        .background(isActive ? Color.blue.opacity(0.1) : Color.clear)
+        .cornerRadius(5)
+    }
+}
+
+struct OrderPageView_Previews: PreviewProvider {
+    static var previews: some View {
+        OrderPageView(userCurrentLocation: CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194),
+                      userPickup: CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194))
+    }
+}
+
+class LocationViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
+    private var locationManager = CLLocationManager()
+    @Published var userLocation: CLLocationCoordinate2D?
+    
+    override init() {
+        super.init()
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+    }
+    
+    func startUpdatingLocation() {
+        locationManager.startUpdatingLocation()
+    }
+    
+    func stopUpdatingLocation() {
+        locationManager.stopUpdatingLocation()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last?.coordinate else { return }
+        userLocation = location
+    }
+}
+
