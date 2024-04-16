@@ -20,6 +20,9 @@ struct OrderPageView: View {
     @State private var stepIndex: Int = 0
     
     @State private var route: MKRoute?
+    @State private var segmentLine: MKPolyline?
+    @State private var startCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 0, longitude: 0)
+
     
     @State private var pickupCoordinates = CLLocationCoordinate2D(latitude: 0, longitude: 0)
     @State private var dropoffCoordinates = CLLocationCoordinate2D(latitude: 0, longitude: 0)
@@ -30,29 +33,35 @@ struct OrderPageView: View {
     }
     
     var body: some View {
+        
+       
+        
         NavigationView {
+            
             VStack {
+                
+                
                 Map/*(position: $cameraPosition)*/ {
-                    Annotation("Your Location", coordinate: userCurrentLocation) {
-                        ZStack {
-                            Circle()
-                                .frame(width: 32, height: 32)
-                                .foregroundColor(.blue.opacity(0.25))
-                            Circle()
-                                .frame(width: 20, height: 20)
-                                .foregroundColor(.white)
-                            Circle()
-                                .frame(width: 12, height: 12)
-                                .foregroundColor(.blue)
-                        }
+                    
+                    Annotation("Starting Point", coordinate: startCoordinate) {
+                        Image(systemName: "circle.fill").foregroundColor(.black).font(.system(size: 25))
                     }
                     
                     Marker("Pickup Point", coordinate: userPickup)
                 
-                    if let route {
-                        MapPolyline(route.polyline)
-                            .stroke(.blue, lineWidth: 6)
+//                    if let route {
+//                        MapPolyline(route.polyline)
+//                            .stroke(.blue, lineWidth: 6)
+//                    }
+                    
+                    if let segmentLine = segmentLine {
+                        MapPolyline(segmentLine)
+                            .stroke(.green, lineWidth: 6)
                     }
+//                    } else if let route = route {
+//                        MapPolyline(route.polyline)
+//                            .stroke(.blue, lineWidth: 6)
+//                    }
                     
                 }
                 
@@ -64,6 +73,7 @@ struct OrderPageView: View {
                         Button(action: {
                             if stepIndex > 0 {
                                 stepIndex -= 1
+                                fetchStepSegment()
                             }
                         }) {
                             Image(systemName: "chevron.left")
@@ -87,6 +97,7 @@ struct OrderPageView: View {
                         Button(action: {
                             if stepIndex < directions.count - 1 {
                                 stepIndex += 1
+                                fetchStepSegment()
                             }
                         }) {
                             Image(systemName: "chevron.right")
@@ -118,6 +129,7 @@ struct OrderPageView: View {
             }
             .background(Color.white)
             .onAppear {
+                self.startCoordinate = self.userCurrentLocation
                 fetchRoute()
                 fetchDirections()
                 fetchCurrentRouteFromFirestore()
@@ -165,6 +177,7 @@ struct OrderPageView: View {
         Task {
             let result = try? await MKDirections(request: request).calculate()
             route = result?.routes.first
+            fetchStepSegment()
         }
     }
     
@@ -208,7 +221,68 @@ struct OrderPageView: View {
             completion(steps)
         }
     }
+    
+    private func fetchStepSegment() {
+        guard let segment = route else {
+            return
+        }
+        
+        let step = segment.steps[stepIndex]
+//        let coordPoints = step.polyline.points()
+        
+        guard step.polyline.pointCount >= 2 else {
+            return
+        }
+        
+        let segmentStart = step.polyline.points()[0]
+        let segmentEnd = step.polyline.points()[step.polyline.pointCount - 1]
+        
+        startCoordinate = CLLocationCoordinate2D(latitude: segmentStart.coordinate.latitude, longitude: segmentStart.coordinate.longitude)
+        
+        segmentLine = segment.polyline.trim(from: segmentStart, to: segmentEnd)
+        
+        
+    }
+    
+    
 }
+
+extension MKPolyline {
+    func trim (from segmentStart: MKMapPoint, to segmentEnd: MKMapPoint) -> MKPolyline {
+        var segmentStartIndex = 0
+        var segmentEndIndex = 0
+        var startSelected = false
+        var endSelected = false
+        
+        let mapPoints = self.points()
+        
+        for i in 0..<self.pointCount {
+            
+            let currentPoint = mapPoints[i]
+            
+            if !startSelected && currentPoint.x == segmentStart.x && currentPoint.y == segmentStart.y {
+                segmentStartIndex = i
+                startSelected = true
+            }
+            
+            if !endSelected && currentPoint.x == segmentEnd.x && currentPoint.y == segmentEnd.y {
+                segmentEndIndex = i
+                endSelected = true
+            }
+            
+            if startSelected && endSelected {
+                break
+            }
+        }
+        
+        let segmentPoints = (segmentStartIndex...segmentEndIndex).map {mapPoints[$0]}
+
+        return MKPolyline(points: segmentPoints, count: segmentEndIndex - segmentStartIndex + 1)
+    }
+}
+
+
+
 
 
 #Preview {
