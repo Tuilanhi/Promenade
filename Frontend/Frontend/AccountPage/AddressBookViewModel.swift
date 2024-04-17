@@ -6,7 +6,8 @@
 //
 
 import Foundation
-import FirebaseFirestore
+import Firebase
+
 
 // Define your address model
 struct Address: Identifiable {
@@ -18,15 +19,25 @@ struct Address: Identifiable {
 // ViewModel to fetch addresses from Firestore
 class AddressBookViewModel: ObservableObject {
     @Published var addresses = [Address]()
-    
     private var db = Firestore.firestore()
+    
+    // Add a userId property to get the current user's ID from Firebase
+    private var userId: String? {
+        Auth.auth().currentUser?.uid
+    }
     
     init() {
         fetchData()
     }
     
     func fetchData() {
-        db.collection("places").addSnapshotListener { (querySnapshot, error) in
+        guard let userId = userId else {
+            print("Error: User is not authenticated.")
+            return
+        }
+        
+        db.collection("users").document(userId).collection("places")
+            .addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("No documents or error: \(String(describing: error))")
                 return
@@ -44,7 +55,13 @@ class AddressBookViewModel: ObservableObject {
     }
     
     func deleteAddressById(_ documentId: String, completion: @escaping () -> Void) {
-        db.collection("places").document(documentId).delete() { err in
+        guard let userId = userId else {
+            print("Error: User is not authenticated.")
+            return
+        }
+        
+        db.collection("users").document(userId).collection("places").document(documentId)
+            .delete() { err in
             if let err = err {
                 print("Error removing document: \(err)")
             } else {
@@ -57,6 +74,11 @@ class AddressBookViewModel: ObservableObject {
     }
     
     func savePlace(name: String, address: String, id: String? = nil) {
+        guard let userId = userId else {
+           print("Error: User is not authenticated.")
+           return
+        }
+        
         let db = Firestore.firestore()
         
         let placeData: [String: Any] = [
@@ -66,7 +88,8 @@ class AddressBookViewModel: ObservableObject {
         
         if let id = id {
             // Update existing document
-            db.collection("places").document(id).setData(placeData) { error in
+            db.collection("users").document(userId).collection("places").document(id)
+                .setData(placeData) { error in
                 if let error = error {
                     print("Error updating place: \(error.localizedDescription)")
                 } else {
@@ -75,7 +98,8 @@ class AddressBookViewModel: ObservableObject {
             }
         } else {
             // Add a new document
-            db.collection("places").addDocument(data: placeData) { error in
+            db.collection("users").document(userId).collection("places")
+                .addDocument(data: placeData) { error in
                 if let error = error {
                     print("Error saving place: \(error.localizedDescription)")
                 } else {

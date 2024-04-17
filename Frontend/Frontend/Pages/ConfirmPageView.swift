@@ -40,6 +40,10 @@ struct ConfirmPageView: View {
         self.userPickup = userPickup
     }
 
+    // Fetch the userId from Firebase Authentication
+    private var userId: String? {
+        Auth.auth().currentUser?.uid
+    }
     
     var body: some View {
         
@@ -155,35 +159,45 @@ struct ConfirmPageView: View {
     }
     
     func addCurrentRouteToPastRoutes() {
+        guard let userId = userId else {
+            print("Error: User is not authenticated.")
+            return
+        }
+
         let db = Firestore.firestore()
-        
-        // Assuming "user-current-route" is the ID of your current route document
-        let currentRouteRef = db.collection("current-route").document("user-current-route")
-        
+
+        // Reference to the user-specific 'current-route' document
+        let currentRouteRef = db.collection("users").document(userId).collection("current-route").document("user-current-route")
+
         currentRouteRef.getDocument { (document, error) in
-            if let document = document, document.exists {
-                let data = document.data()
-                
-                // Add this data to the "past-routes" collection
-                var pastRouteData = data
-                // Optionally modify or add any additional data here before saving
-                pastRouteData?["timestamp"] = FieldValue.serverTimestamp() // For example, adding a timestamp
-                
-                db.collection("past-routes").addDocument(data: pastRouteData ?? [:]) { error in
-                    if let error = error {
-                        print("Error adding document to past routes: \(error.localizedDescription)")
-                    } else {
-                        print("Current route successfully added to past routes.")
-                        // Handle any post-save actions here, like navigation or confirmation messages
-                    }
+            if let error = error {
+                // Handle the error appropriately
+                print("Error fetching current route: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let document = document, document.exists, let data = document.data() else {
+                print("Document does not exist in user's 'current-route'")
+                return
+            }
+
+            // Prepare the data to add to 'past-routes', including a timestamp
+            var pastRouteData = data
+            pastRouteData["timestamp"] = FieldValue.serverTimestamp()
+
+            // Reference to the user-specific 'past-routes' collection
+            let pastRoutesRef = db.collection("users").document(userId).collection("past-routes")
+
+            pastRoutesRef.addDocument(data: pastRouteData) { error in
+                if let error = error {
+                    // Handle the error appropriately
+                    print("Error adding document to user's past routes: \(error.localizedDescription)")
+                } else {
+                    print("Current route successfully added to user's past routes.")
                 }
-            } else {
-                print("Document does not exist in 'current-route'")
             }
         }
     }
-
-    
 }
 
 

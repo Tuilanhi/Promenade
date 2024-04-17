@@ -24,6 +24,11 @@ struct DestinationSelectionPageView: View {
     @State private var showLoadingScreen = false
     @FocusState private var isDestinationFocused: Bool
     
+    // Fetch the userId from Firebase Authentication
+    private var userId: String? {
+        Auth.auth().currentUser?.uid
+    }
+    
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
@@ -207,9 +212,12 @@ struct DestinationSelectionPageView: View {
                 self.sourceCoordinates = location.coordinate
             } else {
                 self.destinationCoordinates = location.coordinate
-                // Trigger the data fetch and Firestore update here using Task
+                guard let userId = self.userId else {
+                    print("Error: User is not authenticated.")
+                    return
+                }
                 Task {
-                    await self.fetchDataFromAPI()
+                    await self.fetchDataFromAPI(userId: userId)
                 }
             }
         }
@@ -217,16 +225,18 @@ struct DestinationSelectionPageView: View {
 }
 
 extension DestinationSelectionPageView {
-    func fetchDataFromAPI() async {
+    func fetchDataFromAPI(userId: String) async {
         showLoadingScreen = true // Activate loading screen
 
         guard let url = URL(string: "https://lpr6uss943.execute-api.us-east-1.amazonaws.com/dev/street-exploration") else {
             print("Invalid URL string.")
+            DispatchQueue.main.async {
+                self.showLoadingScreen = false
+            }
             return
         }
         
         var request = URLRequest(url: url)
-
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
@@ -242,8 +252,6 @@ extension DestinationSelectionPageView {
             "maxPoints": 3
         ]
         
-        print(jsonBody)
-
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: jsonBody)
             let (data, _) = try await URLSession.shared.data(for: request)
@@ -255,7 +263,35 @@ extension DestinationSelectionPageView {
                 }
                 return
             }
-            await clearAndUpdateSuggestedRoutes(with: jsonResponse)
+            
+            // Create a unique document path for suggested-routes using the userId
+            let firestore = Firestore.firestore()
+            let userDocumentRef = firestore.collection("users").document(userId)
+            let collectionRef = userDocumentRef.collection("suggested-routes")
+            
+            // Clear existing documents in suggested-routes for the user
+            let documents = try await collectionRef.getDocuments().documents
+            for document in documents {
+                try await collectionRef.document(document.documentID).delete()
+            }
+            
+            // Add new data to the suggested-routes collection
+            guard let rides = jsonResponse["rides"] as? [[String: Any]] else {
+                print("Data format error: 'rides' not found.")
+                DispatchQueue.main.async {
+                    self.showLoadingScreen = false
+                }
+                return
+            }
+            
+            for ride in rides {
+                _ = try await collectionRef.addDocument(data: ride)
+            }
+            
+            DispatchQueue.main.async {
+                self.navigateToRideSelection = true
+                self.showLoadingScreen = false
+            }
         } catch {
             print("Error during URLSession or JSON parsing: \(error.localizedDescription)")
             DispatchQueue.main.async {
@@ -265,8 +301,13 @@ extension DestinationSelectionPageView {
     }
     
     func clearAndUpdateSuggestedRoutes(with data: [String: Any]) async {
+        guard let userId = self.userId else {
+            print("Error: User is not authenticated.")
+            return
+        }
         let firestore = Firestore.firestore()
-        let collectionRef = firestore.collection("suggested-routes")
+        let userDocumentRef = firestore.collection("users").document(userId)
+        let collectionRef = userDocumentRef.collection("suggested-routes")
         
         // Attempt to clear existing documents. This is optional and depends on your app's logic.
         // Since Firestore automatically creates a collection when adding a new document,
@@ -302,6 +343,15 @@ extension DestinationSelectionPageView {
         DispatchQueue.main.async {
             self.navigateToRideSelection = true
             self.showLoadingScreen = false
+        }
+    }
+    
+    func updateCurrentRouteInFirestore(currentRouteRef: DocumentReference, data: [String: Any]) async {
+        do {
+            try await currentRouteRef.setData(data)
+            print("Current route updated successfully for the user.")
+        } catch {
+            print("Error updating current route for the user: \(error.localizedDescription)")
         }
     }
 }

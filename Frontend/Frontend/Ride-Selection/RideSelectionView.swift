@@ -16,6 +16,11 @@ struct RideSelectionView: View {
     @State private var routeOptions: [RouteOption] = []
     @State private var isExpanded = true
     @GestureState private var dragOffset = CGSize.zero
+    
+    // Fetch the userId from Firebase Authentication
+    private var userId: String? {
+        Auth.auth().currentUser?.uid
+    }
 
     var body: some View {
         NavigationView {
@@ -109,8 +114,13 @@ struct RideSelectionView: View {
     }
     
     func loadRouteOptions() {
+        guard let userId = userId else {
+            print("Error: User is not authenticated.")
+            return
+        }
+        
         let db = Firestore.firestore()
-        db.collection("suggested-routes")
+        db.collection("users").document(userId).collection("suggested-routes")
           .order(by: "price", descending: false)
           .limit(to: 3)
           .getDocuments {(querySnapshot, err) in
@@ -173,6 +183,11 @@ struct RideSelectionView: View {
     }
 
     func updateCurrentRouteInFirestore(with selectedRoute: RouteOption) {
+        guard let userId = userId else {
+            print("Error: User is not authenticated.")
+            return
+        }
+        
         // Geocode coordinates to addresses and titles
         let group = DispatchGroup()
         
@@ -205,9 +220,7 @@ struct RideSelectionView: View {
             let routeData = self.createRouteDataDictionary(from: selectedRoute, sourceAddress: sourceAddress, destinationAddress: destinationAddress, pickupPointAddress: pickupPointAddress, pickupPointTitle: pickupPointTitle)  // Pass the title to the dictionary
             
             let db = Firestore.firestore()
-            
-            // Updating the "current-route"
-            let currentRouteRef = db.collection("current-route").document("user-current-route")
+            let currentRouteRef = db.collection("users").document(userId).collection("current-route").document("user-current-route")
             currentRouteRef.setData(routeData)
         }
     }

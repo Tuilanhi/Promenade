@@ -135,22 +135,29 @@ struct OrderPageView: View {
     }
     
     private func fetchCurrentRouteFromFirestore() {
+        guard let userId = Auth.auth().currentUser?.uid else {
+            print("Error: User is not authenticated.")
+            return
+        }
+
         let db = Firestore.firestore()
-        db.collection("current-route").document("user-current-route").getDocument { (document, error) in
+        // Update the path to reference the user-specific 'current-route' document
+        let currentRouteRef = db.collection("users").document(userId).collection("current-route").document("user-current-route")
+
+        currentRouteRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 if let data = document.data() {
-                    if let pickupPoint = data["pickupPointCoordinates"] as? GeoPoint,
+                    if let pickupPoint = data["sourceCoordinates"] as? GeoPoint,
                        let destination = data["destinationCoordinates"] as? GeoPoint {
                         self.pickupCoordinates = CLLocationCoordinate2D(latitude: pickupPoint.latitude, longitude: pickupPoint.longitude)
                         self.dropoffCoordinates = CLLocationCoordinate2D(latitude: destination.latitude, longitude: destination.longitude)
-                        
-                        // Print the coordinates to verify
+
                         print("Pickup Coordinates: \(self.pickupCoordinates.latitude), \(self.pickupCoordinates.longitude)")
                         print("Dropoff Coordinates: \(self.dropoffCoordinates.latitude), \(self.dropoffCoordinates.longitude)")
                     }
                 }
             } else {
-                print("Document does not exist")
+                print("Document does not exist in user's 'current-route'. User ID: \(userId)")
             }
         }
     }

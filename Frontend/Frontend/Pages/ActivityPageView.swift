@@ -12,6 +12,11 @@ struct ActivityPageView: View {
     @State private var activities: [Activity] = []
     @State private var selectedActivity: Activity?
     @State private var showDetail: Bool = false
+    
+    // Fetch the userId from Firebase Authentication
+    private var userId: String? {
+        Auth.auth().currentUser?.uid
+    }
 
     var body: some View {
         NavigationStack {
@@ -46,8 +51,14 @@ struct ActivityPageView: View {
     }
 
     func fetchPastRoutes() {
+        guard let userId = userId else {
+            print("Error: User is not authenticated.")
+            return
+        }
+        
         let db = Firestore.firestore()
-        db.collection("past-routes").getDocuments { snapshot, error in
+        db.collection("users").document(userId).collection("past-routes")
+            .getDocuments { snapshot, error in
             guard let documents = snapshot?.documents else {
                 print("Error fetching documents: \(String(describing: error))")
                 return
