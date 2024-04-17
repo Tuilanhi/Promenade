@@ -11,35 +11,101 @@ import Firebase
 import CoreLocation
 
 struct RideSelectionView: View {
-    @State var navigateToConfirmPage = false
+    @State private var navigateToConfirmPage = false
     @State private var selectedRouteId: Int?
     @State private var routeOptions: [RouteOption] = []
-    
+    @State private var isExpanded = true
+    @GestureState private var dragOffset = CGSize.zero
+
     var body: some View {
         NavigationView {
-            VStack(alignment: .leading){
-                if let selectedRoute = routeOptions.first(where: { $0.id == selectedRouteId }) {
-                    RouteView(sourceCoordinates: Binding.constant(selectedRoute.pickupPointCoordinate), destinationCoordinates: Binding.constant(selectedRoute.destinationCoordinate), pickupCoordinates: Binding.constant(selectedRoute.sourceCoordinate))
-                    } else {
-                    Text("Loading routes...")
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(Color.gray.opacity(0.5))
-                        .transition(.opacity)
-                }
+            VStack {
+                routeInformationView
                 VStack {
-                
-                    VStack {
-                        routeSelection
-                        Divider().padding(.vertical, 8)
-                        confirmButton
+                    Group {
+                        if isExpanded {
+                            expandedRouteSelection
+                        } else {
+                            compactRouteSelection
+                        }
                     }
+                    .animation(.easeInOut, value: isExpanded)
+                    confirmButton
                 }
-                .background(.white)
+                .background(Color.white)
+                .cornerRadius(20)
+                .offset(y: isExpanded ? 0 : max(dragOffset.height, -UIScreen.main.bounds.height / 3))
+                .gesture(dragGesture)
             }
             .onAppear {
                 loadRouteOptions()
             }
         }
+    }
+
+    private var routeInformationView: some View {
+        Group {
+            if let selectedRoute = routeOptions.first(where: { $0.id == selectedRouteId }) {
+                RouteView(
+                    sourceCoordinates: Binding.constant(selectedRoute.pickupPointCoordinate),
+                    destinationCoordinates: Binding.constant(selectedRoute.destinationCoordinate),
+                    pickupCoordinates: Binding.constant(selectedRoute.sourceCoordinate)
+                )
+            } else {
+                Text("Loading routes...")
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.gray.opacity(0.5))
+                    .transition(.opacity)
+            }
+        }
+    }
+
+    private var dragGesture: some Gesture {
+        DragGesture()
+            .updating($dragOffset) { value, state, _ in
+                state = value.translation
+            }
+            .onEnded { value in
+                if value.translation.height > 50 {
+                    withAnimation {
+                        isExpanded = false
+                    }
+                } else if value.translation.height < -50 {
+                    withAnimation {
+                        isExpanded = true
+                    }
+                }
+            }
+    }
+
+    private var expandedRouteSelection: some View {
+        VStack {
+            dragHandle
+            routeSelection
+        }
+    }
+
+    private var compactRouteSelection: some View {
+        VStack{
+            dragHandle
+            Group {
+                if let selectedRoute = routeOptions.first(where: { $0.id == selectedRouteId }) {
+                    OptionView(option: selectedRoute)
+                        .background(Color.blue.opacity(0.3))
+                        .cornerRadius(10)
+                } else {
+                    Text("Please select a route")
+                }
+            }
+            .padding()
+        }
+    }
+
+    private var dragHandle: some View {
+        Rectangle()
+            .frame(width: 40, height: 6)
+            .cornerRadius(3.0)
+            .opacity(0.1)
     }
     
     func loadRouteOptions() {
@@ -79,54 +145,6 @@ struct RideSelectionView: View {
                   self.selectedRouteId = firstOption.id
               }
           }
-    }
-    
-    private var tripInformation: some View {
-        HStack {
-            VStack {
-                Circle()
-                    .fill(Color(.systemGray3))
-                    .frame(width: 8, height: 8)
-                
-                Rectangle()
-                    .fill(Color(.systemGray3))
-                    .frame(width: 1, height: 32)
-                
-                Rectangle()
-                    .fill(.black)
-                    .frame(width: 8, height: 8)
-            }
-            
-            VStack(alignment: .leading, spacing: 24) {
-                HStack {
-                    Text("Current Location")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(.gray)
-                    
-                    Spacer()
-                    
-                    Text(Date().formattedTime())
-                        .font(.system(size: 14, weight: .semibold))
-                        .foregroundColor(.gray)
-                }
-                .padding(.bottom, 10)
-                
-                HStack {
-                    Text("Destination")
-                        .font(.system(size: 16, weight: .semibold))
-                    
-                    Spacer()
-                    
-                    if let selectedRoute = routeOptions.first(where: { $0.id == selectedRouteId }) {
-                        Text("\(selectedRoute.formattedDestinationTime)")
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundColor(.gray)
-                    }
-                }
-            }
-            .padding(.leading, 8)
-        }
-        .padding()
     }
     
     private var routeSelection: some View {
