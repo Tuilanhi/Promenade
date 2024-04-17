@@ -16,6 +16,7 @@ struct DestinationSelectionPageView: View {
     @State private var navigateToRideSelection = false
     @State private var isCurrentLocationActive = false
     @State private var isDestinationActive = false
+    @FocusState private var isCurrentLocationFieldFocused: Bool
     
     @State private var sourceCoordinates = CLLocationCoordinate2D(latitude: 30.942052, longitude: -94.125397)
     @State private var destinationCoordinates = CLLocationCoordinate2D(latitude: 31.124356, longitude: -93.234586)
@@ -52,16 +53,24 @@ struct DestinationSelectionPageView: View {
                         }
                         VStack {
                             TextField("Current Location", text: $viewModel.currentLocationQuery)
+                                .focused($isCurrentLocationFieldFocused)
                                 .onChange(of: viewModel.currentLocationQuery) { oldValue, newValue in
                                     viewModel.userClearedCurrentLocation = newValue.isEmpty
                                     if newValue.isEmpty {
                                         viewModel.allowAutomaticLocationUpdate = false
                                     }
                                 }
+                                .onSubmit {
+                                    if isCurrentLocationActive {
+                                        viewModel.allowAutomaticLocationUpdate = true
+                                        updateLocationQuery()
+                                    }
+                                }
                                 .onTapGesture {
                                     self.isCurrentLocationActive = true
-                                    self.viewModel.savedAddressSelected = false
-                                    // Possibly add a button or action to re-enable automatic location updates.
+                                    self.isDestinationActive = false
+                                    viewModel.savedAddressSelected = false
+                                    viewModel.allowAutomaticLocationUpdate = false
                                 }
                                 .frame(height: 38)
                                 .background(Color(.systemGroupedBackground))
@@ -152,11 +161,13 @@ struct DestinationSelectionPageView: View {
                 locationManager.setup()
                 updateLocationQuery(initial: true)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        self.isDestinationFocused = true
-                    }
+                    self.isDestinationFocused = true
+                }
             }
             .onChange(of: locationManager.userLocation) {
-                updateLocationQuery()
+                if viewModel.allowAutomaticLocationUpdate {
+                    updateLocationQuery()
+                }
             }
         }
     }
