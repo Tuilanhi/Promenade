@@ -131,9 +131,9 @@ struct CustomMapView: UIViewRepresentable {
             if overlay is MKPolyline {
                 let renderer = MKPolylineRenderer(overlay: overlay)
                 if overlay.title == "PickupRoute" {
-                    renderer.strokeColor = UIColor.orange
-                } else {
                     renderer.strokeColor = UIColor.blue
+                } else {
+                    renderer.strokeColor = UIColor.orange
                 }
                 renderer.lineWidth = 3
                 return renderer
