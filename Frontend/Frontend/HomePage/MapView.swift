@@ -12,6 +12,9 @@ struct MapView: View {
 
     var body: some View {
         Map(position: $locationManager.cameraPosition)
+        {
+            UserAnnotation()
+        }
             .edgesIgnoringSafeArea(.all)
             .overlay(
                 Button(action: {
