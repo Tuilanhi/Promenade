@@ -22,7 +22,7 @@ struct OrderPageView: View {
     @State private var route: MKRoute?
     @State private var segmentLine: MKPolyline?
     @State private var startCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 0, longitude: 0)
-
+    
     
     @State private var pickupCoordinates = CLLocationCoordinate2D(latitude: 0, longitude: 0)
     @State private var dropoffCoordinates = CLLocationCoordinate2D(latitude: 0, longitude: 0)
@@ -34,7 +34,7 @@ struct OrderPageView: View {
     
     var body: some View {
         
-       
+        
         
         NavigationView {
             
@@ -48,27 +48,23 @@ struct OrderPageView: View {
                     }
                     
                     Marker("Pickup Point", coordinate: userPickup)
-                
-//                    if let route {
-//                        MapPolyline(route.polyline)
-//                            .stroke(.blue, lineWidth: 6)
-//                    }
+                    
+                    
+                    if let route = route, let completeRoute = completeRoute(location: segmentLine, fullRoute: route) {
+                        MapPolyline(completeRoute).stroke(.blue, lineWidth: 6)
+                    }
                     
                     if let segmentLine = segmentLine {
                         MapPolyline(segmentLine)
                             .stroke(.green, lineWidth: 6)
                     }
-//                    } else if let route = route {
-//                        MapPolyline(route.polyline)
-//                            .stroke(.blue, lineWidth: 6)
-//                    }
                     
                 }
                 
                 VStack {
-                  
+                    
                     HStack {
-                       
+                        
                         
                         Button(action: {
                             if stepIndex > 0 {
@@ -106,6 +102,7 @@ struct OrderPageView: View {
                     }
                     .padding()
                     .foregroundColor(.blue)
+           
                 }
                 .padding(.leading, 8)
                 
@@ -228,7 +225,6 @@ struct OrderPageView: View {
         }
         
         let step = segment.steps[stepIndex]
-//        let coordPoints = step.polyline.points()
         
         guard step.polyline.pointCount >= 2 else {
             return
@@ -241,13 +237,37 @@ struct OrderPageView: View {
         
         segmentLine = segment.polyline.trim(from: segmentStart, to: segmentEnd)
         
-        
     }
     
+    private func completeRoute (location segment: MKPolyline?, fullRoute route: MKRoute) -> MKPolyline? {
+        guard let segment = segment else {
+            return route.polyline
+        }
+        
+        let points = route.polyline.points()
+        let segPoints = segment.points()
+        
+        var endIndex = 0
+        
+        for i in 0..<route.polyline.pointCount {
+            let position = points[i]
+            if position.x == segPoints[0].x && position.y == segPoints[0].y {
+                endIndex = i
+            }
+        }
+        
+        var endPoints = [MKMapPoint]()
+        for i in endIndex..<route.polyline.pointCount {
+            endPoints.append(points[i])
+        }
+        
+        return MKPolyline(points: endPoints, count: endPoints.count)
+    }
     
 }
 
 extension MKPolyline {
+    
     func trim (from segmentStart: MKMapPoint, to segmentEnd: MKMapPoint) -> MKPolyline {
         var segmentStartIndex = 0
         var segmentEndIndex = 0
@@ -279,9 +299,8 @@ extension MKPolyline {
 
         return MKPolyline(points: segmentPoints, count: segmentEndIndex - segmentStartIndex + 1)
     }
+    
 }
-
-
 
 
 
