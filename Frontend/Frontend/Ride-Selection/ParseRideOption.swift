@@ -26,6 +26,7 @@ struct Ride: Decodable {
     let totalTime: Int
     let totalDistance: Double
     let price: Double
+    let savings: Double
     
     init?(dictionary: [String: Any]) {
         guard let sourceDict = dictionary["source"] as? [String: Double],
@@ -37,7 +38,8 @@ struct Ride: Decodable {
               let driveDistance = dictionary["driveDistance"] as? Double,
               let totalTime = dictionary["totalTime"] as? Int,
               let totalDistance = dictionary["totalDistance"] as? Double,
-              let price = dictionary["price"] as? Double else {
+              let price = dictionary["price"] as? Double,
+              let savings = dictionary["savings"] as? Double else {
             return nil
         }
 
@@ -51,6 +53,7 @@ struct Ride: Decodable {
         self.totalTime = totalTime
         self.totalDistance = totalDistance
         self.price = price
+        self.savings = savings
     }
 }
 
@@ -69,7 +72,8 @@ func parseRideOptions(from jsonData: Data) -> [RouteOption] {
                 destinationTime: Date(), // Convert or calculate as needed
                 sourceCoordinate: CLLocationCoordinate2D(latitude: ride.source.lat, longitude: ride.source.long),
                 destinationCoordinate: CLLocationCoordinate2D(latitude: ride.destination.lat, longitude: ride.destination.long),
-                pickupPointCoordinate: CLLocationCoordinate2D(latitude: ride.pickupPoint.lat, longitude: ride.pickupPoint.long)
+                pickupPointCoordinate: CLLocationCoordinate2D(latitude: ride.pickupPoint.lat, longitude: ride.pickupPoint.long),
+                savings: ride.savings
             )
         }
     } catch {

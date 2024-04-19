@@ -325,19 +325,27 @@ struct RideSelectionView: View {
                     .foregroundColor(.blue)
                     .frame(width: 60)
 
-                VStack(alignment: .leading) {
-                    HStack {
-                        Text(option.formattedWalkTime)
-                            .fontWeight(.bold)
-                        Text("•")
-                        Text(option.formattedWalkDistance)
-                            .fontWeight(.bold)
-                        Spacer()
+                HStack{
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text(option.formattedWalkTime)
+                                .fontWeight(.bold)
+                            Text("•")
+                            Text(option.formattedWalkDistance)
+                                .fontWeight(.bold)
+                        }
+                        Text("Picked up by: \(option.formattedDestinationTime)")
+                            .fontWeight(.regular)
+                    }
+                    Spacer()
+                    VStack(alignment: .trailing)
+                    {
                         Text(option.formattedPrice)
                             .fontWeight(.bold)
+                        Text(option.formattedSavings)
+                            .fontWeight(.medium)
+                            .foregroundStyle(.red)
                     }
-                    Text("Arrive by: \(option.formattedDestinationTime)")
-                        .fontWeight(.regular)
                 }
                 Spacer()
             }

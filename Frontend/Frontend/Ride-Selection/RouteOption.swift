@@ -18,6 +18,7 @@ struct RouteOption: Identifiable {
     var sourceCoordinate: CLLocationCoordinate2D
     var destinationCoordinate: CLLocationCoordinate2D
     var pickupPointCoordinate: CLLocationCoordinate2D
+    var savings: Double
     
     // Convert walkTime in seconds to a formatted string (e.g., "12 min")
     var formattedWalkTime: String {
@@ -40,6 +41,10 @@ struct RouteOption: Identifiable {
         formatter.timeStyle = .short
         return formatter.string(from: destinationTime)
     }
+    
+    var formattedSavings: String {
+        String(format: "%.2f%%", savings)
+    }
 }
 
 extension RouteOption {
@@ -53,6 +58,7 @@ extension RouteOption {
         self.sourceCoordinate = CLLocationCoordinate2D(latitude: ride.source.lat, longitude: ride.source.long)
         self.destinationCoordinate = CLLocationCoordinate2D(latitude: ride.destination.lat, longitude: ride.destination.long)
         self.pickupPointCoordinate = CLLocationCoordinate2D(latitude: ride.pickupPoint.lat, longitude: ride.pickupPoint.long)
+        self.savings = ride.savings
     }
 }
 
