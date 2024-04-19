@@ -1,34 +1,24 @@
-////
-////  OrderPageView.swift
-////  Frontend
-////
-////  Created by nhi vu on 2/20/24.
-////
-////
-//
-
 import SwiftUI
 import MapKit
 import Firebase
+import CoreLocation
 
 struct OrderPageView: View {
     
+    @StateObject private var locationManagerWrapper = LocationManagerWrapper()
+    @State private var userCurrentLocation: CLLocationCoordinate2D?
+    
     let userPickup: CLLocationCoordinate2D
-    @State private var userCurrentLocation: CLLocationCoordinate2D
     @State private var directions: [String] = []
-    
     @State private var stepIndex: Int = 0
-    
     @State private var route: MKRoute?
     @State private var segmentLine: MKPolyline?
     @State private var startCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 0, longitude: 0)
-    
-    
     @State private var pickupCoordinates = CLLocationCoordinate2D(latitude: 0, longitude: 0)
     @State private var dropoffCoordinates = CLLocationCoordinate2D(latitude: 0, longitude: 0)
     
     init(userCurrentLocation: CLLocationCoordinate2D, userPickup: CLLocationCoordinate2D) {
-        self._userCurrentLocation = State(initialValue: userCurrentLocation)
+        self.userCurrentLocation = userCurrentLocation
         self.userPickup = userPickup
     }
     
@@ -39,16 +29,18 @@ struct OrderPageView: View {
         NavigationView {
             
             VStack {
-                
-                
-                Map/*(position: $cameraPosition)*/ {
+                Map {
+                    if let userLocation = userCurrentLocation {
+                        Annotation("User Location", coordinate: userLocation) {
+                            Image(systemName: "mappin.circle.fill").foregroundColor(.blue).font(.system(size: 25))
+                        }
+                    }
                     
                     Annotation("Starting Point", coordinate: startCoordinate) {
                         Image(systemName: "circle.fill").foregroundColor(.black).font(.system(size: 25))
                     }
                     
                     Marker("Pickup Point", coordinate: userPickup)
-                    
                     
                     if let route = route, let completeRoute = completeRoute(location: segmentLine, fullRoute: route) {
                         MapPolyline(completeRoute).stroke(.blue, lineWidth: 6)
@@ -58,7 +50,15 @@ struct OrderPageView: View {
                         MapPolyline(segmentLine)
                             .stroke(.green, lineWidth: 6)
                     }
-                    
+                }
+                .onAppear {
+                    fetchUserLocation()
+                    if let location = userCurrentLocation {
+                        self.startCoordinate = location
+                    }
+                    fetchRoute()
+                    fetchDirections()
+                    fetchCurrentRouteFromFirestore()
                 }
                 
                 VStack {
@@ -102,7 +102,7 @@ struct OrderPageView: View {
                     }
                     .padding()
                     .foregroundColor(.blue)
-           
+                    
                 }
                 .padding(.leading, 8)
                 
@@ -125,12 +125,12 @@ struct OrderPageView: View {
                 .padding(.vertical)
             }
             .background(Color.white)
-            .onAppear {
-                self.startCoordinate = self.userCurrentLocation
-                fetchRoute()
-                fetchDirections()
-                fetchCurrentRouteFromFirestore()
-            }
+        }
+    }
+    
+    private func fetchUserLocation() {
+        locationManagerWrapper.startUpdatingLocation { location in
+            userCurrentLocation = location?.coordinate
         }
     }
     
@@ -163,18 +163,27 @@ struct OrderPageView: View {
     }
     
     private func openUberWithCoordinates() {
-        print("Opening Uber with Pickup Coordinates: \(pickupCoordinates.latitude), \(pickupCoordinates.longitude)")
-        print("Opening Uber with Dropoff Coordinates: \(dropoffCoordinates.latitude), \(dropoffCoordinates.longitude)")
-        
-        let uberURL = "uber://?action=setPickup&client_id=W9IJVfDtraQeCVxSeWFYfxtpE2InanIl&pickup[latitude]=\(pickupCoordinates.latitude)&pickup[longitude]=\(pickupCoordinates.longitude)&dropoff[latitude]=\(dropoffCoordinates.latitude)&dropoff[longitude]=\(dropoffCoordinates.longitude)"
-        if let url = URL(string: uberURL) {
-            UIApplication.shared.open(url)
+        if let pickupLocation = userCurrentLocation {
+            print("Opening Uber with Pickup Coordinates: \(pickupLocation.latitude), \(pickupLocation.longitude)")
+            print("Opening Uber with Dropoff Coordinates: \(dropoffCoordinates.latitude), \(dropoffCoordinates.longitude)")
+            
+            let uberURL = "uber://?action=setPickup&client_id=W9IJVfDtraQeCVxSeWFYfxtpE2InanIl&pickup[latitude]=\(pickupLocation.latitude)&pickup[longitude]=\(pickupLocation.longitude)&dropoff[latitude]=\(dropoffCoordinates.latitude)&dropoff[longitude]=\(dropoffCoordinates.longitude)"
+            if let url = URL(string: uberURL) {
+                UIApplication.shared.open(url)
+            }
+        } else {
+            print("User's current location is not available.")
         }
     }
     
     private func fetchRoute() {
+        guard let currentLocation = userCurrentLocation else {
+            print("User's current location is not available.")
+            return
+        }
+        
         let request = MKDirections.Request()
-        request.source = MKMapItem(placemark: .init(coordinate: userCurrentLocation))
+        request.source = MKMapItem(placemark: .init(coordinate: currentLocation))
         request.destination = MKMapItem(placemark: .init(coordinate: userPickup))
         request.transportType = .walking
         
@@ -186,7 +195,12 @@ struct OrderPageView: View {
     }
     
     private func fetchDirections() {
-        walkingDirections(start: userCurrentLocation, end: userPickup) { steps in
+        guard let currentLocation = userCurrentLocation else {
+            print("User's current location is not available.")
+            return
+        }
+        
+        walkingDirections(start: currentLocation, end: userPickup) { steps in
             self.directions = steps
         }
     }
@@ -309,8 +323,34 @@ extension MKPolyline {
     
 }
 
-
-
-#Preview {
-    OrderPageView(userCurrentLocation: CLLocationCoordinate2D(latitude: 0,longitude: 0), userPickup: CLLocationCoordinate2D(latitude: 0, longitude: 0))
+// Location Manager Wrapper to handle Core Location updates
+class LocationManagerWrapper: NSObject, ObservableObject, CLLocationManagerDelegate {
+    private var locationManager = CLLocationManager()
+    @Published var lastKnownLocation: CLLocation?
+    
+    override init() {
+        super.init()
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+    }
+    
+    func startUpdatingLocation(completion: @escaping (CLLocation?) -> Void) {
+        DispatchQueue.main.async {
+            completion(self.lastKnownLocation)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last {
+            lastKnownLocation = location
+        }
+    }
 }
+
+struct OrderPageView_Previews: PreviewProvider {
+    static var previews: some View {
+        OrderPageView(userCurrentLocation: CLLocationCoordinate2D(latitude: 0, longitude: 0), userPickup: CLLocationCoordinate2D(latitude: 0, longitude: 0))
+    }
+}
+
