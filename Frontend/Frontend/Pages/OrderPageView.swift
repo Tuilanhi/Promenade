@@ -163,16 +163,9 @@ struct OrderPageView: View {
     }
     
     private func openUberWithCoordinates() {
-        if let pickupLocation = userCurrentLocation {
-            print("Opening Uber with Pickup Coordinates: \(pickupLocation.latitude), \(pickupLocation.longitude)")
-            print("Opening Uber with Dropoff Coordinates: \(dropoffCoordinates.latitude), \(dropoffCoordinates.longitude)")
-            
-            let uberURL = "uber://?action=setPickup&client_id=W9IJVfDtraQeCVxSeWFYfxtpE2InanIl&pickup[latitude]=\(pickupLocation.latitude)&pickup[longitude]=\(pickupLocation.longitude)&dropoff[latitude]=\(dropoffCoordinates.latitude)&dropoff[longitude]=\(dropoffCoordinates.longitude)"
-            if let url = URL(string: uberURL) {
-                UIApplication.shared.open(url)
-            }
-        } else {
-            print("User's current location is not available.")
+        let uberURL = "uber://?action=setPickup&client_id=W9IJVfDtraQeCVxSeWFYfxtpE2InanIl&pickup[latitude]=\(pickupCoordinates.latitude)&pickup[longitude]=\(pickupCoordinates.longitude)&dropoff[latitude]=\(dropoffCoordinates.latitude)&dropoff[longitude]=\(dropoffCoordinates.longitude)"
+        if let url = URL(string: uberURL) {
+            UIApplication.shared.open(url)
         }
     }
     
