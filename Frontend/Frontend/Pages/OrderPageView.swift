@@ -30,15 +30,16 @@ struct OrderPageView: View {
             
             VStack {
                 Map {
-                    if let userLocation = userCurrentLocation {
-                        Annotation("User Location", coordinate: userLocation) {
-                            Image(systemName: "mappin.circle.fill").foregroundColor(.blue).font(.system(size: 25))
-                        }
-                    }
+//                    if let userLocation = userCurrentLocation {
+//                        Annotation("User Location", coordinate: userLocation) {
+//                            Image(systemName: "mappin.circle.fill").foregroundColor(.blue).font(.system(size: 25))
+//                        }
+//                    }
                     
-                    Annotation("Starting Point", coordinate: startCoordinate) {
-                        Image(systemName: "circle.fill").foregroundColor(.black).font(.system(size: 25))
-                    }
+//                    Annotation("Starting Point", coordinate: startCoordinate) {
+//                        Image(systemName: "circle.fill").foregroundColor(.black).font(.system(size: 25))
+//                    }
+                    UserAnnotation()
                     
                     Marker("Pickup Point", coordinate: userPickup)
                     
